@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const { hashPassword } = require('../helpers/bcryptjs')
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -12,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Animal, {foreignKey: 'user_id'})
       User.hasMany(models.Favorite, {foreignKey: 'user_id'})
-      User.belongsToMany(models.Doctor, {foreignKey: 'user_id'})
+      User.hasMany(models.Doctor, {foreignKey: 'user_id'})
     }
   };
   User.init({
@@ -23,6 +24,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    hooks: {
+      beforeCreate(user){
+        user.password = hashPassword(user.password)
+      }
+    }
   });
   return User;
 };
