@@ -1,11 +1,12 @@
-// const { } = require('./models')
+const { Doctor } = require('../models')
 
 class Controller {
-  static async getDoctor(req, res) {
+  static async getDoctor(req, res, next) {
     try {
-      return res.status(200).json({ msg: 'Get Doctor' })
+      let doctors = await Doctor.findAll()
+      return res.status(200).json(doctors)
     } catch (error) {
-      return res.status(500).json({ err: error })
+      next(error)
     }
   }
 }

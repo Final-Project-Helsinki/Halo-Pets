@@ -4,10 +4,18 @@ function errorHandler(err, req, res, next){
   console.log(err)
   switch (err.name) {
     case 'SequelizeValidationError':
-      res.status(400).json(err.errors[0].message)
+      let response = []
+      err.errors.forEach(el => {
+        response.push(el.message)
+      })
+      res.status(400).json(response)
       break;
     case 'SequelizeUniqueConstraintError':
-      res.status(400).json(err.errors[0].message)
+      let responseUnique = []
+      err.errors.forEach(el => {
+        responseUnique.push(el.message)
+      })
+      res.status(400).json(responseUnique)
       break;
     case 'BadRequest':
       res.status(err.status).json(err.msg)
