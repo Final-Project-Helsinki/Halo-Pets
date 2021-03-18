@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       ChatRoom.belongsTo(models.User, {foreignKey: 'user_id'})
-      ChatRoom.belongsTo(models.Doctor, {foreignKey: 'animal_id'})
+      ChatRoom.belongsTo(models.Doctor, {foreignKey: 'doctor_id'})
     }
   };
   ChatRoom.init({

@@ -13,13 +13,39 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasMany(models.Animal, {foreignKey: 'user_id'})
       User.hasMany(models.Favorite, {foreignKey: 'user_id'})
-      User.hasMany(models.Doctor, {foreignKey: 'user_id'})
+      User.hasMany(models.ChatRoom, {foreignKey: 'user_id'})
     }
   };
   User.init({
-    name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Name cannot be empty'
+        }
+      }
+    }
+      ,
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        isEmail: {
+          args: true,
+          msg: 'Wrong email format'
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        len: {
+          args: [4, 16],
+          msg: 'Password must be between 4 - 16 character'
+        }
+      }
+    },
     phoneNumber: DataTypes.STRING
   }, {
     sequelize,
