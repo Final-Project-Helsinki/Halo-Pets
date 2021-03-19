@@ -25,8 +25,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Name cannot be empty'
         }
       }
-    }
-      ,
+    },
     email: {
       type: DataTypes.STRING,
       unique: true,

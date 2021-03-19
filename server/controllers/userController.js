@@ -2,7 +2,7 @@ const { User } = require('../models')
 const { comparePassword } = require('../helpers/bcryptjs')
 const { generateToken } = require('../helpers/jwt')
 
-class Controller {
+class UserController {
   static async register(req, res, next) {
     try {
       let { name, email, password, phoneNumber } = req.body
@@ -20,7 +20,7 @@ class Controller {
         email,
         phoneNumber
       }
-      return res.status(200).json(response)  
+      res.status(200).json(response)  
     } catch (error) {
       next(error)
     }
@@ -48,16 +48,17 @@ class Controller {
         }
       }
       const payload = {
+        id: user.id,
         name: user.name,
         email: user.email,
         phoneNumber: user.phoneNumber
       }
       const access_token = generateToken(payload)
-      res.status(200).json(access_token)
+      res.status(200).json({ access_token })
     } catch (error) {
       next(error)
     }
   }
 }
 
-module.exports = Controller
+module.exports = UserController

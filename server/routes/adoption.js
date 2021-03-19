@@ -1,20 +1,23 @@
 const express = require('express')
 const adoption = express.Router()
 const Controller = require('../controllers/adoptionController')
+const authenticationUser = require('../middlewares/authenticationUser')
 const authorizationAdopter = require('../middlewares/authorizationAdopter')
 const multer = require('../middlewares/multer')
 const { uploadFileToGCS } = require('../middlewares/gcs');
 
-adoption.get('/adoption', Controller.getAllAdoption)
+adoption.use(authenticationUser)
 
-adoption.post('/adoption', multer.single('image_url'), uploadFileToGCS, Controller.createAdoption)
+adoption.get('/adoptions', Controller.getAllAdoption)
 
-adoption.get('/adoption/:id', Controller.getAdoptionById)
+adoption.post('/adoptions', multer.single('image_url'), uploadFileToGCS, Controller.createAdoption)
 
-adoption.put('/adoption/:id', multer.single('image_url'), uploadFileToGCS, Controller.updateAdoption)
+adoption.get('/adoptions/:id', Controller.getAdoptionById)
 
-adoption.delete('/adoption/:id', Controller.deleteAdoption)
+adoption.put('/adoptions/:id', authorizationAdopter, multer.single('image_url'), uploadFileToGCS, Controller.updateAdoption)
 
-adoption.get('/adoption/species/:species', Controller.getAdoptionsBySpecies)
+adoption.delete('/adoptions/:id', authorizationAdopter, Controller.deleteAdoption)
+
+adoption.get('/adoptions/species/:species', Controller.getAdoptionsBySpecies)
 
 module.exports = adoption

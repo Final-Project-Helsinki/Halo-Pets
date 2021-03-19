@@ -1,6 +1,6 @@
 const { Favorite, Adoption } = require('../models')
 
-class Controller {
+class FavoriteController {
   static async getAllFav(req, res, next) {
     try {
       const favoriteList = await Favorite.findAll({
@@ -46,4 +46,4 @@ class Controller {
   }
 }
 
-module.exports = Controller
+module.exports = FavoriteController

@@ -9,7 +9,7 @@ const authorizationAdopter = (req, res, next) => {
     .then(adopt => {
       if (!adopt) throw { name: "NotFound", status: 404, msg: 'Pet for adoption not found!' };
 
-      if (adopt.user_id === req.decoded.id) {
+      if (adopt.user_id === +req.decoded.id) {
         next();
       } else {
         throw { name: "Unauthorized", status: 401, msg: 'You are not authorized to perform this action' };
