@@ -5,8 +5,7 @@ const { generateToken } = require('../helpers/jwt')
 class DoctorController {
   static async getAllDoctor(req, res, next) {
     try {
-      const doctorList = Doctor.findAll()
-
+      const doctorList = await Doctor.findAll()
       res.status(200).json(doctorList)
     } catch (err) {
       next(err)

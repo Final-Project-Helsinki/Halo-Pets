@@ -16,7 +16,7 @@ const getPublicUrl = (filename) => {
 const uploadFileToGCS = (req, res, next) => {
 	console.log(req.file, '<<< reqfile');
   if (!req.file) {
-		req.body.image_url = '';		
+		// req.body.image_url = '';		
     next()
   } else {
 		const gcsname = Date.now() + req.file.originalname.split(' ').join('');
