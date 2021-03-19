@@ -45,7 +45,15 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    phoneNumber: DataTypes.STRING
+    phoneNumber: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Phone number cannot be empty'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',
