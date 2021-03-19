@@ -1,7 +1,13 @@
 const express = require('express')
 const Controller = require('../controllers/chatController')
 const chat = express.Router()
+const authenticationUser = require('../middlewares/authenticationUser')
+const authenticationDoctor = require('../middlewares/authenticationDoctor')
 
-chat.get('/chat', Controller.getChat)
+// chat.use(authenticationDoctor)
+// chat.get('/chat', Controller.getChatRoom)
+// chat.use(authenticationUser)
+chat.post('/chat/user', authenticationUser, Controller.createChatRoomUser)
+chat.post('/chat/doctor', authenticationDoctor, Controller.createChatRoomDoctor)
 
 module.exports = chat

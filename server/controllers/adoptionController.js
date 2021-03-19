@@ -13,7 +13,7 @@ class AdoptionController {
         gender,
         dob: new Date(dob),
         image_url,
-        user_id: null
+        user_id: +req.decoded.id
       })
 
       res.status(201).json(newAdoption)
