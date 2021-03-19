@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Favorite.belongsTo(models.User, {foreignKey: 'user_id'})
-      Favorite.belongsTo(models.Animal, {foreignKey: 'animal_id'})
+      Favorite.belongsTo(models.Adoption, {foreignKey: 'adoption_id'})
     }
   };
   Favorite.init({
     user_id: DataTypes.INTEGER,
-    animal_id: DataTypes.INTEGER
+    adoption_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Favorite',
