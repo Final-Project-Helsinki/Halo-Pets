@@ -39,8 +39,8 @@ beforeAll(done => {
   }).then(doctor => {
     id = doctor.id
     done()
-  }).catch(() => {
-    done()
+  }).catch(err => {
+    done(err)
   })
 })
 
