@@ -40,7 +40,8 @@ export default function Chat() {
       await roomId.child(`${location.state.id}`).push({
         content,
         timestamp: Date.now(),
-        uid: user.uid
+        uid: user.uid,
+        role:'client'
       });
       setContent('')
     } catch (error) {
