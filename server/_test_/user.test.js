@@ -42,11 +42,13 @@ describe('POST/register', function () {
         if (err) {
           done(err)
         }
+
+        // console.log(res, '<<< res');
         expect(res.status).toEqual(201)
         expect(res.body).toHaveProperty('id')
         expect(res.body).toHaveProperty('email')
-        // expect(res.body).toHaveProperty('name')
-        // expect(res.body).toHaveProperty('phoneNumber')
+        expect(res.body).toHaveProperty('name')
+        expect(res.body).toHaveProperty('phoneNumber')
         done()
       })
   })
