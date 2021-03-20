@@ -8,8 +8,11 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { signin } from '../helpers/auth'
 import { useHistory } from 'react-router';
+import { login } from '../store/actions/userAction';
+import { useDispatch } from 'react-redux';
 
 export default function FormDialog() {
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(false);
   const [error, setError] = useState('');
   const history = useHistory()
@@ -49,6 +52,7 @@ export default function FormDialog() {
     try {
       const data = await signin(loginForm.email, loginForm.password)
       console.log(data)
+      await dispatch(login(loginForm))
       history.push('/home')
     } catch (error) {
       setError(error.message)

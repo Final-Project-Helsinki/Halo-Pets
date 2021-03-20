@@ -1,31 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   Paper,
   FormControl,
   InputLabel,
   Input,
+  Button
 } from '@material-ui/core'
 import { signup } from '../helpers/auth'
-
+import { useDispatch } from 'react-redux'
+import { register } from '../store/actions/userAction'
 
 export default function RegisterForm() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const dispatch = useDispatch()
+
+  const [formRegister, setFormRegister] = useState({})
   const [error, setError] = useState('')
   const history = useHistory()
 
   function handleChange(e) {
-    if (e.target.name === 'email') {
-      setEmail(e.target.value)
-    } else {
-      setPassword(e.target.value)
-    }
+    let { name, value } = e.target;
+    setFormRegister((prev) => ({ ...prev, [name]: value }));
   }
+
   async function handleSubmit() {
     try {
-      const data = await signup(email, password)
+      const data = await signup(formRegister.email, formRegister.password)
       console.log(data)
+      await dispatch(register(formRegister))
       history.push('/home')
     } catch (error) {
       // console.log(error);
@@ -33,23 +35,35 @@ export default function RegisterForm() {
     }
   }
 
+  // useEffect(() => {
+  //   dispatch(register(formRegister))
+  // }, [dispatch, formRegister])
+
   return (
     <Paper>
       <div style={{ minWidth: 350, height: 'auto' }}>
         <FormControl fullWidth={true}>
-          <InputLabel htmlFor="my-input">Email address</InputLabel>
-          <Input id="my-input" aria-describedby="my-helper-text" name="email" onChange={handleChange} value={email} type="email"/>
+          <InputLabel htmlFor="my-input">Name</InputLabel>
+          <Input aria-describedby="my-helper-text" name="name" onChange={handleChange} value={formRegister.name} type="text"/>
         </FormControl>
         <br />
+        <FormControl fullWidth={true}>
+          <InputLabel htmlFor="my-input">Email address</InputLabel>
+          <Input aria-describedby="my-helper-text" name="email" onChange={handleChange} value={formRegister.email} type="email"/>
+        </FormControl>
         <br />
         <FormControl fullWidth={true}>
           <InputLabel htmlFor="my-input">Password</InputLabel>
-          <Input id="my-input" aria-describedby="my-helper-text" name="password" onChange={handleChange} value={password} type="password"/>
+          <Input aria-describedby="my-helper-text" name="password" onChange={handleChange} value={formRegister.password} type="password"/>
+        </FormControl>
+        <FormControl fullWidth={true}>
+          <InputLabel htmlFor="my-input">Phone Number</InputLabel>
+          <Input aria-describedby="my-helper-text" name="phoneNumber" onChange={handleChange} value={formRegister.phoneNumber} type="text"/>
         </FormControl>
         {
           error ? <p>{error}</p> : <p></p>
         }
-        <button type="button" onClick={handleSubmit}>Register</button>
+        <Button variant="contained" type="button" color="secondary" onClick={handleSubmit}>Register</Button>
       </div>
     </Paper>
   )
