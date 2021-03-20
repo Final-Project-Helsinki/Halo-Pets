@@ -12,6 +12,8 @@ function reducer(state = initialState, action) {
       return { ...state, loading: true }
     case 'ADOPTIONS/SET_ERROR':
       return { ...state, error: payload, loading: false }
+    case 'ADOPTIONS/FETCH_ADOPTIONS':
+      return { ...state, error: null, loading: false, adoptions: payload }
     default:
       return state
   }

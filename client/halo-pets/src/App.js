@@ -6,9 +6,10 @@ import Home from './pages/Home'
 import HealthCarePage from './pages/HealthCare'
 import Chat from './pages/Chat'
 import Loading from './components/Loading'
-import NotFound from './components/NotFound'
+import ErrorNotFound from './components/NotFound'
 import { GuardProvider, GuardedRoute } from 'react-router-guards';
 import getIsLoggedIn from './helpers/getIsLoggedIn'
+import AdoptionPage from './pages/Adoption';
 
 const requireLogin = (to, from, next) => {
   if (to.meta.auth) {
@@ -17,19 +18,22 @@ const requireLogin = (to, from, next) => {
     }
     next.redirect('/');
   } else {
-    // next();
-    next.redirect('/home');
+    if (getIsLoggedIn()) {
+      next.redirect('/home');
+    }
+    next();
   }
 };
 export default function App() {
   return (
-    <GuardProvider guards={[requireLogin]} loading={Loading} error={NotFound}>
+    <GuardProvider guards={[requireLogin]} loading={Loading} error={ErrorNotFound}>
       <Switch>
         <GuardedRoute path="/" exact component={RegisLogin} />
         <GuardedRoute path="/home" exact component={Home} meta={{ auth: true }} />
         <GuardedRoute path="/chat" exact component={Chat} meta={{ auth: true }} />
         <GuardedRoute path="/healthcare" exact component={HealthCarePage} meta={{ auth: true }} />
-        <GuardedRoute path="*" component={NotFound} />
+        <GuardedRoute path="/adoption" exact component={AdoptionPage} meta={{ auth: true }} />
+        <GuardedRoute path="*" component={ErrorNotFound} />
       </Switch>
     </GuardProvider>
   );

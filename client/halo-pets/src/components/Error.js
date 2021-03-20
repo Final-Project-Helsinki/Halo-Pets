@@ -10,15 +10,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ErrorNotFound() {
+export default function Error() {
   const classes = useStyles();
   return (
     <div className={classes.positionCenter}>
       <Grid container direction="row" justify="center">
-      <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_ueovf9mk.json" background="transparent"  speed="1"  style={{width: '300px', height: '300px'}}  loop autoplay></lottie-player>
+        <lottie-player src="https://assets1.lottiefiles.com/private_files/lf30_glnkkfua.json" background="transparent" speed="1" style={{width: '300px', height: '300px'}} loop autoplay></lottie-player>
       </Grid>
       <Grid container direction="row" justify="center">
-        <Typography>Sorry, page is not available yet</Typography>
+        <Typography>Sorry something went wrong</Typography>
       </Grid>
     </div>
   )
