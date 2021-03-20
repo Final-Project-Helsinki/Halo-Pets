@@ -1,11 +1,12 @@
 import React from 'react';
+import { Switch, Link, Route } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import RegisLogin from './pages/RegisLogin'
 import Home from './pages/Home'
-import { Switch, Link, Route } from 'react-router-dom'
-
+import HealthCarePage from './pages/HealthCare'
+import Chat from './pages/Chat'
 
 export default function App() {
-
   return (
     <>
       <Switch>
@@ -14,6 +15,12 @@ export default function App() {
         </Route>
         <Route path="/home">
           <Home />
+        </Route>
+        <Route path="/chat">
+          <Chat />
+        </Route>
+        <Route path="/healthcare">
+          <HealthCarePage />
         </Route>
       </Switch>
     </>

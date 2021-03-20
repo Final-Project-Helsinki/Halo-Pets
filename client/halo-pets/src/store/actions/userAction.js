@@ -59,6 +59,7 @@ export function login(formLogin) {
       } else {
         const data = await response.json()
         console.log(data, '<< data login');
+        localStorage.setItem('access_token', data.access_token)
         dispatch(successLogin(data))
       }
     } catch (err) {
