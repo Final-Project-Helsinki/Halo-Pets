@@ -15,6 +15,8 @@ import {
   CssBaseline
 } from '@material-ui/core'
 
+import { useHistory } from 'react-router-dom'
+
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
@@ -24,6 +26,7 @@ import useStyles from '../helpers/style'
 export default function Test(props) {
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory()
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -35,6 +38,11 @@ export default function Test(props) {
     setOpen(false);
     props.handleMainOpen(false)
   };
+
+  const handleLogout = () => {
+    localStorage.clear()
+    history.push('/')
+  }
 
 
 
@@ -98,6 +106,9 @@ export default function Test(props) {
               <ListItemText button>Adoption</ListItemText>
             </ListItem>
           </NavLink>
+          <ListItem button onClick={handleLogout}>
+            <ListItemText>Logout</ListItemText>
+          </ListItem>
         </List>
         <Divider />
       </Drawer>
