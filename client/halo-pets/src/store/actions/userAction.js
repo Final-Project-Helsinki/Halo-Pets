@@ -35,6 +35,7 @@ export function register(formRegister) {
       } else {
         const data = await response.json()
         console.log(data, '<<< data user di action register');
+        dispatch(setLoading(false))
       }
     } catch (err) {
       dispatch(setError(err))
@@ -60,6 +61,8 @@ export function login(formLogin) {
         const data = await response.json()
         console.log(data, '<< data login');
         localStorage.setItem('access_token', data.access_token)
+        localStorage.setItem('user_id', data.id)
+        dispatch(setLoading(false))
         dispatch(successLogin(data))
       }
     } catch (err) {
