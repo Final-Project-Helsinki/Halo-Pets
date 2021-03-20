@@ -71,7 +71,7 @@ class AdoptionController {
         returning: true
       })
 
-      res.status(200).json({ adoption: updatedAdoption[1][0], message: 'Successfully update pet data for adoption' });
+      return res.status(200).json({ adoption: updatedAdoption[1][0], message: 'Successfully update pet data for adoption' });
     } catch(err) {
       next(err)
     }
@@ -94,7 +94,7 @@ class AdoptionController {
 
       await deleteFileFromGCS(url)
 
-      res.status(200).json({ adoption: deletedAdoption, message: 'Successfully delete pet data for adoption' });
+      return res.status(200).json({ adoption: deletedAdoption, message: 'Successfully delete pet data for adoption' });
     } catch(err) {
       next(err)
     }
@@ -108,7 +108,7 @@ class AdoptionController {
         where: { species }
       })
       
-      res.status(200).json(adoptionListBySpecies)
+      return res.status(200).json(adoptionListBySpecies)
     } catch(err) {
       next(err)
     }

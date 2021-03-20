@@ -43,7 +43,15 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    dob: DataTypes.DATE,
+    dob: {
+      type: DataTypes.DATE,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Please enter date of birth'
+        }
+      }
+    },
     image_url: {
       type: DataTypes.STRING,
       validate: {
