@@ -9,5 +9,6 @@ const authenticationDoctor = require('../middlewares/authenticationDoctor')
 // chat.use(authenticationUser)
 chat.post('/chat/user', authenticationUser, Controller.createChatRoomUser)
 chat.post('/chat/doctor', authenticationDoctor, Controller.createChatRoomDoctor)
+chat.get('/chat/doctor', authenticationDoctor, Controller.getListChatUser)
 
 module.exports = chat
