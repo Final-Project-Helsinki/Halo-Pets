@@ -9,42 +9,33 @@ import {
   Typography,
   Divider,
   ListItem,
-  ListItemText
+  ListItemText,
+  Button
 } from '@material-ui/core'
 
 
-export default function PermanentDrawerLeft() {
+export default function Navbar() {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" noWrap>
-            Permanent drawer
-          </Typography>
+        <Toolbar className={classes.root} style={{justifyContent: 'space-between'}}>
+          <div>
+            <Typography variant="h6" noWrap>
+              Doctor
+            </Typography>
+          </div>
+          <div>
+            <Button onCLick={() => alert('logout')}>
+              <Typography variant="h6">
+                Logout
+              </Typography>
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-        anchor="left"
-      >
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          {['User 1', 'User 2', 'User 3', 'User 4'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-      </Drawer>
     </div>
   );
 }
