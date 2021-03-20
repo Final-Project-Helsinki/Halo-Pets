@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Modal,
   Backdrop,
@@ -10,12 +10,12 @@ import {
   CardContent,
   Grid,
   Button,
-  Chip,
-  Input,
   InputLabel,
   MenuItem,
-  Select
+  Select,
+  Fab
 } from '@material-ui/core';
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflowY: 'scroll',
+    overflowY: 'hidden',
   },
   rootForm: {
     display: 'flex',
@@ -43,38 +43,15 @@ const useStyles = makeStyles((theme) => ({
   chip: {
     margin: 2,
   },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: '100%',
+  },
 }));
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-function getStyles(tag, tags, theme) {
-  return {
-    fontWeight:
-      tags.indexOf(tag) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
-
-const tagsSelect = [
-  'Romance', 'Comedy', 'Thriller', 'Horror', 'Action', 'Family', 'Fantasy', 'Mystery', 'Documentary', 'Adventure',
-  'Musicals', 'Crime', 'War', 'Animations', 'Kids', 'Disney',
-  'Western', 'Japan', 'Korean', 'Asian', 'Thailand', 'Taiwan',
-  'Popular', 'High School', 'Cinematography'
-];
-
-export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModalForm, handleChangeForm, handleSubmitForm }) {
+export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModalForm, handleChangeForm, handleSubmitForm, fileName }) {
   const classes = useStyles();
-  const theme = useTheme();
 
   return (
     <Modal
@@ -116,70 +93,77 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
                   />
                 </Grid>
                 <Grid item xs={12} style={{ marginBottom: 10 }}>
-                  <TextField
+                  <InputLabel>Species</InputLabel>
+                  <Select
                     name="species"
                     value={formAdopt.species}
-                    label="Species"
-                    variant="outlined"
-                    color="secondary"
-                    rows="7"
                     onChange={handleChangeForm}
-                    multiline
-                    fullWidth
+                    className={classes.textField}
                     required
-                  />
-                </Grid>
-                <Grid item xs={12} style={{ marginBottom: 10 }}>
-                  <TextField
-                    name="poster_path"
-                    value={formAdopt.poster_path}
-                    label="Poster Path Url"
-                    variant="outlined"
-                    color="secondary"
-                    onChange={handleChangeForm}
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} style={{ marginBottom: 10 }}>
-                  <TextField
-                    name="popularity"
-                    value={formAdopt.popularity}
-                    label="Rating Popularity"
-                    variant="outlined"
-                    color="secondary"
-                    type="number"
-                    onChange={handleChangeForm}
-                    inputProps={{ step: 0.1, min: 0, max: 10 }}
-                    fullWidth
-                    required
-                  />
-                </Grid>
-                <Grid item xs={12} style={{ marginTop: 16 }}>
-                  <InputLabel id="demo-mutiple-chip-label">Tags</InputLabel>
-                  {/* <Select
-                    labelId="demo-mutiple-chip-label"
-                    name="tags"
-                    value={formAdopt.tags}
-                    fullWidth
-                    multiple
-                    onChange={handleChangeForm}
-                    input={<Input id="select-multiple-chip" />}
-                    renderValue={(selected) => (
-                      <div className={classes.chips}>
-                        {selected.map((value) => (
-                          <Chip key={value} label={value} className={classes.chip} />
-                        ))}
-                      </div>
-                    )}
-                    MenuProps={MenuProps}
                   >
-                    {tagsSelect.map((tag) => (
-                      <MenuItem key={tag} value={tag} style={getStyles(tag, formAdopt.tags, theme)}>
-                        {tag}
-                      </MenuItem>
-                    ))}
-                  </Select> */}
+                    <MenuItem value="dog">Dog</MenuItem>
+                    <MenuItem value="cat">Cat</MenuItem>
+                  </Select>
+                </Grid>
+                <Grid item xs={12} style={{ marginBottom: 10 }}>
+                  <InputLabel>Gender</InputLabel>
+                  <Select
+                    name="gender"
+                    value={formAdopt.gender}
+                    onChange={handleChangeForm}
+                    className={classes.textField}
+                  >
+                    <MenuItem value="male">Male</MenuItem>
+                    <MenuItem value="female">Female</MenuItem>
+                  </Select>
+                </Grid>
+                <Grid item xs={12} style={{ marginBottom: 10 }}>
+                  <TextField
+                    id="date"
+                    label="Date of Birth"
+                    type="date"
+                    defaultValue={formAdopt.dob}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} style={{ marginBottom: 10 }}>
+                  <Grid container spacing={1} alignItems="flex-end">
+                    <Grid item>
+                      <CameraAltIcon />
+                    </Grid>
+                    <Grid item>
+                      <TextField
+                        value={fileName}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <label htmlFor="upload-photo" style={{ marginBottom: 2 }}>
+                        <input
+                          style={{ display: 'none' }}
+                          id="upload-photo"
+                          name="upload-photo"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleChangeForm}
+                          className={classes.textField}
+                        />
+
+                        <Button
+                          size="small"
+                          component="span"
+                          aria-label="add"
+                          variant="extended"
+                          color="primary"
+                          variant="contained"
+                        >
+                          Upload Photo
+                        </Button>
+                      </label>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </form>
             </Grid>

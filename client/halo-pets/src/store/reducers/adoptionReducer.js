@@ -14,6 +14,14 @@ function reducer(state = initialState, action) {
       return { ...state, error: payload, loading: false }
     case 'ADOPTIONS/FETCH_ADOPTIONS':
       return { ...state, error: null, loading: false, adoptions: payload }
+    case 'ADOPTIONS/FETCH_DETAIL':
+      return { ...state, error: null, loading: false, adoptionDetail: payload }
+    case 'ADOPTIONS/CREATE_ADOPTION':
+      return { ...state, error: null, loading: false, adoptions: [ ...state.adoptions, payload]}
+    case 'ADOPTIONS/UPDATE_ADOPTION':
+      return { ...state, error: null, loading: false, adoptions: state.adoptions.map(adopt => adopt.id === payload.id ? payload : adopt)}
+    case 'ADOPTIONS/DELETE_ADOPTION':
+      return { ...state, error: null, loading: false, adoptions: state.adoptions.filter(adopt => adopt.id !== payload) }
     default:
       return state
   }

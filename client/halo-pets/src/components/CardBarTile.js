@@ -37,15 +37,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function CardBarTile({ pet }) {
+export default function CardBarTile({ pet, handleEditAdopt, handleDeleteAdopt }) {
   const history = useHistory();
   const classes = useStyles();
+
+  const age = Number(new Date().getFullYear()) - Number(pet.dob.slice(0, 4));
 
   return (
     <>
       <GridListTileBar
         title={pet.name}
-        subtitle={<span>{pet.species}</span>}
+        subtitle={<span>Age: {age} years</span>}
         actionIcon={
           <Tooltip title="See detail">
             <IconButton aria-label={`info about Mimi`} className={classes.icon}>
@@ -65,12 +67,12 @@ export default function CardBarTile({ pet }) {
               (
                 <>
                 <Tooltip title="Edit Pet">
-                  <IconButton aria-label="edit" className={classes.icon}>
+                  <IconButton aria-label="edit" className={classes.icon} onClick={() => handleEditAdopt(pet.id)}>
                     <EditIcon />
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Delete Pet">
-                  <IconButton aria-label="delete" className={classes.icon}>
+                  <IconButton aria-label="delete" className={classes.icon} onClick={() => handleDeleteAdopt(pet.id)}>
                     <DeleteIcon />
                   </IconButton>
                 </Tooltip>
