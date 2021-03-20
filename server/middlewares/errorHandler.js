@@ -17,6 +17,9 @@ function errorHandler(err, req, res, next){
       })
       res.status(400).json({ msg: responseUnique })
       break;
+    case 'SequelizeDatabaseError':
+      res.status(400).json(err.message)
+      break;
     case 'BadRequest':
       res.status(err.status).json({ msg: err.msg })
       break;
@@ -24,6 +27,9 @@ function errorHandler(err, req, res, next){
       res.status(err.status).json({ msg: err.msg })
       break;
     case 'NotFound':
+      res.status(err.status).json({ msg: err.msg })
+      break;
+    case 'InvalidDate':
       res.status(err.status).json({ msg: err.msg })
       break;
     default: 

@@ -3,11 +3,13 @@ import thunk from 'redux-thunk'
 import adoptionReducer from './reducers/adoptionReducer'
 import userReducer from './reducers/userReducer'
 import chatReducer from './reducers/chatReducer'
+import doctorReducer from './reducers/doctorReducer'
 
 const rootReducer = combineReducers({
   userReducer,
   adoptionReducer,
-  chatReducer
+  chatReducer,
+  doctorReducer
 })
 
 let store = createStore(rootReducer, applyMiddleware(thunk));

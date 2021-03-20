@@ -1,5 +1,5 @@
 const initialState = {
-  chatRoom: {},
+  doctors: [],
   loading: false,
   error: null
 }
@@ -7,12 +7,12 @@ const initialState = {
 function reducer(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
-    case 'CHAT/SET_LOADING':
+    case 'DOCTOR/SET_LOADING':
       return { ...state, loading: true }
-    case 'CHAT/SET_ERROR':
+    case 'DOCTOR/SET_ERROR':
       return { ...state, error: payload, loading: false }
-    case 'CHAT/SET_ROOM':
-      return { ...state, error: null, loading: false, chatRoom: payload }
+    case 'DOCTOR/SET_DOCTOR':
+      return { ...state, error: null, loading: false, doctors: payload }
     default:
       return state
   }
