@@ -16,12 +16,12 @@ import {
   ListItemText,
 } from '@material-ui/core'
 
-
 import MenuIcon from '@material-ui/icons/Menu'
 import MailIcon from '@material-ui/icons/Mail'
 import InboxIcon from '@material-ui/icons/Inbox'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
+import { useSelector } from 'react-redux';
 
 const drawerWidth = 240;
 
@@ -84,9 +84,16 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function HomePage() {
-
   const classes = useStyles();
   const theme = useTheme();
+  const { userLogin, loading, error } = useSelector(state => ({
+    userLogin: state.userReducer.userLogin,
+    loading: state.userReducer.loading,
+    error: state.userReducer.error
+  }))
+
+  console.log(userLogin, '<<<<<<<<<<<<<<<<<<<<<<<<,,');
+
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -117,7 +124,7 @@ export default function HomePage() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Persistent drawer
+            Hello Pets
           </Typography>
         </Toolbar>
       </AppBar>
@@ -136,15 +143,17 @@ export default function HomePage() {
           </IconButton>
         </div>
         <Divider />
+        <Typography>{userLogin.name}</Typography>
+        <Typography>{userLogin.email}</Typography>
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['Home', 'My Favorite', 'Health Care', 'Adoption'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
-        <Divider />
+        {/* <Divider />
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
@@ -152,7 +161,7 @@ export default function HomePage() {
               <ListItemText primary={text} />
             </ListItem>
           ))}
-        </List>
+        </List> */}
       </Drawer>
       <main
         className={clsx(classes.content, {

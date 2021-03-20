@@ -54,7 +54,7 @@ class UserController {
         phoneNumber: user.phoneNumber
       }
       const access_token = generateToken(payload)
-      res.status(200).json({ access_token })
+      res.status(200).json({ ...payload, access_token })
     } catch (error) {
       next(error)
     }
