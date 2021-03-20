@@ -1,4 +1,4 @@
-const { ChatRoom } = require('../models')
+const { ChatRoom, User } = require('../models')
 const { Op } = require('sequelize')
 
 class ChatController {
@@ -53,6 +53,21 @@ class ChatController {
         res.status(200).json(chatRoomExist)
       }
 
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  static async getListChatUser(req, res, next) {
+    try {
+      const doctor_id = req.decodedDoctor.id
+
+      const listChatWithUser = await ChatRoom.findAll({
+        where: { doctor_id },
+        include: User
+      })
+
+      res.status(200).json(listChatWithUser)
     } catch (err) {
       next(err)
     }
