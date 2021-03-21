@@ -104,6 +104,11 @@ export default function Test(props) {
               <ListItemText button>Adoption</ListItemText>
             </ListItem>
           </NavLink>
+          <NavLink style={{textDecoration: "none"}} to="/midtrans">
+            <ListItem>
+              <ListItemText button>Transfer</ListItemText>
+            </ListItem>
+          </NavLink>
           <ListItem button onClick={handleLogout}>
             <ListItemText>Logout</ListItemText>
           </ListItem>
