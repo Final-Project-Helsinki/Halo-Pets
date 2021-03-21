@@ -1,21 +1,27 @@
-const initialState = {
-  listRooms: [],
-  loading: false,
-  error: null
+export function setDoctor(payload) {
+  return ({ type: 'DOCTOR/SET_DATA', payload })
 }
 
-function reducer(state = initialState, action) {
-  const { type, payload } = action
-  switch (type) {
-    case 'DOCTOR/SET_LOADING':
-      return { ...state, loading: true }
-    case 'DOCTOR/SET_ERROR':
-      return { ...state, error: payload, loading: false }
-    case 'DOCTOR/SET_ROOM':
-      return { ...state, error: null, loading: false, listRooms: payload }
-    default:
-      return state
+export function setError(error) {
+  return ({ type: 'DOCTOR/SET_ERROR', payload: error })
+}
+
+export function getDoctor(payload) {
+  return async (dispatch) => {
+    try {
+      const response = await fetch('http://localhost:3001/doctors/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      })
+      const data = await response.json()
+      localStorage.setItem('access_token', data.access_token)
+      dispatch(setDoctor(data))
+      return data
+    } catch (error) {
+      dispatch(setError(error))
+    }
   }
 }
-
-export default reducer

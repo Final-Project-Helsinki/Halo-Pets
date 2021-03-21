@@ -28,7 +28,7 @@ export default function Navbar() {
             </Typography>
           </div>
           <div>
-            <Button onCLick={() => alert('logout')}>
+            <Button onClick={() => alert('logout')}>
               <Typography variant="h6">
                 Logout
               </Typography>

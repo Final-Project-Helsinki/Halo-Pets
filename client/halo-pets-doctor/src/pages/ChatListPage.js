@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core'
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { getRoom } from "../store/actions/chatAction";
 
 export default function Chat() {
@@ -16,14 +16,16 @@ export default function Chat() {
   const dispatch = useDispatch()
   const [room, setRoom] = useState([])
   const history = useHistory()
+  const location = useLocation()
 
   useEffect(async () => {
+    console.log(location.state)
     try {
       const data = await dispatch(getRoom())
       setRoom(data)
-      console.log(data)
+      console.log(localStorage.getItem('access_token'))
     } catch (error) {
-      console.log(error);
+      console.log(error, 'ini error');
     }
   }, [dispatch])
 
@@ -39,13 +41,15 @@ export default function Chat() {
         <div className={classes.toolbar} />
         <List>
           {
-            room.map(el => {
-              return (
-                <ListItem button onClick={() => toChat(el.id)}>
-                  <ListItemText>{el.User.name}</ListItemText>
-                </ListItem>
-              )
-            })
+            room === [] ?
+              <div></div> :
+              room.map(el => {
+                return (
+                  <ListItem button onClick={() => toChat(el.id)}>
+                    <ListItemText>{el.User.name}</ListItemText>
+                  </ListItem>
+                )
+              })
           }
           {/* <ListItem button>
             <ListItemText>User 1</ListItemText>

@@ -17,6 +17,7 @@ export function getRoom() {
         }
       })
       const data = await response.json()
+      // console.log(data)
       dispatch(setRoom(data))
       return data
     } catch (error) {
