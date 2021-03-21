@@ -4,12 +4,14 @@ import adoptionReducer from './reducers/adoptionReducer'
 import userReducer from './reducers/userReducer'
 import chatReducer from './reducers/chatReducer'
 import doctorReducer from './reducers/doctorReducer'
+import favoriteReducer from './reducers/favoriteReducer'
 
 const rootReducer = combineReducers({
   userReducer,
   adoptionReducer,
   chatReducer,
-  doctorReducer
+  doctorReducer,
+  favoriteReducer
 })
 
 let store = createStore(rootReducer, applyMiddleware(thunk));

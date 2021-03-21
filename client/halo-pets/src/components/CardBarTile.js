@@ -37,17 +37,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function CardBarTile({ pet, handleEditAdopt, handleDeleteAdopt, handleDetailAdopt }) {
+export default function CardBarTile({ favorites, pet, handleEditAdopt, handleDeleteAdopt, handleDetailAdopt, handleAddFavorite, handleRemoveFavorite }) {
   const history = useHistory();
+
   const classes = useStyles();
 
   const age = Number(new Date().getFullYear()) - Number(pet.dob.slice(0, 4));
+
+  const isFav = favorites.find(fav => fav.adoption_id === pet.id)
 
   return (
     <>
       <GridListTileBar
         title={pet.name}
-        subtitle={<span>Age: {age} years</span>}
+        subtitle={<span>Age: {age < 1 ? `< 1` : `${age}`} years</span>}
         actionIcon={
           <Tooltip title="See detail">
             <IconButton aria-label={`info about Mimi`} className={classes.icon} onClick={() => handleDetailAdopt(pet.id)}>
@@ -64,7 +67,7 @@ export default function CardBarTile({ pet, handleEditAdopt, handleDeleteAdopt, h
             <>
             {
               pet.user_id != localStorage.getItem('user_id') ? <div></div> :
-              (
+              history.location.pathname === '/favorites' ? <div></div> : (
                 <>
                 <Tooltip title="Edit Pet">
                   <IconButton aria-label="edit" className={classes.icon} onClick={() => handleEditAdopt(pet.id)}>
@@ -79,11 +82,21 @@ export default function CardBarTile({ pet, handleEditAdopt, handleDeleteAdopt, h
                 </>
               )
             }
-            <Tooltip title="Add to Favorites">
-              <IconButton aria-label="add to favorites" className={classes.icon}>
-                <FavoriteIcon />
-              </IconButton>
-            </Tooltip>
+            {
+              !isFav ? (
+                <Tooltip title="Add to Favorites">
+                  <IconButton aria-label="Add To favorites" className={classes.icon} onClick={() => handleAddFavorite(pet.id)}>
+                    <FavoriteIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title="Remove Favorite">
+                  <IconButton aria-label="Remove Favorite" className={classes.iconIsFav} onClick={() => handleRemoveFavorite(pet.id)}>
+                    <FavoriteIcon />
+                  </IconButton>
+                </Tooltip>
+              )
+            }
             </>
           }
           actionPosition="right"

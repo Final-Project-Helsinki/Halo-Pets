@@ -164,8 +164,8 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
             actionPosition="right"
             className={classes.actionBar}
           />
-          <CardContent className={classes.content} style={{ width: '60%', paddingTop: '6rem' }}>
-            <DrawerHeader />
+          <DrawerHeader />
+          <CardContent className={classes.content} style={{ width: '60%', paddingTop: '8rem' }}>
             <Typography component="h5" variant="h5">
               {pet.name}
             </Typography>
@@ -181,12 +181,6 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
             <Typography>
               {pet.User.name}
             </Typography>
-            <Typography>
-              lat : {pet.latitude}, lon : {pet.longitude}
-            </Typography>
-            {/* <div style={{ width: 100, height: 200 }}> */}
-            <MyMapComponent isMarkerShown={true} />
-            {/* </div> */}
             <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
               <CallIcon />
             </Fab>
@@ -195,6 +189,7 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
               <EmailIcon />
             </Fab>
             {pet.User.email}
+            <MyMapComponent isMarkerShown={true} />
           </CardContent>
         </Card>
       </Fade>
