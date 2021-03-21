@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function CardBarTile({ pet, handleEditAdopt, handleDeleteAdopt }) {
+export default function CardBarTile({ pet, handleEditAdopt, handleDeleteAdopt, handleDetailAdopt }) {
   const history = useHistory();
   const classes = useStyles();
 
@@ -50,7 +50,7 @@ export default function CardBarTile({ pet, handleEditAdopt, handleDeleteAdopt })
         subtitle={<span>Age: {age} years</span>}
         actionIcon={
           <Tooltip title="See detail">
-            <IconButton aria-label={`info about Mimi`} className={classes.icon}>
+            <IconButton aria-label={`info about Mimi`} className={classes.icon} onClick={() => handleDetailAdopt(pet.id)}>
               <InfoIcon />
             </IconButton>
           </Tooltip>

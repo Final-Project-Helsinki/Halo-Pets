@@ -68,6 +68,27 @@ export function fetchAdoptions() {
   }
 }
 
+export function fetchAdoptionsBySpecies(species) {
+  return async (dispatch) => {
+    try {
+      dispatch(setLoading(true))
+      const response = await fetch(`http://localhost:3001/adoptions/species/${species}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+      const data = await response.json()
+      console.log(data, '<<< data adoptions by species di action');
+      dispatch(setLoading(false))
+      dispatch(setFetchAdoptions(data))
+    } catch (err) {
+      dispatch(setError(err))
+    }
+  }
+}
+
 export function createAdoption(payload) {
   return async (dispatch) => {
     try {
