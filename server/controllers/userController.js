@@ -7,13 +7,7 @@ class UserController {
     try {
       let { name, email, password, phoneNumber } = req.body
       let newUser = await User.create({name, email, password, phoneNumber})
-      if(!newUser){
-        throw {
-          status: 400,
-          name: 'BadRequest',
-          msg: 'Bad Request'
-        }
-      }
+
       const response = {
         id: newUser.id,
         name,

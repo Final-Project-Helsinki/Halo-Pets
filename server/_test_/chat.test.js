@@ -3,6 +3,10 @@ const { ChatRoom, User, Doctor, sequelize } = require('../models')
 const request = require('supertest')
 const app = require('../app')
 const { expect } = require('@jest/globals')
+const { hashPassword} = require('../helpers/bcryptjs')
+
+let passwordCheck
+
 
 let dataUser = {
   name: "testing",
@@ -10,10 +14,19 @@ let dataUser = {
   password: " 1234455999",
   phoneNumber: "999999999999"
 }
+let dataUser2 = {
+  name: "testing2",
+  email: "test234@mail.com",
+  password: " 1234455999",
+  phoneNumber: "999999999999"
+}
 let access_token = ""
+let access_token2
 let doctor_id = 1
 let user_id
 let access_tokenDoctor
+let access_tokenDoctorTes = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IldpeW9ubyIsImVtYWlsIjoid2l5b25vLnZldEB0ZXN0LmNvbSIsInBob25lTnVtYmVyIjoiMDg5OTk5OTk5MTIiLCJpYXQiOjE2MTYyNTUxNzV9.H3SCSp9xzGef8stABVZpPrJYxE2jrzN_zCrqL-sk8dY'
+let user_id2
 
 afterAll((done) => {
   ChatRoom.destroy({
@@ -43,6 +56,7 @@ beforeAll((done) => {
             } else {
               access_token = res.body.access_token
               user_id = res.body.id
+              return
             }
           })
       } else {
@@ -50,6 +64,7 @@ beforeAll((done) => {
       }
     })
     .then(result => {
+      console.log(result.password,'ZzzzzzzzzzzzzzzzzzZzZZzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
       request(app)
         .post('/users/login')
         .send({ email: dataUser.email, password: dataUser.password })
@@ -59,6 +74,8 @@ beforeAll((done) => {
           } else {
             user_id = res.body.id
             access_token = res.body.access_token
+            access_token2 = res.body.access_token
+            console.log(access_token,'MASUUUUUUUUUUUUUUUUUUUUUUUUUUUUKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
             return
           }
         })
@@ -67,6 +84,7 @@ beforeAll((done) => {
       return Doctor.findOne({ where: { id: doctor_id } })
     })
     .then(doctor => {
+      console.log(doctor, '================================+++++++++')
       request(app)
         .post('/doctors/login')
         .send({ email: doctor.email, password: doctor.password })
@@ -75,9 +93,17 @@ beforeAll((done) => {
             done(err)
           } else {
             access_tokenDoctor = res.body.access_token
-            done()
+            console.log(access_tokenDoctor, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+            return
           }
         })
+    })
+    .then(_ =>{
+      return User.create(dataUser2)
+    })
+    .then(user2 =>{
+      user_id2 = user2.id
+      done()
     })
     .catch(err => {
       done(err)
@@ -86,6 +112,8 @@ beforeAll((done) => {
 
 // SUCCESS - CREATE CHAT ROOM USER
 describe('POST/chat', function () {
+  console.log(access_token, '><><<<><><><><><><><')
+  console.log(doctor_id, '><><<<><><><><><><><')
   it('it should return status 201 with data', (done) => {
     request(app)
       .post('/chat/user')
@@ -99,7 +127,9 @@ describe('POST/chat', function () {
         expect(res.status).toEqual(201)
         expect(res.body).toHaveProperty('id')
         expect(res.body).toHaveProperty('user_id')
-        expect(res.body).toHaveProperty('doctor_id')
+        expect(res.body).toHaveProperty('updatedAt')
+        expect(res.body).toHaveProperty('createdAt')
+
         // expect(res.body).toHaveProperty('l')
 
         done()
@@ -119,6 +149,8 @@ describe('POST/chat', function () {
         expect(res.body).toHaveProperty('id')
         expect(res.body).toHaveProperty('user_id')
         expect(res.body).toHaveProperty('doctor_id')
+        expect(res.body).toHaveProperty('updatedAt')
+        expect(res.body).toHaveProperty('createdAt')
         done()
       })
   })
@@ -165,7 +197,7 @@ describe('POST/chat', function () {
 describe('POST/chat', function () {
   console.log(access_tokenDoctor, '><><<<><><><><><><><')
   console.log(user_id, '><><<<><><><><><><><')
-  it('it should return status 201 with data', (done) => {
+  it('it should return status 200 with data', (done) => {
     request(app)
       .post('/chat/doctor')
       .set('access_token', access_tokenDoctor)
@@ -179,7 +211,23 @@ describe('POST/chat', function () {
         expect(res.body).toHaveProperty('id')
         expect(res.body).toHaveProperty('doctor_id')
         expect(res.body).toHaveProperty('user_id')
-
+        done()
+      })
+  })
+  it('it should return status 201 with data', (done) => {
+    request(app)
+      .post('/chat/doctor')
+      .set('access_token', access_tokenDoctor)
+      .send({ user_id: user_id2 })
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        }
+        console.log(res.body, '=================================')
+        expect(res.status).toEqual(201)
+        expect(res.body).toHaveProperty('id')
+        expect(res.body).toHaveProperty('doctor_id')
+        expect(res.body).toHaveProperty('user_id')
         done()
       })
   })

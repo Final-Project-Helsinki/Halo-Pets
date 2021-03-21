@@ -11,37 +11,20 @@ let dataTest = {
 }
 let access_token = ""
 let {email, name, phoneNumber} = dataTest
-let id = 0
+let id = 1
 
 afterAll(done => {
-  Doctor.destroy({
-    where: {}
-  }).then(data => {
     sequelize.close()
     done()
-  }).catch(err => {
-    done(err)
-  })
 })
+
 beforeAll(done => {
   access_token = generateToken({
     email,
     name,
     phoneNumber
   })
-  Doctor.create({
-    name: "Wiyono",
-    email: "wiyono.vet@test.com",
-    password: "123456789",
-    phoneNumber: "08999999912",
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }).then(doctor => {
-    id = doctor.id
-    done()
-  }).catch(err => {
-    done(err)
-  })
+  done()
 })
 
 // SUCCESS-GET ALL DOCTOR
