@@ -3,7 +3,7 @@ const { ChatRoom, User, Doctor, sequelize } = require('../models')
 const request = require('supertest')
 const app = require('../app')
 const { expect } = require('@jest/globals')
-const { hashPassword} = require('../helpers/bcryptjs')
+const { hashPassword } = require('../helpers/bcryptjs')
 
 let passwordCheck
 
@@ -20,7 +20,7 @@ let dataUser2 = {
   password: " 1234455999",
   phoneNumber: "999999999999"
 }
-let access_token = ""
+let access_token = "test"
 let access_token2
 let doctor_id = 1
 let user_id
@@ -43,71 +43,80 @@ afterAll((done) => {
   })
 })
 
+
+
 beforeAll((done) => {
-  User.findOne({ where: { email: dataUser.email } })
-    .then(user => {
-      if (user) {
-        request(app)
-          .post('/users/login')
-          .send({ email: dataUser.email, password: dataUser.password })
-          .end((err, res) => {
-            if (err) {
-              done(err)
-            } else {
-              access_token = res.body.access_token
-              user_id = res.body.id
-              return
-            }
-          })
-      } else {
-        return User.create(dataUser)
-      }
-    })
-    .then(result => {
-      console.log(result.password,'ZzzzzzzzzzzzzzzzzzZzZZzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
-      request(app)
-        .post('/users/login')
-        .send({ email: dataUser.email, password: dataUser.password })
-        .end((err, res) => {
-          if (err) {
-            done(err)
-          } else {
-            user_id = res.body.id
-            access_token = res.body.access_token
-            access_token2 = res.body.access_token
-            console.log(access_token,'MASUUUUUUUUUUUUUUUUUUUUUUUUUUUUKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK');
-            return
-          }
-        })
-    })
-    .then(_ => {
-      return Doctor.findOne({ where: { id: doctor_id } })
-    })
-    .then(doctor => {
-      console.log(doctor, '================================+++++++++')
-      request(app)
-        .post('/doctors/login')
-        .send({ email: doctor.email, password: doctor.password })
-        .end((err, res) => {
-          if (err) {
-            done(err)
-          } else {
-            access_tokenDoctor = res.body.access_token
-            console.log(access_tokenDoctor, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-            return
-          }
-        })
-    })
-    .then(_ =>{
-      return User.create(dataUser2)
-    })
-    .then(user2 =>{
-      user_id2 = user2.id
-      done()
-    })
-    .catch(err => {
-      done(err)
-    })
+
+  Doctor.findOne({ where: { id: doctor_id } })
+  .then(doctor => {
+    console.log(doctor, '================================+++++++++')
+    request(app)
+      .post('/doctors/login')
+      .send({ email: doctor.email, password: doctor.password })
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          access_tokenDoctor = res.body.access_token
+          console.log(access_tokenDoctor, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+          return
+        }
+      })
+  })
+  .then(_ => {
+    return User.create(dataUser2)
+  })
+  .then(user2 => {
+    user_id2 = user2.id
+    done()
+  })
+  .catch(err => {
+    done(err)
+  })
+})
+
+// SET UP ACCESS TOKEN USER 
+
+describe('set up access token user', function () {
+  it('should return status 201 with data', (done) => {
+    request(app)
+      .post('/users/register')
+      .send(dataUser)
+      // .expext(200)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        }
+
+        // console.log(res, '<<< res');
+        expect(res.status).toEqual(201)
+        expect(res.body).toHaveProperty('id')
+        expect(res.body).toHaveProperty('email')
+        expect(res.body).toHaveProperty('name')
+        expect(res.body).toHaveProperty('phoneNumber')
+        done()
+      })
+  })
+  it('should return status 200 with data', (done) => {
+    request(app)
+      .post('/users/login')
+      .send({ email: dataUser.email, password: dataUser.password })
+      // .expect(200)
+      .end((err, res) => {
+        if (err) {
+          // sequelize.close()
+          done(err)
+        }
+        access_token = res.body.access_token
+        user_id = res.body.id
+        expect(res.status).toEqual(200)
+        // expect(res.body).toHaveProperty('name')
+        expect(res.body).toHaveProperty('access_token')
+        // sequelize.close()
+        done()
+
+      })
+  })
 })
 
 // SUCCESS - CREATE CHAT ROOM USER
