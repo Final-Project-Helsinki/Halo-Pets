@@ -1,10 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from "react-redux"
 import Card from '@material-ui/core/Card';
+import { useHistory } from "react-router-dom"
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { getRoom } from '../store/actions/chatAction'
 
 const useStyles = makeStyles({
   root: {
@@ -27,6 +30,19 @@ export default function SimpleCard(props) {
   console.log(props.doctor)
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+
+  
+  async function chat(id) {
+    try {
+      const x = await dispatch(getRoom(id))
+      history.push({ pathname: '/chat', state: x })
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Card className={classes.root}>
@@ -45,7 +61,7 @@ export default function SimpleCard(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={() => props.chat(props.doctor.id)} size="small">Chat Me</Button>
+        <Button onClick={() => chat(props.doctor.id)} size="small">Chat Me</Button>
       </CardActions>
     </Card>
   );
