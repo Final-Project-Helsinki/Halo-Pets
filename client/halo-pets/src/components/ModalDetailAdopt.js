@@ -19,6 +19,7 @@ import { compose, withProps } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
+import DrawerHeader from '../components/DrawerHeader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -163,17 +164,18 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
             actionPosition="right"
             className={classes.actionBar}
           />
-          <CardContent className={classes.content} style={{ width: '60%', paddingTop: '3rem' }}>
+          <CardContent className={classes.content} style={{ width: '60%', paddingTop: '6rem' }}>
+            <DrawerHeader />
             <Typography component="h5" variant="h5">
               {pet.name}
             </Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              {pet.species}
+              {pet.species.toUpperCase()}
             </Typography>
             <Typography>
               Date of Birth : {convertDate(pet.dob)}
             </Typography>
-            <Typography>
+            <Typography paragraph>
               Description : {pet.description}
             </Typography>
             <Typography>

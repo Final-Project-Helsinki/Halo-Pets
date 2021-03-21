@@ -30,12 +30,10 @@ export default function Test(props) {
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
-    console.log('masuk open')
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
-    console.log('masuk close')
     setOpen(false);
   };
 
@@ -91,7 +89,7 @@ export default function Test(props) {
               <ListItemText button>Home</ListItemText>
             </ListItem>
           </NavLink>
-          <NavLink style={{textDecoration: "none"}} to="/home">
+          <NavLink style={{textDecoration: "none"}} to="/favorites">
             <ListItem>
               <ListItemText button>My Favorites</ListItemText>
             </ListItem>
@@ -104,11 +102,6 @@ export default function Test(props) {
           <NavLink style={{textDecoration: "none"}} to="/adoption">
             <ListItem>
               <ListItemText button>Adoption</ListItemText>
-            </ListItem>
-          </NavLink>
-          <NavLink style={{textDecoration: "none"}} to="/midtrans">
-            <ListItem>
-              <ListItemText button>Transfer</ListItemText>
             </ListItem>
           </NavLink>
           <ListItem button onClick={handleLogout}>
