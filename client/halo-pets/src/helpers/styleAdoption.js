@@ -14,6 +14,11 @@ const useStylesAdoption = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  // fab: {
+  //   position: 'absolute',
+  //   bottom: theme.spacing(2),
+  //   right: theme.spacing(2),
+  // },
 }))
 
 export default useStylesAdoption

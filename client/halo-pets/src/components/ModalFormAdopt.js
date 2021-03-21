@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflowY: 'hidden',
+    overflowY: 'scroll',
   },
   rootForm: {
     display: 'flex',
@@ -127,6 +127,20 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
                     InputLabelProps={{
                       shrink: true,
                     }}
+                  />
+                </Grid>
+                <Grid item xs={12} style={{ marginBottom: 10 }}>
+                  <TextField
+                    name="description"
+                    value={formAdopt.description}
+                    label="Description"
+                    variant="outlined"
+                    color="secondary"
+                    rows="7"
+                    onChange={handleChangeForm}
+                    multiline
+                    fullWidth
+                    required
                   />
                 </Grid>
                 <Grid item xs={12} style={{ marginBottom: 10 }}>

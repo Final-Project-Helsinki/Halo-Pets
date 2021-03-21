@@ -1,4 +1,4 @@
-import React,  { useState } from 'react'
+import React,  { useEffect, useState } from 'react'
 import clsx from 'clsx';
 import {
   Typography,
@@ -18,6 +18,16 @@ export default function HomePage() {
   function handleMainOpen(isOpen) {
     setOpen(isOpen)
   }
+
+  useEffect(() => {
+    navigator.geolocation.watchPosition(function (position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+      // setLatitude(position.coords.latitude)
+      // setLongitude(position.coords.longitude)
+    });
+  }, []);
+
   return (
     <div className={classes.root}>
       <AppBar handleMainOpen={handleMainOpen}/>

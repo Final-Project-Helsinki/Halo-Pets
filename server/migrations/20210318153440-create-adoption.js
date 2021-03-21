@@ -29,8 +29,17 @@ module.exports = {
       dob: {
         type: Sequelize.DATE
       },
+      description: {
+        type: Sequelize.STRING(1000)
+      },
       image_url: {
         type: Sequelize.STRING
+      },
+      latitude: {
+        type: Sequelize.DOUBLE
+      },
+      longitude: {
+        type: Sequelize.DOUBLE
       },
       createdAt: {
         allowNull: false,

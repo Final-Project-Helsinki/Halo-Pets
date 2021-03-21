@@ -52,6 +52,15 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    description: {
+      type: DataTypes.STRING(1000),
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Please enter description'
+        }
+      }
+    },
     image_url: {
       type: DataTypes.STRING,
       validate: {
@@ -60,7 +69,25 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Please upload pet image'
         }
       }
-    }
+    },
+    latitude: {
+      type: DataTypes.DOUBLE,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Please enter latitude'
+        }
+      }
+    },
+    longitude: {
+      type: DataTypes.DOUBLE,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Please enter longitude'
+        }
+      }
+    },
   }, {
     sequelize,
     modelName: 'Adoption',
