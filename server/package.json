@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon bin/http.js",
-    "test": "SET NODE_ENV=test&&npx jest --detectOpenHandles --forceExit"
+    "test": "SET NODE_ENV=test&&npx jest --coverage --detectOpenHandles --runInBand --forceExit"
   },
   "keywords": [],
   "author": "",
