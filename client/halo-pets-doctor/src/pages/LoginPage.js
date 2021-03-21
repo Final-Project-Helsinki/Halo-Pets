@@ -5,7 +5,10 @@ import {
   InputLabel,
   Container,
   Paper,
-  Button
+  Button,
+  Grid,
+  Typography,
+  Box
 } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -38,9 +41,15 @@ export default function LoginPage() {
   }
 
   return (
-    <Container>
-      <Paper style={{ display: 'flex', flex: 1, justifyContent: 'center', position: 'relative', top: '30vh' }}>
-        <div>
+    <Grid container>
+      <Grid item xs={12}>
+        <Grid container style={{height: '33vh', justifyContent: 'center', alignItems: 'center'}}>
+          <Typography variant="h4">Welcome Doctor Halo Pet</Typography>
+        </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container style={{height: '33vh', justifyContent: 'center', alignItems: 'center'}}>
+        <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
           <FormControl>
             <InputLabel>Email address</InputLabel>
             <Input aria-describedby="my-helper-text" name="email" onChange={handleChange} value={formValue.email} type="email" />
@@ -54,8 +63,15 @@ export default function LoginPage() {
             error ? <p>{error}</p> : <p></p>
           }
           <Button variant="contained" type="button" color="secondary" onClick={handleSubmit}>Login</Button>
-        </div>
-      </Paper>
-    </Container>
+        </Box>
+        </Grid>
+      </Grid>
+      <Grid item xs={12}>
+          <Grid container style={{height: '33vh', justifyContent: 'center', alignItems: 'center'}}>
+            <Typography variant="h4">Bottom Grid</Typography>
+          </Grid>
+      </Grid>      
+      
+    </Grid>
   )
 }
