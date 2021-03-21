@@ -28,7 +28,6 @@ class midtransController {
           },
           customer_details: {
             first_name: req.params.name,
-            last_name: "terserah",
             email: "testmidtrans@mailnesia.com",
             phone: "08111222333"
           }
