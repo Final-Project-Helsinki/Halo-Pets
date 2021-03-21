@@ -4,7 +4,7 @@ const { deleteFileFromGCS } = require('../middlewares/gcs');
 class AdoptionController {
   static async createAdoption(req, res, next) {
     try {
-      const { name, species, gender, dob, image_url } = req.body;
+      const { name, species, gender, dob, description, image_url, latitude, longitude } = req.body;
       console.log(req.body, '<< body');
       
       const newAdoption = await Adoption.create({
@@ -12,7 +12,10 @@ class AdoptionController {
         species,
         gender,
         dob: new Date(dob),
+        description,
         image_url,
+        latitude,
+        longitude,
         user_id: +req.decoded.id
       })
 

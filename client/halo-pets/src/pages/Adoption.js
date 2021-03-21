@@ -4,12 +4,14 @@ import {
   Button,
   Card,
   CardContent,
+  Fab,
   Grid,
   GridList,
   GridListTile,
   ListSubheader,
   Snackbar,
   Typography,
+  Zoom,
 } from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import AppBar from '../components/AppBar'
@@ -33,6 +35,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Swal from 'sweetalert2';
 import ModalDetailAdopt from '../components/ModalDetailAdopt';
 import CardFilterAdopt from '../components/CardFilterAdopt';
+// import AddIcon from '@material-ui/icons/Add';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -57,7 +60,10 @@ export default function AdoptionPage() {
     species: '',
     gender: '',
     dob: '',
-    image_url: []
+    description: '',
+    image_url: [],
+    latitude: 0.1,
+    longitude: 0.1
   });
   const [petDetail, setPetDetail] = useState({});
   const [species, setSpecies] = useState('');
@@ -91,14 +97,19 @@ export default function AdoptionPage() {
     try {
       setFormIndex(adoptId);
       const adoptionDetail = await dispatch(fetchDetail(adoptId))
-      await setFormAdopt({
-        name: adoptionDetail.name,
-        species: adoptionDetail.species,
-        gender: adoptionDetail.gender,
-        dob: convertDate(adoptionDetail.dob),
-        image_url: [adoptionDetail.image_url]
-      });
-
+      navigator.geolocation.watchPosition(function (position) {
+        setFormAdopt({
+          name: adoptionDetail.name,
+          species: adoptionDetail.species,
+          gender: adoptionDetail.gender,
+          dob: convertDate(adoptionDetail.dob),
+          description: adoptionDetail.description,
+          image_url: [adoptionDetail.image_url],
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+      })
+      
       setFileName(adoptionDetail.image_url.split('/').pop().slice(13))
 
       handleOpenModalForm();
@@ -120,12 +131,22 @@ export default function AdoptionPage() {
   }, [dispatch, species])
 
   const handleModalAdd = () => {
-    setFormAdopt({
-      name: '',
-      species: '',
-      gender: '',
-      dob: convertDate(new Date()),
-      image_url: []
+    navigator.geolocation.watchPosition(function (position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+      // setFormAdopt((prev) => ({ ...prev, latitude: position.coords.latitude, longitude: position.coords.longitude }))
+      // setLatitude(position.coords.latitude)
+      // setLongitude(position.coords.longitude)
+      setFormAdopt({
+        name: '',
+        species: '',
+        gender: '',
+        dob: convertDate(new Date()),
+        description: '',
+        image_url: [],
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
     });
     setFileName('');
     setFormIndex('');
@@ -147,32 +168,44 @@ export default function AdoptionPage() {
     e.preventDefault();
     let errMsg;
 
+    console.log(formAdopt, '<<<<<< form adopt');
+
     const formData = new FormData()
     formData.set('name', formAdopt.name)
     formData.set('species', formAdopt.species)
     formData.set('gender', formAdopt.gender)
     formData.set('dob', formAdopt.dob)
+    formData.set('description', formAdopt.description)
     formData.append('image_url', formAdopt.image_url)
+    formData.set('latitude', formAdopt.latitude)
+    formData.set('longitude', formAdopt.longitude)
 
     const payload = formData
 
-    console.log(formAdopt);
     if (!formIndex) {
       try {
         const returnedResp = await dispatch(createAdoption(payload))
 
-        if (Object.keys(returnedResp)[0] === 'msg') {
-          let temp = ''
-          returnedResp.msg.forEach((el, idx) => {
-            if (idx < returnedResp.msg.length - 1) {
-              temp += `${el}, `
-            } else {
-              temp += el
-            }
-          })
-          errMsg = temp
-          setErrorForm(errMsg)
-          setOpenSnackbar(true)
+        if (!returnedResp) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Loading ...',
+            text: 'Please wait'
+          })          
+        } else {
+          if (Object.keys(returnedResp)[0] === 'msg') {
+            let temp = ''
+            returnedResp.msg.forEach((el, idx) => {
+              if (idx < returnedResp.msg.length - 1) {
+                temp += `${el}, `
+              } else {
+                temp += el
+              }
+            })
+            errMsg = temp
+            setErrorForm(errMsg)
+            setOpenSnackbar(true)
+          }
         }
       } catch (err) {
         console.log(err);
@@ -308,11 +341,16 @@ export default function AdoptionPage() {
           {errorForm}
         </Alert>
       </Snackbar>
-      <ModalDetailAdopt
-        open={openModalDetail}
-        pet={petDetail}
-        handleCloseModalDetail={handleCloseModalDetail}
-      />
+      {
+        Object.keys(petDetail).length === 0 ? <div></div> :
+        (
+          <ModalDetailAdopt
+            open={openModalDetail}
+            pet={petDetail}
+            handleCloseModalDetail={handleCloseModalDetail}
+          />
+        )
+      }
       </main>
     </div>
   )

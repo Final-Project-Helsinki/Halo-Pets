@@ -12,17 +12,13 @@ import {
   Fade,
   Backdrop,
   CardContent,
-  Typography
+  Typography,
+  Fab
 } from '@material-ui/core';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-// import TextInfoContent from '@mui-treasury/components/content/textInfo';
-// import { useBlogTextInfoContentStyles } from '@mui-treasury/styles/textInfoContent/blog';
-// import { GET_MOVIE_BY_ID } from '../graphql/movies';
-// import { GET_FAVORITES } from '../graphql/index';
-// import { cache } from '../config/index';
-// import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-// import Error from '../components/Error';
-// import Loading from '../components/Loading';
+import { compose, withProps } from "recompose"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import CallIcon from '@material-ui/icons/Call';
+import EmailIcon from '@material-ui/icons/Email';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,28 +27,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
-  },
-  drawerHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-  },
   rootCard: {
     margin: 'auto',
     borderRadius: theme.spacing(2), // 16px
@@ -60,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0px 14px 80px rgba(34, 35, 58, 0.2)',
     position: 'relative',
     width: 1000,
-    height: 540,
-    overflow: 'initial',
+    height: 600,
+    // overflow: 'initial',
     background: '#ffffff',
     display: 'flex',
     flexDirection: 'column',
@@ -72,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'row',
       paddingTop: theme.spacing(2),
     },
+    overflowY: 'scroll'
   },
   media: {
     width: '60%',
@@ -106,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   close: {
     color: '#aaa',
@@ -120,10 +95,42 @@ const useStyles = makeStyles((theme) => ({
     },
     marginRight: '1rem'
   },
+  content: {
+    flex: '1 0 auto',
+    // overflowY: 'scroll'
+  },
+  margin: {
+    margin: theme.spacing(1),
+  },
 }));
 
-export default function MovieDetail({ open, pet, handleCloseModalDetail }) {
+export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) {
   const classes = useStyles();
+
+  console.log(pet, '<<<< pet detail');
+  function convertDate(d) {
+    d = new Date(d);
+    return [d.getFullYear(), d.getMonth()+1, d.getDate()]
+        .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
+  }
+
+  const MyMapComponent = compose(
+    withProps({
+      googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
+      loadingElement: <div style={{ height: `300px` }} />,
+      containerElement: <div style={{ height: `300px` }} />,
+      mapElement: <div style={{ height: `300px` }} />,
+    }),
+    withScriptjs,
+    withGoogleMap
+  )((props) =>
+    <GoogleMap
+      defaultZoom={15}
+      defaultCenter={{ lat: pet.latitude, lng: pet.longitude }}
+    >
+      {props.isMarkerShown && <Marker position={{ lat: pet.latitude, lng: pet.longitude }} onClick={props.onMarkerClick} />}
+    </GoogleMap>
+  )
 
   return (
     <div>
@@ -156,8 +163,36 @@ export default function MovieDetail({ open, pet, handleCloseModalDetail }) {
             actionPosition="right"
             className={classes.actionBar}
           />
-          <CardContent style={{ width: '60%'}}>
-            <Typography>{pet.name}</Typography>
+          <CardContent className={classes.content} style={{ width: '60%', marginTop: '3rem' }}>
+            <Typography component="h5" variant="h5">
+              {pet.name}
+            </Typography>
+            <Typography variant="subtitle1" color="textSecondary">
+              {pet.species}
+            </Typography>
+            <Typography>
+              Date of Birth : {convertDate(pet.dob)}
+            </Typography>
+            <Typography>
+              Description : {pet.description}
+            </Typography>
+            <Typography>
+              {pet.User.name}
+            </Typography>
+            <Typography>
+              lat : {pet.latitude}, lon : {pet.longitude}
+            </Typography>
+            {/* <div style={{ width: 100, height: 200 }}> */}
+            <MyMapComponent isMarkerShown={true} />
+            {/* </div> */}
+            <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
+              <CallIcon />
+            </Fab>
+            {pet.User.phoneNumber}
+            <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
+              <EmailIcon />
+            </Fab>
+            {pet.User.email}
           </CardContent>
         </Card>
       </Fade>
