@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core'
 import AppBar from '../components/AppBar'
 import useStyles from '../helpers/style'
+import DrawerHeader from '../components/DrawerHeader'
 
 export default function Chat() {
   const [user, setUser] = useState(auth().currentUser)
@@ -65,7 +66,6 @@ export default function Chat() {
     } 
   }
   function handleChange(e) {
-    console.log('masuk')
     setContent(e.target.value)
   }
 
@@ -73,7 +73,7 @@ export default function Chat() {
     <div className={classes.root}>
       <AppBar/>
       <main className={classes.content}>
-        <div className={classes.toolbar}/>
+        <DrawerHeader/>
         <List>
         {chats.map(chat => {
           return (
@@ -87,14 +87,14 @@ export default function Chat() {
           )
         })}
         </List>
-        <Grid container>
+        <Grid container style={{position: 'fixed', bottom: 10}}>
           <Grid item xs={12}>
-            <form onSubmit={handleSubmit}>
-              <FormControl style={{width: '95vh'}}>
+            <form className={classes.root} onSubmit={handleSubmit}>
+              <FormControl style={{width: "90%"}}>
                 <TextField size="small" variant="outlined" value={content} onChange={handleChange}></TextField>
               </FormControl>
               {readError ? <p>{writeError}</p> : null}
-              <Button size="large" type="submit">Send</Button>
+              <Button style={{width: "10%"}} size="large" type="submit">Send</Button>
             </form>
           </Grid>
         </Grid>

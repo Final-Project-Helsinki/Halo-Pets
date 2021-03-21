@@ -23,7 +23,6 @@ export default function LoginPage() {
   }
 
   const handleSubmit = () => {
-    console.log(formValue)
   }
 
   return(

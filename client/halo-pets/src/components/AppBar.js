@@ -31,12 +31,10 @@ export default function Test(props) {
 
   const handleDrawerOpen = () => {
     setOpen(true);
-    props.handleMainOpen(true)
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
-    props.handleMainOpen(false)
   };
 
   const handleLogout = () => {

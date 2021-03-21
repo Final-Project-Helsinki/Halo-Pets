@@ -7,6 +7,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
+  chatRoot: {
+    display: 'flex',
+    flexGrow: 1,
+    height: "100vh",
+  },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
