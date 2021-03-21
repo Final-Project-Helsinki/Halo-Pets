@@ -9,10 +9,10 @@ function App() {
   return (
     <div className="App">
       <Switch>
-        <Route path="/login">
+        <Route exact path="/">
           <LoginPage/>
         </Route>
-        <Route exact path='/'>
+        <Route path='/chatlist'>
           <ChatListPage />
         </Route>
         <Route path='/chat'>

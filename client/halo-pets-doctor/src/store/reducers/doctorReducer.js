@@ -1,5 +1,5 @@
 const initialState = {
-  listRooms: [],
+  dataDoctor: {},
   loading: false,
   error: null
 }
@@ -11,8 +11,8 @@ function reducer(state = initialState, action) {
       return { ...state, loading: true }
     case 'DOCTOR/SET_ERROR':
       return { ...state, error: payload, loading: false }
-    case 'DOCTOR/SET_ROOM':
-      return { ...state, error: null, loading: false, listRooms: payload }
+    case 'DOCTOR/SET_DATA':
+      return { ...state, error: null, loading: false, dataDoctor: payload }
     default:
       return state
   }
