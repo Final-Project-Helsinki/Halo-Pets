@@ -10,13 +10,6 @@ function errorHandler(err, req, res, next){
       })
       res.status(400).json({ msg: response })
       break;
-    case 'SequelizeUniqueConstraintError':
-      let responseUnique = []
-      err.errors.forEach(el => {
-        responseUnique.push(el.message)
-      })
-      res.status(400).json({ msg: responseUnique })
-      break;
     case 'SequelizeDatabaseError':
       res.status(400).json(err.message)
       break;
@@ -27,9 +20,6 @@ function errorHandler(err, req, res, next){
       res.status(err.status).json({ msg: err.msg })
       break;
     case 'NotFound':
-      res.status(err.status).json({ msg: err.msg })
-      break;
-    case 'InvalidDate':
       res.status(err.status).json({ msg: err.msg })
       break;
     default: 

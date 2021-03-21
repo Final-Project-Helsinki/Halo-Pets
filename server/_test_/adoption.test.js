@@ -17,6 +17,7 @@ let dataPet = {
   dob: '2020-04-13',
   image_url: 'https://storage.googleapis.com/halo-pets/1616128681157cat2.jpg'
 }
+let testSpecies = dataPet.species
 
 let updatedDataPet = {
   name: 'Mickey',
@@ -632,6 +633,45 @@ describe('DELETE/adoptions/:id', function () {
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('msg')
         expect(res.body.msg).toEqual('Pet for adoption not found!')
+        done()
+      })
+  })
+})
+
+//SUCCESS GET ADOPTION BY SPECIES
+
+describe('GET/adoptions/species/:species', function () {
+  it('should return status 200 with data of adoption', (done) => {
+    request(app)
+      .get(`/adoptions/species/${testSpecies}`)
+      .set('access_token', access_token)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        }
+        console.log(res.body, '===========================================')
+        expect(res.status).toEqual(200)
+        // expect(typeof res.body).toEqual('object')
+        // expect(res.body).toHaveProperty('id')
+        // expect(res.body).toHaveProperty('user_id')
+        // expect(res.body).toHaveProperty('name')
+        // expect(res.body).toHaveProperty('species')
+        // expect(res.body).toHaveProperty('gender')
+        // expect(res.body).toHaveProperty('dob')
+        // expect(res.body).toHaveProperty('image_url')
+        // expect(res.body).toEqual(
+        //   expect.objectContaining({
+        //     id: expect.any(Number),
+        //     user_id: expect.any(Number),
+        //     name: expect.any(String),
+        //     species: expect.any(String),
+        //     gender: expect.any(String),
+        //     dob: expect.any(String),
+        //     image_url: expect.any(String),
+        //     createdAt: expect.any(String),
+        //     updatedAt: expect.any(String)
+        //   })
+        // )
         done()
       })
   })

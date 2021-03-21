@@ -6,7 +6,11 @@ import {
   TextField,
   FormControl,
   List,
-  ListItemText
+  ListItemText,
+  Typography,
+  ListItem,
+  Box,
+  Grid
 } from '@material-ui/core'
 import { useLocation } from 'react-router-dom'
 import { auth } from "../services/firebase";
@@ -66,23 +70,32 @@ export default function Chat() {
       <AppBar />
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        {
-          chats.map(chat => {
-            return <p key={chat.timestamp}>{chat.content}</p>
-          })
-        }
-        <form onSubmit={handleSubmit} className={classes.root} style={{ position: 'fixed', bottom: 10 }}>
-          <input onChange={handleChange} value={content}></input>
-          {readError ? <p>{writeError}</p> : null}
-          <button type="submit" size="large">Send</button>
-        </form>
-        {/* <form className={classes.root} onSubmit={handleSubmit} style={{ position: 'fixed', bottom: 10 }}>
-          <FormControl fullWidth={true}>
-            <TextField value={message} onChange={(e) => handleMessage(e.target.value)} size="small" variant="outlined" />
-          </FormControl>
-          <Button type="submit" size="large">Send</Button>
-          {readError ? <p>{writeError}</p> : null}
-        </form> */}
+        <List>
+          {
+            chats.map(chat => {
+              return (
+                <ListItem key={chat.timestamp}>
+                  <ListItemText style={{textAlign: chat.role === 'doctor' ? 'right': 'left'}}>
+                    <Box>
+                      <Typography variant="h6">{chat.content}</Typography>
+                    </Box>
+                  </ListItemText>
+                </ListItem>
+              ) 
+            })
+          }
+        </List>
+        <Grid container>
+          <Grid item xs={12}>
+            <form className={classes.root} onSubmit={handleSubmit}>
+              <FormControl fullWidth={true}>
+                <TextField value={content} onChange={handleChange} size="small" variant="outlined" />
+              </FormControl>
+              {readError ? <p>{writeError}</p> : null}
+              <Button type="submit" size="large">Send</Button>
+            </form>
+          </Grid>
+        </Grid>
       </main>
     </div>
   )
