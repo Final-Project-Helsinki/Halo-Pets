@@ -19,6 +19,7 @@ import { compose, withProps } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 import CallIcon from '@material-ui/icons/Call';
 import EmailIcon from '@material-ui/icons/Email';
+import DrawerHeader from '../components/DrawerHeader';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -163,28 +164,23 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
             actionPosition="right"
             className={classes.actionBar}
           />
-          <CardContent className={classes.content} style={{ width: '60%', paddingTop: '3rem' }}>
+          <DrawerHeader />
+          <CardContent className={classes.content} style={{ width: '60%', paddingTop: '8rem' }}>
             <Typography component="h5" variant="h5">
               {pet.name}
             </Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              {pet.species}
+              {pet.species.toUpperCase()}
             </Typography>
             <Typography>
               Date of Birth : {convertDate(pet.dob)}
             </Typography>
-            <Typography>
+            <Typography paragraph>
               Description : {pet.description}
             </Typography>
             <Typography>
               {pet.User.name}
             </Typography>
-            <Typography>
-              lat : {pet.latitude}, lon : {pet.longitude}
-            </Typography>
-            {/* <div style={{ width: 100, height: 200 }}> */}
-            <MyMapComponent isMarkerShown={true} />
-            {/* </div> */}
             <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
               <CallIcon />
             </Fab>
@@ -193,6 +189,7 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
               <EmailIcon />
             </Fab>
             {pet.User.email}
+            <MyMapComponent isMarkerShown={true} />
           </CardContent>
         </Card>
       </Fade>

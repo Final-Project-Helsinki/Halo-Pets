@@ -35,7 +35,8 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Swal from 'sweetalert2';
 import ModalDetailAdopt from '../components/ModalDetailAdopt';
 import CardFilterAdopt from '../components/CardFilterAdopt';
-// import AddIcon from '@material-ui/icons/Add';
+import convertDate from '../helpers/convertDate';
+import { createFavorite, deleteFavorite, fetchFavorites } from '../store/actions/favoriteAction';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -86,12 +87,6 @@ export default function AdoptionPage() {
     setOpenModalDetail(false);
   }
 
-  function convertDate(d) {
-    d = new Date(d);
-    return [d.getFullYear(), d.getMonth()+1, d.getDate()]
-        .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
-  }
-
   const handleEditAdopt = async (adoptId) => {
     // setAdoptId(adoptId);
     try {
@@ -128,15 +123,14 @@ export default function AdoptionPage() {
     } else {
       dispatch(fetchAdoptionsBySpecies(species))
     }
+    dispatch(fetchFavorites())
   }, [dispatch, species])
 
   const handleModalAdd = () => {
     navigator.geolocation.watchPosition(function (position) {
       console.log("Latitude is :", position.coords.latitude);
       console.log("Longitude is :", position.coords.longitude);
-      // setFormAdopt((prev) => ({ ...prev, latitude: position.coords.latitude, longitude: position.coords.longitude }))
-      // setLatitude(position.coords.latitude)
-      // setLongitude(position.coords.longitude)
+
       setFormAdopt({
         name: '',
         species: '',
@@ -279,6 +273,21 @@ export default function AdoptionPage() {
     setOpenSnackbar(false);
   };
 
+  const { favorites, loading: loadingFavorites, error: errorFavorites } = useSelector(state => ({
+    favorites: state.favoriteReducer.favorites,
+    loading: state.favoriteReducer.loading,
+    error: state.favoriteReducer.error
+  }))
+
+  const handleAddFavorite = (adoptId) => {
+    dispatch(createFavorite(adoptId))
+  }
+
+  const handleRemoveFavorite = (adoptId) => {
+    const isFav = favorites.find(fav => fav.adoption_id === adoptId)
+    dispatch(deleteFavorite(isFav.id))
+  }
+
   if (loading) {
     return <Loading />
   }
@@ -318,10 +327,13 @@ export default function AdoptionPage() {
             <GridListTile className={styles.gridListTile} key={pet.id}>
               <img src={pet.image_url} alt={pet.name} />
               <CardBarTile
+                favorites={favorites}
                 pet={pet}
                 handleEditAdopt={handleEditAdopt}
                 handleDeleteAdopt={handleDeleteAdopt}
                 handleDetailAdopt={handleDetailAdopt}
+                handleAddFavorite={handleAddFavorite}
+                handleRemoveFavorite={handleRemoveFavorite}
               />
             </GridListTile>
           ))
