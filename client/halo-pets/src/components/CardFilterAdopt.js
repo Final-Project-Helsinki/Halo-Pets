@@ -18,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 300,
     maxHeight: 300,
     boxShadow: '0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.25)',
-    marginRight: 30,
-    marginLeft: 30,
+    margin: '1rem'
   },  
   image: {
     width: '80%',
