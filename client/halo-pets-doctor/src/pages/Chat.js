@@ -85,14 +85,14 @@ export default function Chat() {
             })
           }
         </List>
-        <Grid container>
+        <Grid container style={{position: 'fixed', bottom: 10}}>
           <Grid item xs={12}>
             <form className={classes.root} onSubmit={handleSubmit}>
-              <FormControl fullWidth={true}>
+              <FormControl style={{width: "90%"}}>
                 <TextField value={content} onChange={handleChange} size="small" variant="outlined" />
               </FormControl>
               {readError ? <p>{writeError}</p> : null}
-              <Button type="submit" size="large">Send</Button>
+              <Button style={{width: "10%"}} type="submit" size="large">Send</Button>
             </form>
           </Grid>
         </Grid>
