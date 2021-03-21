@@ -163,7 +163,7 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
             actionPosition="right"
             className={classes.actionBar}
           />
-          <CardContent className={classes.content} style={{ width: '60%', marginTop: '3rem' }}>
+          <CardContent className={classes.content} style={{ width: '60%', paddingTop: '3rem' }}>
             <Typography component="h5" variant="h5">
               {pet.name}
             </Typography>

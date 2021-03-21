@@ -30,10 +30,12 @@ export default function Test(props) {
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
+    console.log('masuk open')
     setOpen(true);
   };
 
   const handleDrawerClose = () => {
+    console.log('masuk close')
     setOpen(false);
   };
 

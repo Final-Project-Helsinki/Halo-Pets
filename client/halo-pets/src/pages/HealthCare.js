@@ -1,14 +1,26 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router"
 import { getDoctor } from '../store/actions/doctorAction'
 import { getRoom } from '../store/actions/chatAction'
+import AppBar from '../components/AppBar'
+import DrawerHeader from '../components/DrawerHeader'
+import useStyles from '../helpers/style'
+import gridUseStyles from '../helpers/gridStyles'
+import clsx from 'clsx'
+import CardDoctor from '../components/CardDoctor'
+import {
+  Grid
+} from '@material-ui/core'
 
 export default function HealthCarePage() {
   const dataDoctor = useSelector(state => state.doctorReducer.doctors)
   const roomId = useSelector(state => state.chatReducer.chatRoom)
   const dispatch = useDispatch()
+  const [open, setOpen] = useState(false)
   const history = useHistory()
+  const classes = useStyles()
+  const gridClasses = gridUseStyles()
   useEffect(() => {
     dispatch(getDoctor())
   }, [dispatch])
@@ -26,29 +38,31 @@ export default function HealthCarePage() {
     console.log(roomId)
   }
 
+  function handleMainOpen(isOpen) {
+    setOpen(isOpen)
+  }
+
   return (
-    <div>
-      <h1>Doctor Page</h1>
-      {/* <p>{JSON.stringify(dataDoctor)}</p> */}
-      <div className="row">
-        {
-          dataDoctor.map(el => {
-            return (
-              <div className="col-md-4">
-                <div className="card" style={{ width: '18rem' }}>
-                  <div className="card-body">
-                    <h5 className="card-title">{el.name}</h5>
-                    <h6 className="card-subtitle mb-2 text-muted">{el.email}</h6>
-                    <p className="card-text">{el.phoneNumber}</p>
-                  </div>
-                  <button type="button" onClick={() => chat(el.id)} className="btn btn-primary">Chat me :)</button>
-                </div>
-              </div>
-            )
-          })
-        }
-      </div>
-      <button type="button" onClick={test} className="btn btn-primary">Chat me :)</button>
+    <div className={classes.root}>
+      <AppBar handleMainOpen={handleMainOpen}/>
+      <main
+        className={clsx(classes.content, {
+          [classes.contentShift]: open
+        })}
+      >
+        <DrawerHeader/>
+        <Grid container style={{justifyContent: 'space-evenly'}}>
+          {/* <Grid item xs={12}> */}
+            {
+              dataDoctor.map(el => {
+                return (
+                  <CardDoctor key={el.id} doctor={el}/>
+                )
+              })
+            }
+          {/* </Grid> */}
+        </Grid>
+      </main>
     </div>
   )
 }
