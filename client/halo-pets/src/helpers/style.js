@@ -73,6 +73,9 @@ const useStyles = makeStyles((theme) => ({
   },
   text: {
     color: '#f8f1f1'
+  },
+  text2: {
+    color: '#16c79a'
   }
 }));
 

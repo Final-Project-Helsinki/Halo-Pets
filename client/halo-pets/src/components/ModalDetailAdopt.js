@@ -1,17 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Card,
   CardMedia,
-  Tooltip,
-  IconButton,
-  GridListTileBar,
-  Modal,
-  Fade,
-  Backdrop,
-  CardContent,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Typography,
   Fab,
   Grid,
@@ -49,11 +44,11 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'row',
       paddingTop: theme.spacing(2),
     },
-    overflowY: 'scroll'
+    // overflowY: 'scroll'
   },
   media: {
-    width: '60%',
-    zIndex: 2,
+    width: '100%',
+    zIndex: 0,
     // marginLeft: 'auto',
     // marginRight: 'auto',
     marginTop: theme.spacing(-3),
@@ -63,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     position: 'relative',
     [theme.breakpoints.up('md')]: {
-      width: '60%',
+      width: '100%',
       marginLeft: theme.spacing(3),
       marginTop: 0,
       transform: 'translateX(-8px)',
@@ -96,12 +91,11 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'none',
       cursor: 'pointer'
     },
-    marginRight: '1rem'
+    // marginRight: '1rem'
   },
   content: {
     flex: '1 0 auto',
     paddingTop: theme.spacing(30)
-    // overflowY: 'scroll'
   },
   margin: {
     margin: theme.spacing(1),
@@ -137,25 +131,119 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
   )
 
   return (
-    <div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
+    // <div>
+      <Dialog
         open={open}
         onClose={handleCloseModalDetail}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
+        scroll='body'
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
       >
-      <Fade in={open}>
+      <DialogTitle>
+        <span className={classes.close} onClick={handleCloseModalDetail}>&times;</span>
+      </DialogTitle>
+      <DialogContent>
+        <Grid container>
+          <Grid item xs={12}>
+            <Grid container justify="center">
+              <CardMedia
+                className={classes.media}
+                image={pet.image_url}
+              />
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container justify='center' alignItems='center'>
+              <Typography component="h5" variant="h5">
+                {pet.name}
+              </Typography>
+              <Fab size="small" color="secondary" aria-label="add" className={classes.margin} variant="extended">
+                  {pet.species.toUpperCase()}
+                </Fab>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container wrap="nowrap" spacing={2}>
+              <Grid item>
+                <Typography variant="subtitle1" color="textSecondary">Date of Birth </Typography>
+              </Grid>
+              <Grid item>
+                <Typography paragraph>
+                  {convertDate(pet.dob)}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container wrap="nowrap" spacing={2}>
+              <Grid item>
+                <Typography variant="subtitle1" color="textSecondary">Gender </Typography>
+              </Grid>
+              <Grid item>
+                <Typography paragraph>
+                  {pet.gender}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container wrap="wrap" spacing={2}>
+              <Grid item>
+                <Typography variant="subtitle1" color="textSecondary">Description </Typography>
+              </Grid>
+              <Grid item xs>
+                <Typography paragraph>
+                  {pet.description}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container spacing={2}
+            direction="row"
+            justify="center"
+            alignItems="center"
+          >
+          <Grid item>
+            <Avatar>{pet.User.name.slice(0, 1)}</Avatar>
+          </Grid>
+          <Grid item>
+            <Typography variant="subtitle1" color="textSecondary">OWNER </Typography>
+            <Typography>{pet.User.name}</Typography>
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container spacing={2}
+            direction="row"
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item>
+              <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
+                <CallIcon />
+              </Fab>
+            </Grid>
+            <Grid item>
+              {pet.User.phoneNumber}
+            </Grid>
+            <Grid item>
+              <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
+                <EmailIcon />
+              </Fab>
+            </Grid>
+            <Grid item>
+              {pet.User.email}
+
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+        <MyMapComponent isMarkerShown={true} />
+      </DialogContent >
+      {/* <Fade in={open}>
         <Card className={classes.rootCard}>
-          <CardMedia
-            className={classes.media}
-            image={pet.image_url}
-          />
+          
           <GridListTileBar
             title=""
             titlePosition="top"
@@ -167,90 +255,12 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
             actionPosition="right"
             className={classes.actionBar}
           />
-          <DrawerHeader />
-          <CardContent className={classes.content} style={{ width: '60%' }}>
-            <Grid container wrap="nowrap" spacing={2}
-              direction="row"
-              justify="center"
-              alignItems="center"
-            >
-              <Grid item>
-                <Typography component="h5" variant="h5">
-                  {pet.name}
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Fab size="small" color="secondary" aria-label="add" className={classes.margin} variant="extended">
-                  {pet.species.toUpperCase()}
-                </Fab>
-              </Grid>
-            </Grid>
-            <Grid container wrap="nowrap" spacing={2}>
-              <Grid item>
-                <Typography variant="subtitle1" color="textSecondary">Date of Birth </Typography>
-              </Grid>
-              <Grid item xs>
-                <Typography paragraph>
-                  {convertDate(pet.dob)}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container wrap="nowrap" spacing={2}>
-              <Grid item>
-                <Typography variant="subtitle1" color="textSecondary">Gender </Typography>
-              </Grid>
-              <Grid item xs>
-                <Typography paragraph>
-                  {pet.gender}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container wrap="nowrap" spacing={2}>
-              <Grid item>
-                <Typography variant="subtitle1" color="textSecondary">Description </Typography>
-              </Grid>
-              <Grid item xs>
-                <Typography paragraph>
-                  {pet.description}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container wrap="nowrap" spacing={2}
-              direction="row"
-              justify="center"
-              alignItems="center"
-            >
-              <Grid item>
-                <Avatar>{pet.User.name.slice(0, 1)}</Avatar>
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle1" color="textSecondary">OWNER </Typography>
-                <Typography>{pet.User.name}</Typography>
-              </Grid>
-            </Grid>
-            <Grid container wrap="nowrap" spacing={2} style={{ marginBottom: 32 }}
-              direction="row"
-              justify="center"
-              alignItems="center"
-            >
-              <Grid item>
-                <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
-                  <CallIcon />
-                </Fab>
-                {pet.User.phoneNumber}
-              </Grid>
-              <Grid item>
-                <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
-                  <EmailIcon />
-                </Fab>
-                {pet.User.email}
-              </Grid>
-            </Grid>
-            <MyMapComponent isMarkerShown={true} />
+          <CardContent style={{width: '60%'}}>
+            
           </CardContent>
         </Card>
-      </Fade>
-      </Modal>
-    </div>
+      </Fade> */}
+      </Dialog>
+    // </div>
   )
 }
