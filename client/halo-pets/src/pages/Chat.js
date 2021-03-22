@@ -19,6 +19,16 @@ import useStyles from '../helpers/style'
 import DrawerHeader from '../components/DrawerHeader'
 import { getRoom } from '../store/actions/chatAction'
 
+function timeConverter(UNIX_timestamp){ 
+  var date = new Date(UNIX_timestamp); 
+  var year = date.getFullYear(); 
+  var month = ("0" + (date.getMonth() + 1)).substr(-2); 
+  var day = ("0" + date.getDate()).substr(-2); 
+  var hour = ("0" + date.getHours()).substr(-2); 
+  var minutes = ("0" + date.getMinutes()).substr(-2);  
+  return year + "-" + month + "-" + day + " " + hour + ":" + minutes; 
+} 
+
 export default function Chat() {
   const [user, setUser] = useState(auth().currentUser)
   const [chats, setChats] = useState([])
@@ -132,6 +142,7 @@ export default function Chat() {
               <ListItemText style={{textAlign: chat.role === 'client' ? 'right': 'left'}}>
                 <Box>
                   <Typography variant="h6">{chat.content}</Typography>
+                  <Typography varian="h6">{timeConverter(chat.timestamp)}</Typography>
                 </Box>
               </ListItemText>
             </ListItem>
