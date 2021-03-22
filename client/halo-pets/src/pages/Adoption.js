@@ -193,27 +193,18 @@ export default function AdoptionPage() {
     if (!formIndex) {
       try {
         const returnedResp = await dispatch(createAdoption(payload))
-
-        if (!returnedResp) {
-          Swal.fire({
-            icon: 'success',
-            title: 'Loading ...',
-            text: 'Please wait'
-          })          
-        } else {
-          if (Object.keys(returnedResp)[0] === 'msg') {
-            let temp = ''
-            returnedResp.msg.forEach((el, idx) => {
-              if (idx < returnedResp.msg.length - 1) {
-                temp += `${el}, `
-              } else {
-                temp += el
-              }
-            })
-            errMsg = temp
-            setErrorForm(errMsg)
-            setOpenSnackbar(true)
-          }
+        if (Object.keys(returnedResp)[0] === 'msg') {
+          let temp = ''
+          returnedResp.msg.forEach((el, idx) => {
+            if (idx < returnedResp.msg.length - 1) {
+              temp += `${el}, `
+            } else {
+              temp += el
+            }
+          })
+          errMsg = temp
+          setErrorForm(errMsg)
+          setOpenSnackbar(true)
         }
       } catch (err) {
         console.log(err);
@@ -242,6 +233,16 @@ export default function AdoptionPage() {
 
     if (!errMsg) {
       handleCloseModalForm();
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        text: 'Your pet data has been saved',
+        showConfirmButton: false,
+        timer: 2000,
+        customClass: {
+          container: `${styles.mySwal}`
+        }
+      })
     }
   }
 

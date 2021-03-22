@@ -13,9 +13,12 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Fab
+  Fab,
+  CircularProgress
 } from '@material-ui/core';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import { green } from '@material-ui/core/colors';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,11 +51,49 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     width: '100%',
   },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
+  },
 }));
 
 export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModalForm, handleChangeForm, handleSubmitForm, fileName }) {
   const classes = useStyles();
 
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const timer = React.useRef();
+
+  const buttonClassname = clsx({
+    [classes.buttonSuccess]: success,
+  });
+
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+      timer.current = window.setTimeout(() => {
+        setSuccess(true);
+        setLoading(false);
+      }, 5000);
+    }
+  };
+  
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -80,20 +121,19 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
           >
             <Grid container item xs={12}>
               <form className={classes.rootForm}>
-                <Grid item xs={12} style={{ marginBottom: 10 }}>
+                <Grid item xs={12} style={{ marginBottom: 16 }}>
                   <TextField
                     name="name"
                     value={formAdopt.name}
                     label="Name"
-                    variant="outlined"
                     color="secondary"
                     onChange={handleChangeForm}
                     fullWidth
                     required
                   />
                 </Grid>
-                <Grid item xs={12} style={{ marginBottom: 10 }}>
-                  <InputLabel>Species</InputLabel>
+                <Grid item xs={12} style={{ marginBottom: 16 }}>
+                  <InputLabel required>Species</InputLabel>
                   <Select
                     name="species"
                     value={formAdopt.species}
@@ -105,31 +145,34 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
                     <MenuItem value="cat">Cat</MenuItem>
                   </Select>
                 </Grid>
-                <Grid item xs={12} style={{ marginBottom: 10 }}>
-                  <InputLabel>Gender</InputLabel>
+                <Grid item xs={12} style={{ marginBottom: 16 }}>
+                  <InputLabel required>Gender</InputLabel>
                   <Select
                     name="gender"
                     value={formAdopt.gender}
                     onChange={handleChangeForm}
                     className={classes.textField}
+                    required
                   >
                     <MenuItem value="male">Male</MenuItem>
                     <MenuItem value="female">Female</MenuItem>
                   </Select>
                 </Grid>
-                <Grid item xs={12} style={{ marginBottom: 10 }}>
+                <Grid item xs={12} style={{ marginBottom: 16 }}>
+                  <InputLabel required>Date of Birth</InputLabel>
                   <TextField
                     id="date"
-                    label="Date of Birth"
+                    // label="Date of Birth"
                     type="date"
                     defaultValue={formAdopt.dob}
                     className={classes.textField}
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    required
                   />
                 </Grid>
-                <Grid item xs={12} style={{ marginBottom: 10 }}>
+                <Grid item xs={12} style={{ marginBottom: 16 }}>
                   <TextField
                     name="description"
                     value={formAdopt.description}
@@ -143,7 +186,7 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
                     required
                   />
                 </Grid>
-                <Grid item xs={12} style={{ marginBottom: 10 }}>
+                <Grid item xs={12} style={{ marginBottom: 16 }}>
                   <Grid container spacing={1} alignItems="flex-end">
                     <Grid item>
                       <CameraAltIcon />
@@ -154,7 +197,7 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
                       />
                     </Grid>
                     <Grid item>
-                      <label htmlFor="upload-photo" style={{ marginBottom: 2 }}>
+                      <label htmlFor="upload-photo" style={{ marginBottom: 2 }} >
                         <input
                           style={{ display: 'none' }}
                           id="upload-photo"
@@ -183,9 +226,12 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
             </Grid>
           </Grid>
           <Grid container item xs={12} direction="row" justify="flex-end" style={{ marginTop: 32 }}>
-            <Button variant="contained" color="secondary" onClick={handleSubmitForm} style={{ marginRight: 8 }}>
+          <div className={classes.wrapper}>
+            <Button variant="contained" color="secondary" onClick={(e) => { handleButtonClick(e); handleSubmitForm(e);}} style={{ marginRight: 8 }} className={buttonClassname} disabled={loading}>
               Save
             </Button>
+            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+          </div>
             <Button onClick={handleCloseModalForm}>
               Cancel
             </Button>
