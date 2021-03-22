@@ -18,8 +18,13 @@ export default function RegisLoginPage() {
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
+<<<<<<< HEAD
         <Grid container className={[classes.container, classes.content]} style={{backgroundColor: '#16c79a'}}>
           <Typography variant="h2" className={classes.text}>Halo Pets</Typography>
+=======
+        <Grid container className={[classes.container, classes.content]}>
+          <Typography variant="h3">Halo Pets</Typography>
+>>>>>>> 6bf4823240cb553243159eb74c0f2662e630ea5f
         </Grid>
       </Grid>
       <Grid item xs={12}>
