@@ -3,6 +3,17 @@ import {useSelector} from 'react-redux'
 import {useHistory, useParams, useLocation} from 'react-router-dom'
 import axios from 'axios'
 import AppBar from '../components/AppBar'
+import {
+  Card,
+  CardActions,
+  CardContent,
+  Typography,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  FormControl
+} from '@material-ui/core'
 
 
 export default function TesMidtrans(){
@@ -58,23 +69,28 @@ export default function TesMidtrans(){
   return (
     <div>
       <AppBar handleMainOpen={handleMainOpen} />
-      <h4>Snap Payment Integration Demo</h4>
-      <hr/>
-      <h5>Purchase Summary</h5>
-      <small>
-        <li><b>Customer Name:</b> {user.name} </li>
-        <li><b>Total Purchase:</b> {formatRupiah(price)}</li>
-      </small>
-      <br/>
-      <form id="snaphtml" class="input-group" formTarget="_blank">
-        <button id="pay-button" class="btn btn-primary input-group-btn" onClick={handleOnClick} >Proceed to Payment</button>
-      </form>
-          
-      <div id="snapjs">
-        <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
-          data-client-key="SB-Mid-client-GrffCMN7wG9DYfV6"></script>
-      </div>
+        <Card>
+          <CardContent>
+            <Typography variant="h4">Snap Payment Integration Demo</Typography>
+            <hr/>
+            <Typography variant="h5">Purchase Summary</Typography>
+            <List>
+              <ListItemText><b>Customer Name:</b> {user.name} </ListItemText>
+              <ListItemText><b>Total Purchase:</b> {formatRupiah(price)}</ListItemText>
+            </List>
+          </CardContent>
+          <CardActions>
+          <FormControl>
+            <Button variant="contained" color="primary" onClick={handleOnClick} >Proceed to Payment</Button>
+          </FormControl>
+          </CardActions>       
+          <div id="snapjs">
+            <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+              data-client-key="SB-Mid-client-GrffCMN7wG9DYfV6"></script>
+          </div>
+        </Card>
     </div>
+    
   )
 }
 
