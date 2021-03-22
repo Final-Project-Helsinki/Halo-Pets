@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RegisLogin from './pages/RegisLogin'
 import Home from './pages/Home'
@@ -11,6 +11,7 @@ import { GuardProvider, GuardedRoute } from 'react-router-guards';
 import getIsLoggedIn from './helpers/getIsLoggedIn'
 import AdoptionPage from './pages/Adoption'
 import FavoritesPage from './pages/Favorites'
+import Midtrans from './pages/Midtrans'
 
 const requireLogin = (to, from, next) => {
   if (to.meta.auth) {
@@ -35,6 +36,9 @@ export default function App() {
         <GuardedRoute path="/healthcare" exact component={HealthCarePage} meta={{ auth: true }} />
         <GuardedRoute path="/adoption" exact component={AdoptionPage} meta={{ auth: true }} />
         <GuardedRoute path="/favorites" exact component={FavoritesPage} meta={{ auth: true }} />
+        <Route exact path="/midtrans">
+          <Midtrans></Midtrans>
+        </Route>
         <GuardedRoute path="*" component={ErrorNotFound} />
       </Switch>
     </GuardProvider>
