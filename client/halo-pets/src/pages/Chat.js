@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { auth } from "../services/firebase";
 import { db } from "../services/firebase"
@@ -17,6 +17,7 @@ import {
 import AppBar from '../components/AppBar'
 import useStyles from '../helpers/style'
 import DrawerHeader from '../components/DrawerHeader'
+import { getRoom } from '../store/actions/chatAction'
 
 export default function Chat() {
   const [user, setUser] = useState(auth().currentUser)
@@ -26,6 +27,9 @@ export default function Chat() {
   const [writeError, setwriteError] = useState(null)
   const location = useLocation()
   const classes = useStyles()
+  const dispatch = useDispatch()
+  const [RoomVideo, setRoomVideo] = useState([])
+
 
 
   useEffect(() => {
@@ -45,6 +49,19 @@ export default function Chat() {
         setreadError(error.message)
       }
     }
+    const url = 'https://api.daily.co/v1/rooms';
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer becea18a103ea46caf68daad57ed840de8cfadbedc137db19d824b42719b3b63'
+      }
+    };
+    fetch(url, options)
+      .then(res => res.json())
+      .then(json => {
+        setRoomVideo(json.data)
+      })
+      .catch(err => console.error('error:' + err));
     fetchMessages();
   }, []);
 
@@ -67,6 +84,40 @@ export default function Chat() {
   }
   function handleChange(e) {
     setContent(e.target.value)
+  }
+
+  const vidCall = async () => {
+    console.log('masuk gan')
+    console.log(RoomVideo, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx')
+    console.log(location.state, 'SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS');
+    let find = false
+      const x = await dispatch(getRoom(location.state))
+      for (let i of RoomVideo) {
+        if (+x.id === +i.name) {
+          find = true
+          console.log(i,'sapa sih lo???')
+          break
+        }
+      }
+      if (find === true) {
+        const url = `https://halopets.daily.co/${location.state}`;
+        const win = window.open(url, "_blank");
+        win.focus();
+      } else {
+        const url = 'https://api.daily.co/v1/rooms';
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer becea18a103ea46caf68daad57ed840de8cfadbedc137db19d824b42719b3b63'
+          },
+          body: JSON.stringify({ name: `${location.state}` })
+        };
+        const response = await fetch(url, options)
+        const data = await response.json()
+        const win = window.open(data.url, "_blank");
+        win.focus();
+      }
   }
 
   return (
@@ -95,6 +146,7 @@ export default function Chat() {
               </FormControl>
               {readError ? <p>{writeError}</p> : null}
               <Button style={{width: "10%"}} size="large" type="submit">Send</Button>
+              <Button style={{width: "10%"}} size="large" type="button" onClick={vidCall}>Video Call</Button>
             </form>
           </Grid>
         </Grid>

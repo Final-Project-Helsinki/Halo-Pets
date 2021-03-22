@@ -13,6 +13,7 @@ export function setError(error) {
 }
 
 export function getRoom(payload) {
+  console.log(payload, 'LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLlll');
   return async (dispatch) => {
     try {
       const response = await fetch('http://localhost:3001/chat/user', {

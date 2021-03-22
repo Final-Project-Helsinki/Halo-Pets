@@ -110,7 +110,6 @@ export default function SimpleCard(props) {
       </CardContent>
       <CardActions>
         <Button onClick={() => chat(props.doctor.id)} size="small">Chat Me</Button>
-        <Button onClick={() => vidcall(props.doctor.id)} size="small">Video Call Me</Button>
       </CardActions>
     </Card>
   );
