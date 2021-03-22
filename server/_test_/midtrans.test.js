@@ -26,50 +26,47 @@ afterAll(done => {
 
 // SETUP
 describe('SETUP', function () {
-  it('register for setup', (done) => {
-    console.log('REGISTERRRRRRRRRRRRRRRRRRRRRR')
+  // it('register for setup', (done) => {
+  //   console.log('REGISTERRRRRRRRRRRRRRRRRRRRRR')
+  //   request(app)
+  //     .post('/users/register')
+  //     .send(dataTest)
+  //     .end((err, res) => {
+  //       if (err) {
+  //         done(err)
+  //       }
+  //       expect(res.status).toEqual(201)
+  //       expect(res.body).toHaveProperty('id')
+  //       expect(res.body).toHaveProperty('email')
+  //       expect(res.body).toHaveProperty('name')
+  //       expect(res.body).toHaveProperty('phoneNumber')
+  //       done()
+  //     })
+  // })
+  // it('login for setup', (done) => {
+  //   console.log('LOGINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN')
+  //   request(app)
+  //     .post('/users/login')
+  //     .send(dataTest)
+  //     .end((err, res) => {
+  //       if (err) {
+  //         done(err)
+  //       }
+  //       expect(res.status).toEqual(200)
+  //       expect(res.body).toHaveProperty('access_token')
+  //       access_token = res.body.access_token
+  //       done()
+  //     })
+  // })
+  it('it should return status 200 with snap token', (done) => {
     request(app)
-      .post('/users/register')
-      .send(dataTest)
-      .end((err, res) => {
-        if (err) {
-          done(err)
-        }
-        expect(res.status).toEqual(201)
-        expect(res.body).toHaveProperty('id')
-        expect(res.body).toHaveProperty('email')
-        expect(res.body).toHaveProperty('name')
-        expect(res.body).toHaveProperty('phoneNumber')
-        done()
-      })
-  })
-  it('login for setup', (done) => {
-    console.log('LOGINNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN')
-    request(app)
-      .post('/users/login')
-      .send(dataTest)
+      .get('/midtrans/aldo/100000')
       .end((err, res) => {
         if (err) {
           done(err)
         }
         expect(res.status).toEqual(200)
-        expect(res.body).toHaveProperty('access_token')
-        access_token = res.body.access_token
-        done()
-      })
-  })
-  it('it should return status 200 with snap token', (done) => {
-    console.log(access_token, "======================================================================================================")
-    request(app)
-      .get('/midtrans/aldo/100000')
-      .set('access_token', access_token)
-      .end((err, res) => {
-        if (err) {
-          done(err)
-        }
-        expect(res.status).toEqual(500)
         expect(typeof res.body).toEqual('string')
-        expect(res.body).toEqual('network error')
         done()
       })
   })

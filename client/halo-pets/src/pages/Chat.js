@@ -34,7 +34,7 @@ export default function Chat() {
     async function fetchMessages() {
       try {
         const roomId = db.ref("chats")
-        roomId.child(`${location.state.id}`).on("value", snapshot => {
+        roomId.child(`${location.state}`).on("value", snapshot => {
           let chatsFirebase = [];
           snapshot.forEach((snap) => {
             chatsFirebase.push(snap.val());
@@ -49,12 +49,12 @@ export default function Chat() {
   }, []);
 
   async function handleSubmit(e) {
-    console.log(location.state.id)
+    console.log(location.state)
     e.preventDefault(); 
     setwriteError(null) 
     try { 
       const roomId = db.ref("chats") 
-      await roomId.child(`${location.state.id}`).push({
+      await roomId.child(`${location.state}`).push({
         content, 
         timestamp:Date.now(), 
         uid: user.uid, 
