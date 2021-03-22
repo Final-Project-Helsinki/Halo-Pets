@@ -113,6 +113,14 @@ class AdoptionController {
       const adoptionListBySpecies = await Adoption.findAll({
         where: { species }
       })
+
+      if(adoptionListBySpecies.length === 0){
+        throw {
+          status: 404,
+          name: 'NotFound',
+          msg: 'Not Found'
+        }
+      }
       
       return res.status(200).json(adoptionListBySpecies)
     } catch(err) {

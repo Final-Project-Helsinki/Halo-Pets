@@ -17,7 +17,6 @@ let dataPet = {
   dob: '2020-04-13',
   image_url: 'https://storage.googleapis.com/halo-pets/1616128681157cat2.jpg'
 }
-let testSpecies = dataPet.species
 
 let updatedDataPet = {
   name: 'Mickey',
@@ -26,6 +25,8 @@ let updatedDataPet = {
   dob: '2020-08-14',
   image_url: 'https://storage.googleapis.com/halo-pets/1616128681157cat2.jpg'
 }
+
+let testSpecies = updatedDataPet.species
 
 let id = 0
 let invalidId = 999
@@ -557,6 +558,74 @@ describe('PUT/adoptions/:id', function () {
   })
 })
 
+//SUCCESS GET ADOPTION BY SPECIES
+
+describe('GET/adoptions/species/:species', function () {
+  console.log(testSpecies, '============================================================')
+  it('should return status 200 with data of adoption', (done) => {
+    request(app)
+      .get(`/adoptions/species/${testSpecies}`)
+      .set('access_token', access_token)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        }
+        expect(res.status).toEqual(200)
+        expect(Array.isArray(res.body)).toEqual(true)
+        expect(res.body[0]).toHaveProperty('id')
+        expect(res.body[0]).toHaveProperty('user_id')
+        expect(res.body[0]).toHaveProperty('name')
+        expect(res.body[0]).toHaveProperty('species')
+        expect(res.body[0]).toHaveProperty('gender')
+        expect(res.body[0]).toHaveProperty('dob')
+        expect(res.body[0]).toHaveProperty('image_url')
+        expect(res.body[0]).toEqual(
+          expect.objectContaining({
+            id: expect.any(Number),
+            user_id: expect.any(Number),
+            name: expect.any(String),
+            species: expect.any(String),
+            gender: expect.any(String),
+            dob: expect.any(String),
+            image_url: expect.any(String),
+            createdAt: expect.any(String),
+            updatedAt: expect.any(String)
+          })
+        )
+        done()
+      })
+  })
+  it('should return fail if species is not found', (done) => {
+    request(app)
+      .get(`/adoptions/species/randomword`)
+      .set('access_token', access_token)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        }
+        expect(res.status).toEqual(404)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('msg')
+        expect(res.body.msg).toEqual('Not Found')
+        done()
+      })
+  })
+  it('should return fail if user is not logged in', (done) => {
+    request(app)
+      .get(`/adoptions/species/${testSpecies}`)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        }
+        expect(res.status).toEqual(401)
+        expect(typeof res.body).toEqual('object')
+        expect(res.body).toHaveProperty('msg')
+        expect(res.body.msg).toEqual('You must login first')
+        done()
+      })
+  })
+})
+
 //SUCCESS DELETE ADOPTION
 
 describe('DELETE/adoptions/:id', function () {
@@ -638,41 +707,3 @@ describe('DELETE/adoptions/:id', function () {
   })
 })
 
-//SUCCESS GET ADOPTION BY SPECIES
-
-describe('GET/adoptions/species/:species', function () {
-  it('should return status 200 with data of adoption', (done) => {
-    request(app)
-      .get(`/adoptions/species/${testSpecies}`)
-      .set('access_token', access_token)
-      .end((err, res) => {
-        if (err) {
-          done(err)
-        }
-        console.log(res.body, '===========================================')
-        expect(res.status).toEqual(200)
-        // expect(typeof res.body).toEqual('object')
-        // expect(res.body).toHaveProperty('id')
-        // expect(res.body).toHaveProperty('user_id')
-        // expect(res.body).toHaveProperty('name')
-        // expect(res.body).toHaveProperty('species')
-        // expect(res.body).toHaveProperty('gender')
-        // expect(res.body).toHaveProperty('dob')
-        // expect(res.body).toHaveProperty('image_url')
-        // expect(res.body).toEqual(
-        //   expect.objectContaining({
-        //     id: expect.any(Number),
-        //     user_id: expect.any(Number),
-        //     name: expect.any(String),
-        //     species: expect.any(String),
-        //     gender: expect.any(String),
-        //     dob: expect.any(String),
-        //     image_url: expect.any(String),
-        //     createdAt: expect.any(String),
-        //     updatedAt: expect.any(String)
-        //   })
-        // )
-        done()
-      })
-  })
-})
