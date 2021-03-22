@@ -44,3 +44,8 @@ class midtransController {
 }
 
 module.exports = midtransController
+
+// curl --location --request GET 'https://api.sandbox.midtrans.com/v2/ORDER_ID/status' \
+// > --header 'Accept: application/json' \
+// > --header 'Content-Type: application/json' \
+// > --header 'Authorization: Basic U0ItTWlkLXNlcnZlci1UT3ExYTJBVnVpeWhoT2p2ZnMzVV7LZU87'
