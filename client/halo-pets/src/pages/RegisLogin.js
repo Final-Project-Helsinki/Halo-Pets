@@ -16,7 +16,7 @@ export default function RegisLoginPage() {
     <Grid container className={classes.root}>
       <Grid item xs={12}>
         <Grid container className={[classes.container, classes.content]}>
-          <Typography variant="h2">Halo Pets</Typography>
+          <Typography variant="h3">Halo Pets</Typography>
         </Grid>
       </Grid>
       <Grid item xs={12}>
