@@ -13,7 +13,9 @@ import {
   Backdrop,
   CardContent,
   Typography,
-  Fab
+  Fab,
+  Grid,
+  Avatar
 } from '@material-ui/core';
 import { compose, withProps } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
@@ -98,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flex: '1 0 auto',
+    paddingTop: theme.spacing(30)
     // overflowY: 'scroll'
   },
   margin: {
@@ -165,30 +168,84 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
             className={classes.actionBar}
           />
           <DrawerHeader />
-          <CardContent className={classes.content} style={{ width: '60%', paddingTop: '8rem' }}>
-            <Typography component="h5" variant="h5">
-              {pet.name}
-            </Typography>
-            <Typography variant="subtitle1" color="textSecondary">
-              {pet.species.toUpperCase()}
-            </Typography>
-            <Typography>
-              Date of Birth : {convertDate(pet.dob)}
-            </Typography>
-            <Typography paragraph>
-              Description : {pet.description}
-            </Typography>
-            <Typography>
-              {pet.User.name}
-            </Typography>
-            <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
-              <CallIcon />
-            </Fab>
-            {pet.User.phoneNumber}
-            <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
-              <EmailIcon />
-            </Fab>
-            {pet.User.email}
+          <CardContent className={classes.content} style={{ width: '60%' }}>
+            <Grid container wrap="nowrap" spacing={2}
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <Grid item>
+                <Typography component="h5" variant="h5">
+                  {pet.name}
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Fab size="small" color="secondary" aria-label="add" className={classes.margin} variant="extended">
+                  {pet.species.toUpperCase()}
+                </Fab>
+              </Grid>
+            </Grid>
+            <Grid container wrap="nowrap" spacing={2}>
+              <Grid item>
+                <Typography variant="subtitle1" color="textSecondary">Date of Birth </Typography>
+              </Grid>
+              <Grid item xs>
+                <Typography paragraph>
+                  {convertDate(pet.dob)}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container wrap="nowrap" spacing={2}>
+              <Grid item>
+                <Typography variant="subtitle1" color="textSecondary">Gender </Typography>
+              </Grid>
+              <Grid item xs>
+                <Typography paragraph>
+                  {pet.gender}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container wrap="nowrap" spacing={2}>
+              <Grid item>
+                <Typography variant="subtitle1" color="textSecondary">Description </Typography>
+              </Grid>
+              <Grid item xs>
+                <Typography paragraph>
+                  {pet.description}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container wrap="nowrap" spacing={2}
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <Grid item>
+                <Avatar>{pet.User.name.slice(0, 1)}</Avatar>
+              </Grid>
+              <Grid item>
+                <Typography variant="subtitle1" color="textSecondary">OWNER </Typography>
+                <Typography>{pet.User.name}</Typography>
+              </Grid>
+            </Grid>
+            <Grid container wrap="nowrap" spacing={2} style={{ marginBottom: 32 }}
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <Grid item>
+                <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
+                  <CallIcon />
+                </Fab>
+                {pet.User.phoneNumber}
+              </Grid>
+              <Grid item>
+                <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
+                  <EmailIcon />
+                </Fab>
+                {pet.User.email}
+              </Grid>
+            </Grid>
             <MyMapComponent isMarkerShown={true} />
           </CardContent>
         </Card>
