@@ -53,7 +53,7 @@ class AdoptionController {
 
   static async updateAdoption(req, res, next) {
     try {
-      const { name, species, gender, dob, image_url } = req.body;
+      const { name, species, gender, dob, description, image_url, latitude, longitude } = req.body;
       const id = +req.params.id
 
       const adoption = await Adoption.findByPk(id)
@@ -68,7 +68,10 @@ class AdoptionController {
         species,
         gender,
         dob,
-        image_url
+        description,
+        image_url,
+        latitude,
+        longitude
       }, {
         where: { id },
         returning: true
