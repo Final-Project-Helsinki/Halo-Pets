@@ -25,19 +25,19 @@ export default function RegisLoginPage() {
       <Grid item xs={12}>
         <Grid container className={classes.container}>
           <Grid item xs={12} className={[classes.center, classes.control]}>
-            <LoginForm/>
+            <LoginForm />
           </Grid>
-          <Grid item xs={12} className={[classes.center, classes.control]} style={{display: 'flex', justifyContent: 'center'}}>
-            <Typography variant="h6" className={classes.text3}>Didn't have an account? <RegisterModal/> </Typography>  
+          <Grid item xs={12} className={[classes.center, classes.control]} style={{ display: 'flex', justifyContent: 'center' }}>
+            <Typography variant="h6" className={classes.text3}>Didn't have an account? <RegisterModal /> </Typography>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={12} style={{backgroundColor: '#11698e'}}>
-        <Grid container className={classes.content} style={{justifyContent: 'center', alignItems: 'center'}}>
+      <Grid item xs={12} style={{ backgroundColor: '#11698e' }}>
+        <Grid container className={classes.content} style={{ justifyContent: 'center', alignItems: 'center' }}>
           <Grid item={true} xs={2}>
-            <Grid container style={{justifyContent: 'center', alignItems: 'center'}}>
-              <Avatar component="div" style={{height: '20vh', width: '20vh'}} src="https://lh3.googleusercontent.com/xcjoVGcqrQClcqI1uXacQnGNaKoOLuzVPdeYQ2C32rz1845IxIpeyLmBJGDjo-T9DlH-THM=s128" width="100%" />
-            </Grid> 
+            <Grid container style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Avatar component="div" style={{ height: '20vh', width: '20vh' }} src="https://lh3.googleusercontent.com/xcjoVGcqrQClcqI1uXacQnGNaKoOLuzVPdeYQ2C32rz1845IxIpeyLmBJGDjo-T9DlH-THM=s128" width="100%" />
+            </Grid>
           </Grid>
           <Grid item xs={8}>
             <Grid container>
@@ -51,9 +51,9 @@ export default function RegisLoginPage() {
             </Grid>
           </Grid>
           <Grid item={true} xs={2}>
-            <Grid container style={{justifyContent: 'center', alignItems: 'center'}}>
-              <Avatar component="div" style={{height: '20vh', width: '20vh'}} src="https://lh3.googleusercontent.com/xcjoVGcqrQClcqI1uXacQnGNaKoOLuzVPdeYQ2C32rz1845IxIpeyLmBJGDjo-T9DlH-THM=s128" width="100%" />
-            </Grid> 
+            <Grid container style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <Avatar component="div" style={{ height: '20vh', width: '20vh' }} src="https://lh3.googleusercontent.com/xcjoVGcqrQClcqI1uXacQnGNaKoOLuzVPdeYQ2C32rz1845IxIpeyLmBJGDjo-T9DlH-THM=s128" width="100%" />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

@@ -12,10 +12,11 @@ import {
   IconButton,
   ListItem,
   ListItemText,
-  CssBaseline
+  CssBaseline,
+  Button
 } from '@material-ui/core'
 
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
@@ -27,7 +28,9 @@ export default function Test(props) {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory()
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
+  const params = useParams()
+  console.log(params, '>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -42,6 +45,11 @@ export default function Test(props) {
     history.push('/')
   }
 
+  const endChat = () => {
+    history.push('/')
+  }
+
+
 
 
   return (
@@ -54,6 +62,7 @@ export default function Test(props) {
         })}
       >
         <Toolbar>
+
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -63,9 +72,16 @@ export default function Test(props) {
           >
             <MenuIcon />
           </IconButton>
+          <div style={{display: 'flex', justifyContent: 'space-between', width: '90vh', flex: 1, alignItems: 'center'}}>
+
           <Typography variant="h6" noWrap>
             Persistent drawer
           </Typography>
+          {
+            history.location.pathname.includes('/chat') ? (
+              <Button style={{width: "10%"}} size="large" type="submit" onClick={endChat}>End Chat</Button>): <div></div>
+          }
+          </div>
         </Toolbar>
       </AppBar>
       <Drawer
