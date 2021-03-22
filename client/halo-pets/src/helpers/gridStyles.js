@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center'
   },
   content: {
-    height: '33vh'
+    height: '30vh'
   },
   display: {
     display: 'flex'
@@ -25,6 +25,15 @@ const useStyles = makeStyles((theme) => ({
   },
   formWidth: {
     width: 1000
+  },
+  text: {
+    color: '#f8f1f1'
+  },
+  text2: {
+    color: '#11698e'
+  },
+  text3: {
+    color: '#19456b'
   }
 }));
 

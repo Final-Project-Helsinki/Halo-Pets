@@ -1,18 +1,14 @@
 {
   "development": {
     "username": "postgres",
-<<<<<<< Updated upstream
-    "password": "0857ABcd",
-=======
-    "password": "gundamrx0079",
->>>>>>> Stashed changes
+    "password": "12345",
     "database": "halo-pet",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
-    "password": "gundamrx0079",
+    "password": "12345",
     "database": "halo-pet-test",
     "host": "127.0.0.1",
     "dialect": "postgres"
