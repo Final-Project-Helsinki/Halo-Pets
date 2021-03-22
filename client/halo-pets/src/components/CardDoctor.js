@@ -52,7 +52,7 @@ export default function SimpleCard(props) {
   async function chat(id) {
     try {
       const x = await dispatch(getRoom(id))
-      history.push({ pathname: '/midtrans', state: id })
+      history.push({ pathname: '/midtrans', state: x.id })
     } catch (error) {
       console.log(error);
     }
