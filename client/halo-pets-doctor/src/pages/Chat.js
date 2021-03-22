@@ -13,8 +13,20 @@ import {
   Grid
 } from '@material-ui/core'
 import { useLocation } from 'react-router-dom'
-import { auth } from "../services/firebase";
+// import { auth } from "../services/firebase";
 import { db } from "../services/firebase"
+
+function timeConverter(UNIX_timestamp){
+  var date = new Date(UNIX_timestamp);
+  var year = date.getFullYear();
+  var month = ("0" + (date.getMonth() + 1)).substr(-2);
+  var day = ("0" + date.getDate()).substr(-2);
+  var hour = ("0" + date.getHours()).substr(-2);
+  var minutes = ("0" + date.getMinutes()).substr(-2);
+  // var seconds = ("0" + date.getSeconds()).substr(-2);
+
+  return year + "-" + month + "-" + day + " " + hour + ":" + minutes;
+}
 
 export default function Chat() {
   const classes = useStyles()
@@ -65,6 +77,12 @@ export default function Chat() {
     setContent(e.target.value)
   }
 
+  function toVidCall() {
+    const url = `https://halopets.daily.co/${location.state}`;
+    const win = window.open(url, "_blank");
+    win.focus();
+  }
+
   return (
     <div className={classes.root}>
       <AppBar />
@@ -78,6 +96,7 @@ export default function Chat() {
                   <ListItemText style={{textAlign: chat.role === 'doctor' ? 'right': 'left'}}>
                     <Box>
                       <Typography variant="h6">{chat.content}</Typography>
+                      <Typography variant="subtitle1" color="textSecondary" size="small">{timeConverter(chat.timestamp)}</Typography>
                     </Box>
                   </ListItemText>
                 </ListItem>
@@ -88,11 +107,12 @@ export default function Chat() {
         <Grid container style={{position: 'fixed', bottom: 10}}>
           <Grid item xs={12}>
             <form className={classes.root} onSubmit={handleSubmit}>
-              <FormControl style={{width: "90%"}}>
+              <FormControl style={{width: "78%"}}>
                 <TextField value={content} onChange={handleChange} size="small" variant="outlined" />
               </FormControl>
               {readError ? <p>{writeError}</p> : null}
               <Button style={{width: "10%"}} type="submit" size="large">Send</Button>
+              <Button type="button" onClick={toVidCall} size="large">Video Call</Button>
             </form>
           </Grid>
         </Grid>
