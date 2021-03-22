@@ -138,24 +138,26 @@ export default function AdoptionPage() {
     dispatch(fetchFavorites())
   }, [dispatch, species])
 
-  const handleModalAdd = () => {
-    navigator.geolocation.watchPosition(function (position) {
+  const handleModalAdd = async () => {
+    await setFormAdopt((prev) => ({ ...prev,
+      name: '',
+      species: '',
+      gender: '',
+      dob: convertDate(new Date()),
+      description: '',
+      image_url: []
+    }));
+
+    await navigator.geolocation.watchPosition(function (position) {
       console.log("Latitude is :", position.coords.latitude);
       console.log("Longitude is :", position.coords.longitude);
-
-      setFormAdopt({
-        name: '',
-        species: '',
-        gender: '',
-        dob: convertDate(new Date()),
-        description: '',
-        image_url: [],
+      setFormAdopt((prev) => ({ ...prev,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
-      });
+      }));
     });
-    setFileName('');
-    setFormIndex('');
+    await setFileName('');
+    await setFormIndex('');
     handleOpenModalForm();
   }
 
