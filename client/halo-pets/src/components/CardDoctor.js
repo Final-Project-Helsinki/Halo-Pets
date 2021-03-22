@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from "react-redux"
 import Card from '@material-ui/core/Card';
@@ -27,21 +27,68 @@ const useStyles = makeStyles({
 });
 
 export default function SimpleCard(props) {
-  console.log(props.doctor)
   const classes = useStyles();
   const bull = <span className={classes.bullet}>•</span>;
   const dispatch = useDispatch()
   const history = useHistory()
+  const [RoomVideo, setRoomVideo] = useState([])
 
+  useEffect(() => {
+    const url = 'https://api.daily.co/v1/rooms';
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer becea18a103ea46caf68daad57ed840de8cfadbedc137db19d824b42719b3b63'
+      }
+    };
+    fetch(url, options)
+      .then(res => res.json())
+      .then(json => {
+        setRoomVideo(json.data)
+      })
+      .catch(err => console.error('error:' + err));
+  }, [])
 
-  
   async function chat(id) {
     try {
       const x = await dispatch(getRoom(id))
-      // history.push({ pathname: '/chat', state: x })
-      history.push({ pathname: '/midtrans', state: id })
+      history.push({ pathname: '/midtrans', state: x.id })
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function vidcall(ID) {
+    let find = false
+    try {
+      const x = await dispatch(getRoom(ID))
+      for (let i of RoomVideo) {
+        if (+x.id === +i.name) {
+          find = true
+          break
+        }
+      }
+      if (find === true) {
+        const url = `https://halopets.daily.co/${x.id}`;
+        const win = window.open(url, "_blank");
+        win.focus();
+      } else {
+        const url = 'https://api.daily.co/v1/rooms';
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer becea18a103ea46caf68daad57ed840de8cfadbedc137db19d824b42719b3b63'
+          },
+          body: JSON.stringify({ name: `${x.id}` })
+        };
+        const response = await fetch(url, options)
+        const data = await response.json()
+        const win = window.open(data.url, "_blank");
+        win.focus();
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -55,14 +102,15 @@ export default function SimpleCard(props) {
           {props.doctor.name}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          { props.doctor.email}
+          {props.doctor.email}
         </Typography>
         <Typography variant="body2" component="p">
-          { props.doctor.phoneNumber }
+          {props.doctor.phoneNumber}
         </Typography>
       </CardContent>
       <CardActions>
         <Button onClick={() => chat(props.doctor.id)} size="small">Chat Me</Button>
+        <Button onClick={() => vidcall(props.doctor.id)} size="small">Video Call Me</Button>
       </CardActions>
     </Card>
   );

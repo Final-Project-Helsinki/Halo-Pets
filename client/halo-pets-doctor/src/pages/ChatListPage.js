@@ -30,8 +30,13 @@ export default function Chat() {
   }, [dispatch])
 
   function toChat(id) {
-    console.log(id, 'id room')
     history.push({ pathname: '/chat', state: id })
+  }
+
+  function toVidCall(id) {
+    const url = `https://halopets.daily.co/${id}`;
+    const win = window.open(url, "_blank");
+    win.focus();
   }
 
   return (
@@ -45,8 +50,10 @@ export default function Chat() {
               <div></div> :
               room.map(el => {
                 return (
-                  <ListItem button onClick={() => toChat(el.id)}>
+                  <ListItem>
                     <ListItemText>{el.User.name}</ListItemText>
+                    <button type="button" onClick={() => toChat(el.id)}>Chat</button>
+                    <button type="button" onClick={() => toVidCall(el.id)}>Video Call</button>
                   </ListItem>
                 )
               })
