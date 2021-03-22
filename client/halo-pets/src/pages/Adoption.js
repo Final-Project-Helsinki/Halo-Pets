@@ -35,11 +35,16 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Swal from 'sweetalert2';
 import ModalDetailAdopt from '../components/ModalDetailAdopt';
 import CardFilterAdopt from '../components/CardFilterAdopt';
-import convertDate from '../helpers/convertDate';
 import { createFavorite, deleteFavorite, fetchFavorites } from '../store/actions/favoriteAction';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+function convertDate(d) {
+  d = new Date(d);
+  return [d.getFullYear(), d.getMonth()+1, d.getDate()]
+      .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
 }
 
 export default function AdoptionPage() {
@@ -68,6 +73,7 @@ export default function AdoptionPage() {
   });
   const [petDetail, setPetDetail] = useState({});
   const [species, setSpecies] = useState('');
+  const [filteredUserId, setFilteredUserId] = useState('');
 
   const { adoptions, loading, error } = useSelector(state => ({
     adoptions: state.adoptionReducer.adoptions,
@@ -92,20 +98,24 @@ export default function AdoptionPage() {
     try {
       setFormIndex(adoptId);
       const adoptionDetail = await dispatch(fetchDetail(adoptId))
-      navigator.geolocation.watchPosition(function (position) {
-        setFormAdopt({
-          name: adoptionDetail.name,
-          species: adoptionDetail.species,
-          gender: adoptionDetail.gender,
-          dob: convertDate(adoptionDetail.dob),
-          description: adoptionDetail.description,
-          image_url: [adoptionDetail.image_url],
+      console.log(adoptionDetail, '<<<<<<<< buat di form edit');
+      await setFormAdopt((prev) => ({ ...prev,
+        name: adoptionDetail.name,
+        species: adoptionDetail.species,
+        gender: adoptionDetail.gender,
+        dob: convertDate(adoptionDetail.dob),
+        description: adoptionDetail.description,
+        image_url: [adoptionDetail.image_url]
+      }));
+
+      await navigator.geolocation.watchPosition(function (position) {
+        setFormAdopt((prev) => ({ ...prev,
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
-        });
+        }));
       })
       
-      setFileName(adoptionDetail.image_url.split('/').pop().slice(13))
+      await setFileName(adoptionDetail.image_url.split('/').pop().slice(13))
 
       handleOpenModalForm();
     } catch (err) {
@@ -115,14 +125,16 @@ export default function AdoptionPage() {
 
   const handleFilterAdopt = (species) => {
     setSpecies(species);
+    setFilteredUserId('')
+  }
+
+  const handleFilterMyPet = (user_id) => {
+    setFilteredUserId(user_id);
+    setSpecies('');
   }
 
   useEffect(() => {
-    if (!species) {
-      dispatch(fetchAdoptions())
-    } else {
-      dispatch(fetchAdoptionsBySpecies(species))
-    }
+    dispatch(fetchAdoptions())
     dispatch(fetchFavorites())
   }, [dispatch, species])
 
@@ -288,6 +300,17 @@ export default function AdoptionPage() {
     dispatch(deleteFavorite(isFav.id))
   }
 
+  const filteredAdoptionsByUserId = adoptions.filter(adopt => {
+    if (species) {
+      return adopt.species.toLowerCase().includes(species.toLowerCase())
+    } else if (filteredUserId) {
+      return adopt.user_id == filteredUserId
+    } else {
+      return adopt
+    }
+  })
+
+  console.log(filteredUserId, filteredAdoptionsByUserId, '<<< filtered')
   if (loading) {
     return <Loading />
   }
@@ -307,6 +330,7 @@ export default function AdoptionPage() {
       <DrawerHeader/>
       <CardFilterAdopt
         handleFilterAdopt={handleFilterAdopt}
+        handleFilterMyPet={handleFilterMyPet}
       />
       <GridList cellHeight={400} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem' }}>
         <GridListTile key="Subheader-adoption" cols={4} style={{ height: 'auto' }}>
@@ -323,7 +347,23 @@ export default function AdoptionPage() {
           </ListSubheader>
         </GridListTile>
         {
-          adoptions.map(pet => (
+          // filteredUserId ? (
+          //   filteredAdoptionsByUserId.map(pet => (
+          //     <GridListTile className={styles.gridListTile} key={pet.id}>
+          //       <img src={pet.image_url} alt={pet.name} />
+          //       <CardBarTile
+          //         favorites={favorites}
+          //         pet={pet}
+          //         handleEditAdopt={handleEditAdopt}
+          //         handleDeleteAdopt={handleDeleteAdopt}
+          //         handleDetailAdopt={handleDetailAdopt}
+          //         handleAddFavorite={handleAddFavorite}
+          //         handleRemoveFavorite={handleRemoveFavorite}
+          //       />
+          //     </GridListTile>
+          //   ))
+          // ) : (
+          filteredAdoptionsByUserId.map(pet => (
             <GridListTile className={styles.gridListTile} key={pet.id}>
               <img src={pet.image_url} alt={pet.name} />
               <CardBarTile
@@ -337,6 +377,7 @@ export default function AdoptionPage() {
               />
             </GridListTile>
           ))
+          // )
         }
       </GridList>
       <ModalFormAdopt
