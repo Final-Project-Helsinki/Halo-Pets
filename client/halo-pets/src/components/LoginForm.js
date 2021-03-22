@@ -4,14 +4,18 @@ import {
   Button,
   Grid,
   TextField,
+  Snackbar
 } from '@material-ui/core'
 import { signin } from '../helpers/auth'
 import { useHistory } from 'react-router';
 import { login } from '../store/actions/userAction';
 import { useDispatch } from 'react-redux';
 import useStyles from '../helpers/style'
+import MuiAlert from '@material-ui/lab/Alert';
 
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export default function LoginForm() {
   const classes = useStyles()
@@ -22,6 +26,7 @@ export default function LoginForm() {
     email: '',
     password: ''
   })
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleChange = (e) => {
     const status = e.target.id
@@ -51,12 +56,21 @@ export default function LoginForm() {
       history.push('/home')
     } catch (error) {
       setError(error.message)
-      alertError(error.message)
+      // alertError(error.message)
+      setOpenSnackbar(true)
     }
   }
-  const alertError = async (err) => {
-    alert(err)
-  }
+  // const alertError = async (err) => {
+  //   alert(err)
+  // }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
 
   // useEffect(() => {
   //   dispatch(register(formRegister))
@@ -76,7 +90,13 @@ export default function LoginForm() {
       </Grid>
       <br/>
       {
-        error ? <p>{error}</p> : <p></p>
+        error ? (
+          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+            <Alert onClose={handleCloseSnackbar} severity="error">
+              {error}
+            </Alert>
+          </Snackbar>
+        ) : <p></p>
       }
       <Grid item xs={1}>
         <FormControl fullWidth={true}>

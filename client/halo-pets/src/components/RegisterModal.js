@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
-  Paper,
-  FormControl,
-  InputLabel,
-  Input,
   Button,
-  Box,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   TextField,
   DialogActions,
-  Typography,
-  Link
-
+  Link,
+  Snackbar
 } from '@material-ui/core'
 import { signup } from '../helpers/auth'
 import { useDispatch } from 'react-redux'
 import { register } from '../store/actions/userAction'
 import gridUseStyles from '../helpers/gridStyles'
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export default function FormDialog() {
   const dispatch = useDispatch()
@@ -30,6 +29,7 @@ export default function FormDialog() {
   const [open, setOpen] = useState(false);
   const history = useHistory()
   const classes = gridUseStyles()
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   function handleChange(e) {
     let { name, value } = e.target;
@@ -55,11 +55,20 @@ export default function FormDialog() {
     } catch (error) {
       // console.log(error);
       setError(error.message)
+      setOpenSnackbar(true);
     }
   }
-  const alertError = async (err) => {
-    alert(err)
-  }
+  // const alertError = async (err) => {
+  //   alert(err)
+  // }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSnackbar(false);
+  };
 
   return (
     <div>
@@ -71,7 +80,7 @@ export default function FormDialog() {
         <form onSubmit={handleSubmit}>
           <DialogContent>
             <DialogContentText>
-              Please Fill In the Form Below
+              Please fill in the form below
             </DialogContentText>
           <TextField
             autoFocus
@@ -83,6 +92,7 @@ export default function FormDialog() {
             fullWidth
             value={formRegister.name}
             onChange={(e) =>handleChange(e)}
+            required
           />
       {/* <FormControl>
         <InputLabel htmlFor="my-input">Name</InputLabel>
@@ -98,6 +108,7 @@ export default function FormDialog() {
             fullWidth
             value={formRegister.email}
             onChange={(e) => handleChange(e)}
+            required
           />
       {/* <br />
       <FormControl>
@@ -115,6 +126,7 @@ export default function FormDialog() {
             fullWidth
             value={formRegister.password}
             onChange={(e) => handleChange(e)}
+            required
           />
       {/* <FormControl>
         <InputLabel htmlFor="my-input">Password</InputLabel>
@@ -127,10 +139,10 @@ export default function FormDialog() {
             id="phoneNumber"
             name="phoneNumber"
             label="Phone Number"
-            type="number"
             fullWidth
             value={formRegister.phoneNumber}
             onChange={(e) => handleChange(e)}
+            required
           />
           </DialogContent>
           <DialogActions>
@@ -146,7 +158,13 @@ export default function FormDialog() {
         <Input aria-describedby="my-helper-text" name="phoneNumber" onChange={handleChange} value={formRegister.phoneNumber} type="text"/>
       </FormControl> */}
       {
-        error ? <p>{error}</p> : <p></p>
+        error ? (
+          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+            <Alert onClose={handleCloseSnackbar} severity="error">
+              {error}
+            </Alert>
+          </Snackbar>
+        ) : <p></p>
       }
       {/* <FormControl>
         <Button variant="contained" type="button" color="secondary" onClick={handleSubmit}>Register</Button>

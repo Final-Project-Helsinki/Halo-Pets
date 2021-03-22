@@ -14,6 +14,9 @@ const useStylesAdoption = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
+  mySwal: {
+    zIndex: 99999999
+  }
   // fab: {
   //   position: 'absolute',
   //   bottom: theme.spacing(2),
