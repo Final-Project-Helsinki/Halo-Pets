@@ -15,6 +15,7 @@ import {
 import { compose, withProps } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 import CallIcon from '@material-ui/icons/Call';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import EmailIcon from '@material-ui/icons/Email';
 import DrawerHeader from '../components/DrawerHeader';
 
@@ -108,8 +109,8 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
   console.log(pet, '<<<< pet detail');
   function convertDate(d) {
     d = new Date(d);
-    return [d.getFullYear(), d.getMonth()+1, d.getDate()]
-        .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
+    return [d.getFullYear(), d.getMonth() + 1, d.getDate()]
+      .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
   }
 
   const MyMapComponent = compose(
@@ -130,15 +131,53 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
     </GoogleMap>
   )
 
+  function emailClicked(email) {
+    console.log('click email');
+    const mailto = `mailto:${email}?subject=I wanna adopt your pet subject&body=Hello, Can i adopt ur pet ? Please answer this email`
+    window.location.href = mailto;
+  }
+
+  async function phoneClicked(phone) {
+    try {
+      console.log(phone)
+      let phoneto = 'tel:+62'
+      for (let i in phone) {
+        if (i !== '0') {
+          phoneto += phone[i]
+        }
+      }
+      // const phoneto = `tel:+623456789`
+      window.location.href = phoneto;
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function whatsappClicked(phone) {
+    try {
+      let hasil = '62'
+      for (let i in phone) {
+        if (i !== '0') {
+          hasil += phone[i]
+        }
+      }
+      const url = `https://api.whatsapp.com/send?phone=${hasil}`;
+      const win = window.open(url, "_blank");
+      win.focus();
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     // <div>
-      <Dialog
-        open={open}
-        onClose={handleCloseModalDetail}
-        scroll='body'
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
-      >
+    <Dialog
+      open={open}
+      onClose={handleCloseModalDetail}
+      scroll='body'
+      aria-labelledby="scroll-dialog-title"
+      aria-describedby="scroll-dialog-description"
+    >
       <DialogTitle>
         <span className={classes.close} onClick={handleCloseModalDetail}>&times;</span>
       </DialogTitle>
@@ -158,8 +197,8 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
                 {pet.name}
               </Typography>
               <Fab size="small" color="secondary" aria-label="add" className={classes.margin} variant="extended">
-                  {pet.species.toUpperCase()}
-                </Fab>
+                {pet.species.toUpperCase()}
+              </Fab>
             </Grid>
           </Grid>
           <Grid item xs={12}>
@@ -205,40 +244,44 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
             justify="center"
             alignItems="center"
           >
-          <Grid item>
-            <Avatar>{pet.User.name.slice(0, 1)}</Avatar>
+            <Grid item>
+              <Avatar>{pet.User.name.slice(0, 1)}</Avatar>
+            </Grid>
+            <Grid item>
+              <Typography variant="subtitle1" color="textSecondary">OWNER </Typography>
+              <Typography>{pet.User.name}</Typography>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Typography variant="subtitle1" color="textSecondary">OWNER </Typography>
-            <Typography>{pet.User.name}</Typography>
+          <Grid item xs={12}>
+            <Grid container spacing={2}
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <Grid item>
+                <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => phoneClicked(pet.User.phoneNumber)}>
+                  <CallIcon />
+                </Fab>
+              </Grid>
+              <Grid item>
+                <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => whatsappClicked(pet.User.phoneNumber)}>
+                  <WhatsAppIcon />
+                </Fab>
+              </Grid>
+              <Grid item>
+                {pet.User.phoneNumber}
+              </Grid>
+              <Grid item>
+                <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => emailClicked(pet.User.email)}>
+                  <EmailIcon />
+                </Fab>
+              </Grid>
+              <Grid item>
+                {pet.User.email}
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Grid container spacing={2}
-            direction="row"
-            justify="center"
-            alignItems="center"
-          >
-            <Grid item>
-              <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
-                <CallIcon />
-              </Fab>
-            </Grid>
-            <Grid item>
-              {pet.User.phoneNumber}
-            </Grid>
-            <Grid item>
-              <Fab size="large" color="secondary" aria-label="add" className={classes.margin}>
-                <EmailIcon />
-              </Fab>
-            </Grid>
-            <Grid item>
-              {pet.User.email}
-
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
         <MyMapComponent isMarkerShown={true} />
       </DialogContent >
       {/* <Fade in={open}>
@@ -260,7 +303,7 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
           </CardContent>
         </Card>
       </Fade> */}
-      </Dialog>
+    </Dialog>
     // </div>
   )
 }
