@@ -3,6 +3,7 @@ import {useSelector} from 'react-redux'
 import {useHistory, useParams, useLocation} from 'react-router-dom'
 import axios from 'axios'
 import AppBar from '../components/AppBar'
+import Header from '../components/Header'
 import {
   Card,
   CardActions,
@@ -12,9 +13,18 @@ import {
   List,
   ListItem,
   ListItemText,
-  FormControl
+  FormControl,
+  Container
 } from '@material-ui/core'
 import Loading from '../components/Loading'
+
+const sections = [
+  { title: 'Home', url: '/home' },
+  { title: 'Adoption', url: '/adoption' },
+  { title: 'My Pet Favorites', url: '/favorites' },
+  { title: 'Health Care', url: '/healthcare' },
+];
+
 
 export default function TesMidtrans(){
   const [snapToken, setSnapToken] = useState('')
@@ -70,8 +80,8 @@ export default function TesMidtrans(){
     return <Loading />
   }
   return (
-    <div>
-      <AppBar handleMainOpen={handleMainOpen} />
+      <Container maxWidth="lg">
+      <Header title="Payment" sections={sections}/>
         <Card style={{top: '30%', left: '30%', position: 'fixed', width: '40%', padding: 10}}>
           <CardContent>
             <Typography variant="h5">Purchase Summary</Typography>
@@ -91,8 +101,7 @@ export default function TesMidtrans(){
               data-client-key="SB-Mid-client-GrffCMN7wG9DYfV6"></script>
           </div>
         </Card>
-    </div>
-    
+        </Container>
   )
 }
 
