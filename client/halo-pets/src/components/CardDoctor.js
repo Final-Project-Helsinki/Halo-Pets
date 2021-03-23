@@ -8,33 +8,25 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { getRoom } from '../store/actions/chatAction'
-import { CardMedia, Avatar, CardActionArea, Grid } from '@material-ui/core';
+import {
+  CardMedia, 
+  Avatar,
+  CardActionArea,
 
-const useStyles = makeStyles((theme) => ({
+} from '@material-ui/core';
+
+const useStyles = makeStyles({
   root: {
-    display: 'flex',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
+    minWidth: 300
   },
-  small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
+  media: {
+    height: 140,
   },
   large: {
-    width: theme.spacing(15),
-    height: theme.spacing(15),
-  },
-  button: {
-    background: 'linear-gradient(45deg, #16c79a 30%, #11698e 90%)',
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-  },
-}));
+    height: 120,
+    width: 120
+  }
+});
 
 export default function SimpleCard(props) {
   const classes = useStyles();
@@ -69,40 +61,35 @@ export default function SimpleCard(props) {
   }
 
   return (
-    <Card style={{height: '200px'}}>
-      <CardContent style={{display:'flex'}}>
-        <Grid container>
-          <Grid item xs={12}>
-            <Grid container>
-            <Grid item xs={2}>
-              <Avatar
-              src="https://image.freepik.com/free-vector/man-avatar-profile-round-icon_24640-14044.jpg"
-              className={classes.large}
-              />
-            </Grid>
-            <Grid item xs={8}>
-              <Typography variant="h4" component="h2">
-                dr. {props.doctor.name}
-              </Typography>
-              <Typography className={classes.pos} variant="h6" color="textSecondary">
-                {props.doctor.email}
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-              <Typography variant="h5" component="p">
-                Jasa Konsultasi 
-              </Typography>
-              <Typography variant="h5" component="p">
-                Rp. 20.000 
-              </Typography>
-              <CardActions>
-                <Button className={classes.button} onClick={() => chat(props.doctor.id)} size="small">Chat Me</Button>
-              </CardActions>
-            </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </CardContent>
+    <Card className={classes.root} raised={true}>
+      <CardActionArea style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+        <CardMedia
+          className={classes.media}
+          title={'dr. '+ props.doctor.name}
+        >
+        <Avatar
+          src=''
+          className={classes.large}
+        />
+        </CardMedia>
+        <CardContent>
+          <Typography gutterBottom variant="h4" component="h2">
+            dr. {props.doctor.name}
+          </Typography>
+          <Typography variant="body1" color="textSecondary" component="p">
+            {props.doctor.email}
+          </Typography>
+          
+        </CardContent>
+      </CardActionArea>
+      <CardActions style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+        <Button size="large" color="primary" onClick={() => chat(props.doctor.id)}>
+          Konsultasi
+        </Button>
+        <Typography variant="subtitle1" color="textSecondary" component="p">
+            Tarif: 20.000
+          </Typography>
+      </CardActions>
     </Card>
   );
 }
