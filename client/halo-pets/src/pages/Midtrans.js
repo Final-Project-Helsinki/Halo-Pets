@@ -51,7 +51,7 @@ export default function TesMidtrans(){
       console.log(err.response)
       setLoading(false)
     })
-  }, [user, price])
+  }, [user, price, location.state])
 
   function formatRupiah(price){
     return price.toLocaleString('id-ID', {style: 'currency', currency: 'IDR'})
@@ -72,11 +72,10 @@ export default function TesMidtrans(){
   return (
     <div>
       <AppBar handleMainOpen={handleMainOpen} />
-        <Card>
+        <Card style={{top: '30%', left: '30%', position: 'fixed', width: '40%', padding: 10}}>
           <CardContent>
-            <Typography variant="h4">Snap Payment Integration Demo</Typography>
-            <hr/>
             <Typography variant="h5">Purchase Summary</Typography>
+            <hr/>
             <List>
               <ListItemText><b>Customer Name:</b> {user.name} </ListItemText>
               <ListItemText><b>Total Purchase:</b> {formatRupiah(price)}</ListItemText>
