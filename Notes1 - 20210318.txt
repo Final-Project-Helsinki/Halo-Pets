@@ -11,7 +11,7 @@ Problem : - Sulit untuk mencari informasi perihal klinik/dokter hewan yang ada d
 
 React Native 
 
-- Fitur Chat dengan dokter hewan (socket)
+- Fitur Chat dengan dokter hewan (firebase real-time database)
 
 - Fitur artikel untuk melihat perihal tentang kesehatan hewan dan pertolongan perttama jika hewan sakit
 
