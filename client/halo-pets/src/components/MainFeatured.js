@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {
@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
+    height: '60vh'
   },
   overlay: {
     position: 'absolute',
@@ -46,7 +47,7 @@ export default function MainFeaturedPost(props) {
       <div className={classes.overlay} />
       <Grid container>
         <Grid item md={6}>
-          <div className={classes.mainFeaturedPostContent}>
+          {/* <div className={classes.mainFeaturedPostContent}>
             <Typography component="h1" variant="h3" color="inherit" gutterBottom>
               {post.title}
             </Typography>
@@ -56,7 +57,7 @@ export default function MainFeaturedPost(props) {
             <Link variant="subtitle1" href="#">
               {post.linkText}
             </Link>
-          </div>
+          </div> */}
         </Grid>
       </Grid>
     </Paper>

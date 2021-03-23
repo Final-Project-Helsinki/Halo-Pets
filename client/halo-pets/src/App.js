@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import RegisLogin from './pages/RegisLogin'
 import Home from './pages/HomeWithNavbar'
 import HealthCarePage from './pages/HealthCare'
@@ -40,7 +39,7 @@ export default function App() {
         <GuardedRoute path="/favorites" exact component={FavoritesPage} meta={{ auth: true }} />
         <GuardedRoute path="/videocall/:id" exact component={VideoCall} meta={{ auth: true }} />
         <GuardedRoute path="/midtrans" component={Midtrans} meta={{ auth: true }}/>
-        <GuardedRoute path="/morenews" component={MoreNews} meta={{ auth: true }}/>
+        {/* <GuardedRoute path="/morenews" component={MoreNews} meta={{ auth: true }}/> */}
         <GuardedRoute path="*" component={ErrorNotFound} />
       </Switch>
     </GuardProvider>

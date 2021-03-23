@@ -7,8 +7,9 @@ import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 // import Link from '@material-ui/core/Link';
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useHistory } from 'react-router';
+import logo from '../assets/logo.png'
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -25,9 +26,17 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     flexShrink: 0,
   },
+  buttonEndChat: {
+    borderColor: '#b54933',
+    color: '#b54933',
+    borderWidth: 1.5,
+    marginRight: 16,
+    '&:hover, &$focusVisible': {
+      backgroundColor: '#b54933',
+      color: 'white'
+    },
+  }
 }));
-
-
 
 export default function Header(props) {
   const classes = useStyles();
@@ -42,29 +51,40 @@ export default function Header(props) {
     history.push('/')
   }
 
+  const endChat = (e) => {
+    e.preventDefault();
+    history.push('/home')
+  }
+
   const { sections, title } = props;
 
   return (
     <React.Fragment>
-      <Toolbar className={classes.toolbar}>
-        <Button size="small"></Button>
+      <Toolbar className={classes.toolbar} style={{ backgroundColor: '#54bba3' }}>
+        {/* <Button size="small"></Button> */}
+        <img src={logo} style={{ width: '5%', height: '5%' }} />
         <Typography
           component="h2"
           variant="h5"
-          color="inherit"
+          // color="inherit"
           align="center"
           noWrap
           className={classes.toolbarTitle}
+          style={{ color: 'white' }}
         >
           {title}
         </Typography>
-        <Button variant="outlined" size="small" onClick={handleLogout}>
+        {
+          history.location.pathname.includes('/chat') ? (
+          <Button variant="outlined" size="small" type="submit" onClick={endChat} className={classes.buttonEndChat}>End Chat</Button>): <div></div>
+        }
+        <Button variant="outlined" size="small" onClick={handleLogout} style={{ backgroundColor: '#b54933', color: 'white' }}>
           Logout
         </Button>
       </Toolbar>
       <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
         {sections.map((section) => (
-          <Link
+          <NavLink
             color="inherit"
             noWrap
             key={section.title}
@@ -72,9 +92,12 @@ export default function Header(props) {
             to={section.url}
             className={classes.toolbarLink}
             style={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }}
+            activeStyle={{
+              borderBottom: '4px solid #54bba3',
+            }}
           >
             {section.title}
-          </Link>
+          </NavLink>
         ))}
       </Toolbar>
     </React.Fragment>

@@ -5,7 +5,7 @@ import {
   Grid,
   Typography,
   TextField,
-  Avatar,
+  CardMedia,
   Snackbar,
   CircularProgress
 } from '@material-ui/core'
@@ -16,6 +16,8 @@ import gridUseStyles from '../helpers/gridStyles'
 import MuiAlert from '@material-ui/lab/Alert';
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
+import gambar from '../assets/7620.jpg'
+import logo from '../assets/logo.png'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -67,17 +69,17 @@ export default function LoginPage() {
   }))
 
   const [success, setSuccess] = React.useState(false);
-  const timer = React.useRef();
+  // const timer = React.useRef();
 
   const buttonClassname = clsx({
     [classes.buttonSuccess]: success,
   });
 
-  React.useEffect(() => {
-    return () => {
-      clearTimeout(timer.current);
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   return () => {
+  //     clearTimeout(timer.current);
+  //   };
+  // }, []);
 
   const handleButtonClick = (e) => {
     e.preventDefault();
@@ -94,79 +96,140 @@ export default function LoginPage() {
   };
 
   return (
-    <Grid container className={classes.root}>
+    <Grid container className={classes.root} style={{ backgroundColor: 'white', height: '100vh' }}>
       <Grid item xs={12}>
-        <Grid container className={[classes.container, classes.content]} style={{backgroundColor: '#16c79a'}}>
-          <Typography variant="h2" className={classes.text}>Halo Pets Doctor</Typography>
+        <Grid container className={[classes.container, classes.content]} style={{backgroundColor: '#16c79a', color: '#f8f1f1', height: 125}}>
+          <img src={logo} alt="logo" style={{height: 100, position: 'absolute', left: 50  }}></img>
+          <Grid>
+            <Typography variant="h3" style={{textAlign: 'center'}}>Hi Pets Doctor</Typography>
+            <Typography variant="p" style={{textAlign: 'center', marginLeft: '6vh'}}>Make sure your pet is healthy !</Typography>
+          </Grid>
         </Grid>
       </Grid>
+
       {
         error ? (
           <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}
-          className={classes.snackbar}
+           style={{marginLeft: '12.4vh'}} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           >
             <Alert onClose={handleCloseSnackbar} severity="error">
               {error}
             </Alert>
           </Snackbar>
         ) : <p></p>
-      }
-      <Grid item xs={12}>
-        <Grid container className={[classes.container, classes.content]}>
-          <Grid item xs={12} className={[classes.center, classes.control]}>
+      } 
+
+      <Grid item xs={12} style={{display: 'flex'}}>
+        <Grid container className={classes.container}>
+          <Grid item xs={12}>
             <Grid container direction="column" alignItems="center">
-              <Grid container item xs={3}>
+              <Grid container item xs={6}>
                 <FormControl fullWidth={true} size="medium" margin="dense">
                   <TextField variant="outlined" label="Email" color="primary" aria-describedby="my-helper-text" id="email" name="email" onChange={handleChange} value={formValue.email} type="email"/>
                 </FormControl>
               </Grid>
-              <Grid container item xs={3}>
+              <Grid container item xs={6}>
                 <FormControl fullWidth={true} size="large" margin="dense">
                   <TextField variant="outlined" label="Password" color="primary" aria-describedby="my-helper-text" id="password" name="password" onChange={handleChange} value={formValue.password} type="password"/>
                 </FormControl>
               </Grid>
-              <Grid item xs={1}>
-                {/* <FormControl fullWidth={true} style={{ marginTop: 8 }}>
-                  <Button variant="contained" className={classes.button} onClick={handleSubmit}>Login</Button>
-                </FormControl> */}
+              <Grid item xs={3} style={{ marginBottom: '10vh' }}>
                 <div className={classes.wrapper}>
                   <FormControl fullWidth={true}>
-                    <Button variant="contained" className={[buttonClassname, classes.button]} onClick={(e) => { handleButtonClick(e); handleSubmit(e);}} style={{ marginRight: 8 }} disabled={loading}>Login</Button>
+                    <Button variant="contained" className={[buttonClassname, classes.button]} onClick={(e) => { handleButtonClick(e); handleSubmit(e);}} disabled={loading}>Login</Button>
                   </FormControl>
                   {loading && <CircularProgress size={24} thickness={4.6} className={classes.buttonProgress} />}
                 </div>
               </Grid>
+              {/* <Grid item xs={12} className={[classes.center, classes.control]} style={{ display: 'flex', justifyContent: 'center'}}>
+                <Typography variant="h6" className={classes.text3}></Typography>
+              </Grid> */}
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      <Grid item xs={12} style={{backgroundColor: '#11698e'}}>
-        <Grid container className={classes.content} style={{justifyContent: 'center', alignItems: 'center'}}>
-          <Grid item={true} xs={2}>
-            <Grid container style={{justifyContent: 'center', alignItems: 'center'}}>
-              <Avatar component="div" style={{height: '20vh', width: '20vh'}} src="https://lh3.googleusercontent.com/xcjoVGcqrQClcqI1uXacQnGNaKoOLuzVPdeYQ2C32rz1845IxIpeyLmBJGDjo-T9DlH-THM=s128" width="100%" />
-            </Grid> 
-          </Grid>
-          <Grid item xs={8}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography variant="h4" className={classes.text}>About us</Typography>
-                <Typography variant="p" className={classes.text}>
-                  Your pet need health attention too.Halo pet's answer your need to have personal veterinarian close to you.
-                  You could also adopt cute pet's that you want to add to your family, or you can give your pet to someone willing to take care with full love.
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item={true} xs={2}>
-            <Grid container style={{justifyContent: 'center', alignItems: 'center'}}>
-              <Avatar component="div" style={{height: '20vh', width: '20vh'}} src="https://lh3.googleusercontent.com/xcjoVGcqrQClcqI1uXacQnGNaKoOLuzVPdeYQ2C32rz1845IxIpeyLmBJGDjo-T9DlH-THM=s128" width="100%" />
-            </Grid> 
-          </Grid>
+        <Grid>
+            <CardMedia>
+              <img src={gambar} style={{height: '30em'}} alt="veterinarian"/>
+            </CardMedia>
         </Grid>
       </Grid>
     </Grid>
   )
+
+  // return (
+  //   <Grid container className={classes.root}>
+  //     <Grid item xs={12}>
+  //       <Grid container className={[classes.container, classes.content]} style={{backgroundColor: '#16c79a'}}>
+  //         <Typography variant="h2" className={classes.text}>Halo Pets Doctor</Typography>
+  //       </Grid>
+  //     </Grid>
+  //     {
+  //       error ? (
+  //         <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}
+  //         className={classes.snackbar}
+  //         >
+  //           <Alert onClose={handleCloseSnackbar} severity="error">
+  //             {error}
+  //           </Alert>
+  //         </Snackbar>
+  //       ) : <p></p>
+  //     }
+  //     <Grid item xs={12}>
+  //       <Grid container className={[classes.container, classes.content]}>
+  //         <Grid item xs={12} className={[classes.center, classes.control]}>
+  //           <Grid container direction="column" alignItems="center">
+  //             <Grid container item xs={3}>
+  //               <FormControl fullWidth={true} size="medium" margin="dense">
+  //                 <TextField variant="outlined" label="Email" color="primary" aria-describedby="my-helper-text" id="email" name="email" onChange={handleChange} value={formValue.email} type="email"/>
+  //               </FormControl>
+  //             </Grid>
+  //             <Grid container item xs={3}>
+  //               <FormControl fullWidth={true} size="large" margin="dense">
+  //                 <TextField variant="outlined" label="Password" color="primary" aria-describedby="my-helper-text" id="password" name="password" onChange={handleChange} value={formValue.password} type="password"/>
+  //               </FormControl>
+  //             </Grid>
+  //             <Grid item xs={1}>
+  //               {/* <FormControl fullWidth={true} style={{ marginTop: 8 }}>
+  //                 <Button variant="contained" className={classes.button} onClick={handleSubmit}>Login</Button>
+  //               </FormControl> */}
+  //               <div className={classes.wrapper}>
+  //                 <FormControl fullWidth={true}>
+  //                   <Button variant="contained" className={[buttonClassname, classes.button]} onClick={(e) => { handleButtonClick(e); handleSubmit(e);}} style={{ marginRight: 8 }} disabled={loading}>Login</Button>
+  //                 </FormControl>
+  //                 {loading && <CircularProgress size={24} thickness={4.6} className={classes.buttonProgress} />}
+  //               </div>
+  //             </Grid>
+  //           </Grid>
+  //         </Grid>
+  //       </Grid>
+  //     </Grid>
+  //     <Grid item xs={12} style={{backgroundColor: '#11698e'}}>
+  //       <Grid container className={classes.content} style={{justifyContent: 'center', alignItems: 'center'}}>
+  //         <Grid item={true} xs={2}>
+  //           <Grid container style={{justifyContent: 'center', alignItems: 'center'}}>
+  //             <Avatar component="div" style={{height: '20vh', width: '20vh'}} src="https://lh3.googleusercontent.com/xcjoVGcqrQClcqI1uXacQnGNaKoOLuzVPdeYQ2C32rz1845IxIpeyLmBJGDjo-T9DlH-THM=s128" width="100%" />
+  //           </Grid> 
+  //         </Grid>
+  //         <Grid item xs={8}>
+  //           <Grid container>
+  //             <Grid item xs={12}>
+  //               <Typography variant="h4" className={classes.text}>About us</Typography>
+  //               <Typography variant="p" className={classes.text}>
+  //                 Your pet need health attention too.Halo pet's answer your need to have personal veterinarian close to you.
+  //                 You could also adopt cute pet's that you want to add to your family, or you can give your pet to someone willing to take care with full love.
+  //               </Typography>
+  //             </Grid>
+  //           </Grid>
+  //         </Grid>
+  //         <Grid item={true} xs={2}>
+  //           <Grid container style={{justifyContent: 'center', alignItems: 'center'}}>
+  //             <Avatar component="div" style={{height: '20vh', width: '20vh'}} src="https://lh3.googleusercontent.com/xcjoVGcqrQClcqI1uXacQnGNaKoOLuzVPdeYQ2C32rz1845IxIpeyLmBJGDjo-T9DlH-THM=s128" width="100%" />
+  //           </Grid> 
+  //         </Grid>
+  //       </Grid>
+  //     </Grid>
+  //   </Grid>
+  // )
 
   // return (
   //   <Grid container>

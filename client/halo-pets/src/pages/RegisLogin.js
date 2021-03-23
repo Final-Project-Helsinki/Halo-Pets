@@ -1,6 +1,4 @@
 import React from 'react'
-import LoginModal from '../components/LoginModal'
-import RegisterForm from '../components/RegisterForm'
 import LoginForm from '../components/LoginForm'
 import RegisterModal from '../components/RegisterModal'
 import gambar from '../assets/7620.jpg'
@@ -8,24 +6,20 @@ import logo from '../assets/logo.png'
 import {
   Typography,
   Grid,
-  Avatar,
-  Card,
   CardMedia
 } from '@material-ui/core'
 import gridUseStyles from '../helpers/gridStyles'
 
-
 export default function RegisLoginPage() {
-
   const classes = gridUseStyles()
 
   return (
-    <Grid container className={classes.root}>
+    <Grid container className={classes.root} style={{ backgroundColor: 'white', height: '100vh' }}>
       <Grid item xs={12}>
         <Grid container className={[classes.container, classes.content]} style={{backgroundColor: '#16c79a', color: '#f8f1f1', height: 125}}>
           <img src={logo} alt="logo" style={{height: 100, position: 'absolute', left: 50  }}></img>
           <Grid>
-            <Typography variant="h3" style={{textAlign: 'center'}}>Hi pets</Typography>
+            <Typography variant="h3" style={{textAlign: 'center'}}>Hi Pets</Typography>
             <Typography variant="p">Make sure your pet is healthy !</Typography>
           </Grid>
         </Grid>
@@ -46,11 +40,6 @@ export default function RegisLoginPage() {
             </CardMedia>
         </Grid>
       </Grid>
-
-
-
-
-
     </Grid>
   )
 }
