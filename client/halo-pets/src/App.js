@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RegisLogin from './pages/RegisLogin'
-import Home from './pages/Home'
+import Home from './pages/HomeWithNavbar'
 import HealthCarePage from './pages/HealthCare'
 import Chat from './pages/Chat'
 import Loading from './components/Loading'
