@@ -56,6 +56,7 @@ export default function Test(props) {
     <>
       <CssBaseline />
       <AppBar
+        style={{backgroundColor: '#16c79a'}}
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
@@ -75,11 +76,11 @@ export default function Test(props) {
           <div style={{display: 'flex', justifyContent: 'space-between', width: '90vh', flex: 1, alignItems: 'center'}}>
 
           <Typography variant="h6" noWrap>
-            Persistent drawer
+            Hi Pets
           </Typography>
           {
             history.location.pathname.includes('/chat') ? (
-              <Button style={{width: "10%"}} size="large" type="submit" onClick={endChat}>End Chat</Button>): <div></div>
+              <Button style={{width: "10%"}} size="large" type="submit" onClick={endChat}><Typography style={{color: 'white'}}>End Chat</Typography></Button>): <div></div>
           }
           </div>
         </Toolbar>
