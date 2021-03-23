@@ -2,6 +2,7 @@ const initialState = {
   adoptions: [],
   adoptionDetail: {},
   loading: false,
+  loadingCreate: false,
   error: null
 }
 
@@ -10,6 +11,8 @@ function reducer(state = initialState, action) {
   switch(type) {
     case 'ADOPTIONS/SET_LOADING':
       return { ...state, loading: true }
+    case 'ADOPTIONS/SET_LOADINGCREATE':
+      return { ...state, loadingCreate: true }
     case 'ADOPTIONS/SET_ERROR':
       return { ...state, error: payload, loading: false }
     case 'ADOPTIONS/FETCH_ADOPTIONS':
@@ -17,7 +20,7 @@ function reducer(state = initialState, action) {
     case 'ADOPTIONS/FETCH_DETAIL':
       return { ...state, error: null, loading: false, adoptionDetail: payload }
     case 'ADOPTIONS/CREATE_ADOPTION':
-      return { ...state, error: null, loading: false, adoptions: [ ...state.adoptions, payload]}
+      return { ...state, error: null, loadingCreate: false, adoptions: [ ...state.adoptions, payload]}
     case 'ADOPTIONS/UPDATE_ADOPTION':
       return { ...state, error: null, loading: false, adoptions: state.adoptions.map(adopt => adopt.id === payload.id ? payload : adopt)}
     case 'ADOPTIONS/DELETE_ADOPTION':
