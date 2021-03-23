@@ -107,12 +107,12 @@ export default function LoginForm() {
 
   return (
     <Grid container direction="column" alignItems="center">
-      <Grid container item xs={3}>
+      <Grid container item xs={4}>
         <FormControl fullWidth={true} size="medium" margin="dense" style={{ marginTop: 24 }}>
           <TextField variant="outlined" label="Email" color="primary" aria-describedby="my-helper-text" id="email" name="email" onChange={handleChange} value={loginForm.email} type="email"/>
         </FormControl>
       </Grid>
-      <Grid container item xs={3}>
+      <Grid container item xs={4}>
         <FormControl fullWidth={true} size="large" margin="dense">
           <TextField variant="outlined" label="Password" color="primary" aria-describedby="my-helper-text" id="password" name="password" onChange={handleChange} value={loginForm.password} type="password"/>
         </FormControl>
@@ -127,7 +127,7 @@ export default function LoginForm() {
           </Snackbar>
         ) : <p></p>
       }
-      <Grid item xs={1}>
+      <Grid item xs={3}>
         {/* <FormControl fullWidth={true}>
             <Button variant="contained" className={classes.button}  onClick={handleSubmit}>Login</Button>
         </FormControl> */}
