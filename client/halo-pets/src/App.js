@@ -13,6 +13,7 @@ import AdoptionPage from './pages/Adoption'
 import FavoritesPage from './pages/Favorites'
 import Midtrans from './pages/Midtrans'
 import VideoCall from './pages/VideoCall'
+import MoreNews from './pages/MoreNews'
 
 const requireLogin = (to, from, next) => {
   if (to.meta.auth) {
@@ -39,6 +40,7 @@ export default function App() {
         <GuardedRoute path="/favorites" exact component={FavoritesPage} meta={{ auth: true }} />
         <GuardedRoute path="/videocall/:id" exact component={VideoCall} meta={{ auth: true }} />
         <GuardedRoute path="/midtrans" component={Midtrans} meta={{ auth: true }}/>
+        <GuardedRoute path="/morenews" component={MoreNews} meta={{ auth: true }}/>
         <GuardedRoute path="*" component={ErrorNotFound} />
       </Switch>
     </GuardProvider>

@@ -4,7 +4,6 @@ import {
   Typography,
   Grid,
   Avatar,
-  Link,
   Button
 } from '@material-ui/core'
 
@@ -13,53 +12,41 @@ import DrawerHeader from '../components/DrawerHeader'
 import useStyles from '../helpers/style'
 import gridUseStyles from '../helpers/gridStyles'
 import CardRoute from '../components/CardRoute'
-import { db } from '../services/firebase'
 import CardArtikel from '../components/CardArtikel'
-import { useHistory } from 'react-router';
 
-export default function HomePage() {
+export default function MoreNews() {
+  const [news, setNews] = useState([])
   const gridClasses = gridUseStyles()
   const classes = useStyles()
   const [open, setOpen] = useState(false)
-  const [articles, setArticles] = useState([])
-  const history = useHistory()
+
+  useEffect(() => {
+    async function fetchNews() {
+      try {
+        const response = await fetch('https://newsapi.org/v2/everything?q=animal&apiKey=6661efc5b1a74643ad46fee6f447edf7')
+        const data = await response.json()
+        console.log(data.articles)
+        setNews(data.articles)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchNews()
+  }, [setNews])
+
   function handleMainOpen(isOpen) {
     setOpen(isOpen)
   }
-  useEffect(() => {
-    navigator.geolocation.watchPosition(function (position) {
 
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-      // setLatitude(position.coords.latitude)
-      // setLongitude(position.coords.longitude)
-    });
-    async function fetchArticles() {
-      try {
-        db.ref("articles").on("value", snapshot => {
-          let articlesFirebase = [];
-          snapshot.forEach((snap) => {
-            articlesFirebase.push(snap.val());
-          });
-          setArticles(c => articlesFirebase)
-        });
-      } catch (error) {
-        // setreadError(error.message)
-        console.log(error.message)
+  function shortenContent(content) {
+    let shorten = ''
+    if(content){
+      for (let i = 0; i < 70; i++) {
+        shorten += content[i]
       }
+      shorten += '...'
     }
-    fetchArticles()
-  }, []);
-
-
-  const artikelNews = (payload) => {
-    console.log(payload)
-    const win = window.open(payload, "_blank");
-  }
-
-  const moreNews = () => {
-    history.push('/morenews')
-    // console.log('asd')
+    return shorten
   }
 
   return (
@@ -79,8 +66,8 @@ export default function HomePage() {
             </Grid>
 
             {
-              articles.map((article) => (
-                <CardArtikel key={article.title} articles={article} />
+              news.map((article) => (
+                <CardArtikel key={article.title} articles={{ content: shortenContent(article.content), date: article.publishedAt, image: article.urlToImage, link: article.url, title: article.title }} />
               ))
             }
 
@@ -88,11 +75,6 @@ export default function HomePage() {
         </main>
 
       </div>
-      <Grid style={{ display: 'flex', justifyContent: 'center' }}>
-        <Button onClick={moreNews} style={{ backgroundColor: 'red' }}>
-          More News
-        </Button>
-      </Grid>
 
       <Grid item xs={12} style={{ backgroundColor: '#11698e' }}>
         <Grid container className={gridClasses.content} style={{ justifyContent: 'center', alignItems: 'center' }}>
