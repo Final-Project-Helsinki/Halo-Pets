@@ -5,6 +5,13 @@ function setLoading(payload) {
   }
 }
 
+function setLoadingCreate(payload) {
+  return {
+    type: 'ADOPTIONS/SET_LOADINGCREATE',
+    payload: payload
+  }
+}
+
 function setError(payload) {
   return {
     type: 'ADOPTIONS/SET_ERROR',
@@ -92,6 +99,7 @@ export function fetchAdoptionsBySpecies(species) {
 export function createAdoption(payload) {
   return async (dispatch) => {
     try {
+      dispatch(setLoadingCreate(true))
       const response = await fetch('http://localhost:3001/adoptions', {
         method: 'POST',
         headers: {
@@ -100,17 +108,16 @@ export function createAdoption(payload) {
         body: payload
       })
       
-      const data = await response.json()
-
-      if (!response.ok) {
-        return data
-      } else {
+      // if (!response.ok) {
+      //   return data
+      // } else {
+        const data = await response.json()
+        dispatch(setLoadingCreate(false))
         dispatch(fetchAdoptions())
         dispatch(setCreateAdoption(data))
-      }
-
-      console.log(data, '<<< new adoptions di action');
-
+        console.log(data, '<<< new adoptions di action');
+        return data
+      // }
     } catch(err) {
       console.log(err);
       dispatch(setError(err))

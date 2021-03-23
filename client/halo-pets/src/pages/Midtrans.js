@@ -14,7 +14,7 @@ import {
   ListItemText,
   FormControl
 } from '@material-ui/core'
-
+import Loading from '../components/Loading'
 
 export default function TesMidtrans(){
   const [snapToken, setSnapToken] = useState('')
@@ -67,7 +67,7 @@ export default function TesMidtrans(){
   })
   }
   if(loading){
-    return <p>loading</p>
+    return <Loading />
   }
   return (
     <div>

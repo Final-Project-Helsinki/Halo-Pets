@@ -19,6 +19,7 @@ import {
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
 import { green } from '@material-ui/core/colors';
 import clsx from 'clsx';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,7 +69,10 @@ const useStyles = makeStyles((theme) => ({
 export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModalForm, handleChangeForm, handleSubmitForm, fileName }) {
   const classes = useStyles();
 
-  const [loading, setLoading] = React.useState(false);
+  // const [loading, setLoading] = React.useState(false);
+  const { loadingCreate } = useSelector(state => ({
+    loadingCreate: state.adoptionReducer.loadingCreate
+  }))
   const [success, setSuccess] = React.useState(false);
   const timer = React.useRef();
 
@@ -84,13 +88,15 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
 
   const handleButtonClick = (e) => {
     e.preventDefault();
-    if (!loading) {
+    if (!loadingCreate) {
       setSuccess(false);
-      setLoading(true);
-      timer.current = window.setTimeout(() => {
-        setSuccess(true);
-        setLoading(false);
-      }, 5000);
+      // setLoading(true);
+      // timer.current = window.setTimeout(() => {
+      //   setSuccess(true);
+      //   setLoading(false);
+      // }, 5000);
+    } else {
+      setSuccess(true);
     }
   };
   
@@ -227,10 +233,10 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
           </Grid>
           <Grid container item xs={12} direction="row" justify="flex-end" style={{ marginTop: 32 }}>
           <div className={classes.wrapper}>
-            <Button variant="contained" color="secondary" onClick={(e) => { handleButtonClick(e); handleSubmitForm(e);}} style={{ marginRight: 8 }} className={buttonClassname} disabled={loading}>
+            <Button variant="contained" color="secondary" onClick={(e) => { handleButtonClick(e); handleSubmitForm(e);}} style={{ marginRight: 8 }} className={buttonClassname} disabled={loadingCreate}>
               Save
             </Button>
-            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+            {loadingCreate && <CircularProgress size={24} className={classes.buttonProgress} />}
           </div>
             <Button onClick={handleCloseModalForm}>
               Cancel
