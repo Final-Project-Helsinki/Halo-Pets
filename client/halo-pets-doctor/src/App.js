@@ -9,6 +9,7 @@ import { GuardProvider, GuardedRoute } from 'react-router-guards';
 import getIsLoggedIn from './helpers/getIsLoggedIn'
 import Loading from './components/Loading'
 import ErrorNotFound from './components/NotFound'
+import ChatRoom from './pages/ChatRoom'
 
 const requireLogin = (to, from, next) => {
   if (to.meta.auth) {
@@ -18,7 +19,7 @@ const requireLogin = (to, from, next) => {
     next.redirect('/');
   } else {
     if (getIsLoggedIn()) {
-      next.redirect('/chatlist');
+      next.redirect('/chatroom');
     }
     next();
   }
@@ -29,8 +30,12 @@ function App() {
     <GuardProvider guards={[requireLogin]} loading={Loading} error={ErrorNotFound}>
       <Switch>
         <GuardedRoute path="/" exact component={LoginPage} />
-        <GuardedRoute path="/chatlist" exact component={ChatListPage} meta={{ auth: true }} />
-        <GuardedRoute path="/chat" exact component={Chat} meta={{ auth: true }} />
+        <GuardedRoute path="/chatroom" exact component={ChatRoom} meta={{ auth: true }} />
+        {/* <GuardedRoute path="/chatlist" exact component={ChatListPage} meta={{ auth: true }} />
+        <GuardedRoute path="/chat" exact component={Chat} meta={{ auth: true }} /> */}
+        {/* <Route path="/chatWA">
+          <ChatWA />
+        </Route> */}
       </Switch>
     </GuardProvider>
   );

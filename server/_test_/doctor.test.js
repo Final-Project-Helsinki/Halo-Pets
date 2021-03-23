@@ -68,6 +68,8 @@ describe('POST/doctors', function () {
         expect(res.status).toEqual(200)
         expect(typeof res.body).toEqual('object')
         expect(res.body).toHaveProperty('access_token')
+        expect(res.body).toHaveProperty('name')
+        expect(res.body).toHaveProperty('email')
         expect(typeof res.body.access_token).toEqual('string')
         done()
       })

@@ -5,20 +5,17 @@ const useStyles = makeStyles((theme) => ({
   positionCenter: {
     position: 'absolute',
     top: '50%',
-    left: '50%',
+    left: '65%',
     transform: 'translate(-50%, -50%)'
   }
 }));
 
-export default function Error() {
+export default function EmptyChat() {
   const classes = useStyles();
   return (
     <div className={classes.positionCenter}>
       <Grid container direction="row" justify="center">
-        <lottie-player src="https://assets1.lottiefiles.com/private_files/lf30_glnkkfua.json" background="transparent" speed="1" style={{width: '300px', height: '300px'}} loop autoplay></lottie-player>
-      </Grid>
-      <Grid container direction="row" justify="center">
-        <Typography>Sorry something went wrong. Please refresh</Typography>
+        <Typography style={{ marginTop: 20 }}>Click user to start chatting!</Typography>
       </Grid>
     </div>
   )
