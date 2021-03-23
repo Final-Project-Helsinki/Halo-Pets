@@ -3,10 +3,14 @@ import LoginModal from '../components/LoginModal'
 import RegisterForm from '../components/RegisterForm'
 import LoginForm from '../components/LoginForm'
 import RegisterModal from '../components/RegisterModal'
+import gambar from '../assets/7620.jpg'
+import logo from '../assets/logo.png'
 import {
   Typography,
   Grid,
-  Avatar
+  Avatar,
+  Card,
+  CardMedia
 } from '@material-ui/core'
 import gridUseStyles from '../helpers/gridStyles'
 
@@ -18,45 +22,35 @@ export default function RegisLoginPage() {
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
-        <Grid container className={[classes.container, classes.content]} style={{backgroundColor: '#16c79a', color: '#f8f1f1'}}>
-          <Typography variant="h3">Halo Pets</Typography>
+        <Grid container className={[classes.container, classes.content]} style={{backgroundColor: '#16c79a', color: '#f8f1f1', height: 125}}>
+          <img src={logo} alt="logo" style={{height: 100, position: 'absolute', left: 50  }}></img>
+          <Grid>
+            <Typography variant="h3" style={{textAlign: 'center'}}>Hi pets</Typography>
+            <Typography variant="p">Make sure your pet is healthy !</Typography>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid item xs={12}>
+      </Grid> 
+
+      <Grid item xs={12} style={{display: 'flex'}}>
         <Grid container className={classes.container}>
-          <Grid item xs={12} className={[classes.center, classes.control]}>
+          <Grid item xs={12}>
             <LoginForm />
-          </Grid>
-          <Grid item xs={12} className={[classes.center, classes.control]} style={{ display: 'flex', justifyContent: 'center' }}>
-            <Typography variant="h6" className={classes.text3}>Didn't have an account? <RegisterModal /> </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item xs={12} style={{ backgroundColor: '#11698e' }}>
-        <Grid container className={classes.content} style={{ justifyContent: 'center', alignItems: 'center' }}>
-          <Grid item={true} xs={2}>
-            <Grid container style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Avatar component="div" style={{ height: '20vh', width: '20vh' }} src="https://lh3.googleusercontent.com/xcjoVGcqrQClcqI1uXacQnGNaKoOLuzVPdeYQ2C32rz1845IxIpeyLmBJGDjo-T9DlH-THM=s128" width="100%" />
-            </Grid>
-          </Grid>
-          <Grid item xs={8}>
-            <Grid container>
-              <Grid item xs={12}>
-                <Typography variant="h4" className={classes.text}>About us</Typography>
-                <Typography variant="p" className={classes.text}>
-                  Your pet need health attention too.Halo pet's answer your need to have personal veterinarian close to you.
-                  You could also adopt cute pet's that you want to add to your family, or you can give your pet to someone willing to take care with full love.
-                </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item={true} xs={2}>
-            <Grid container style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Avatar component="div" style={{ height: '20vh', width: '20vh' }} src="https://lh3.googleusercontent.com/xcjoVGcqrQClcqI1uXacQnGNaKoOLuzVPdeYQ2C32rz1845IxIpeyLmBJGDjo-T9DlH-THM=s128" width="100%" />
+            <Grid item xs={12} className={[classes.center, classes.control]} style={{ display: 'flex', justifyContent: 'center'}}>
+              <Typography variant="h6" className={classes.text3}>Didn't have an account? <RegisterModal /> </Typography>
             </Grid>
           </Grid>
         </Grid>
+        <Grid>
+            <CardMedia>
+              <img src={gambar} style={{height: '30em'}} alt="veterinarian"/>
+            </CardMedia>
+        </Grid>
       </Grid>
+
+
+
+
+
     </Grid>
   )
 }
