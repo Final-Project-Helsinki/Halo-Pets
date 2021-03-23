@@ -4,20 +4,27 @@ import { useLocation } from "react-router";
 import { auth } from "../services/firebase";
 import { db } from "../services/firebase"
 import {
+  makeStyles,
+  Paper,
+  ListItemIcon,
+  Avatar,
+  Divider,
   List,
   ListItem,
   Grid,
   ListItemText,
   Typography,
   Box,
-  FormControl,
   TextField,
-  Button
+  Fab,
+  TextareaAutosize
 } from '@material-ui/core'
 import AppBar from '../components/AppBar'
-import useStyles from '../helpers/style'
+// import useStyles from '../helpers/style'
 import DrawerHeader from '../components/DrawerHeader'
 import { getRoom } from '../store/actions/chatAction'
+import SendIcon from '@material-ui/icons/Send'
+import VideoCallIcon from '@material-ui/icons/VideoCall'
 
 function timeConverter(UNIX_timestamp){ 
   var date = new Date(UNIX_timestamp); 
@@ -29,6 +36,26 @@ function timeConverter(UNIX_timestamp){
   return year + "-" + month + "-" + day + " " + hour + ":" + minutes; 
 } 
 
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+  },
+  chatSection: {
+    width: '100%',
+    height: '91vh'
+  },
+  headBG: {
+      backgroundColor: '#e0e0e0'
+  },
+  borderRight500: {
+      borderRight: '1px solid #e0e0e0'
+  },
+  messageArea: {
+    height: '78vh',
+    overflowY: 'auto'
+  }
+});
+
 export default function Chat() {
   const [user, setUser] = useState(auth().currentUser)
   const [chats, setChats] = useState([])
@@ -36,7 +63,8 @@ export default function Chat() {
   const [readError, setreadError] = useState(null)
   const [writeError, setwriteError] = useState(null)
   const location = useLocation()
-  const classes = useStyles()
+  // const classes = useStyles()
+  const classes = useStyles();
   const dispatch = useDispatch()
   const [RoomVideo, setRoomVideo] = useState([])
 
@@ -131,37 +159,43 @@ export default function Chat() {
   }
 
   return (
-    <div className={classes.root}>
+    <div>
       <AppBar/>
-      <main className={classes.content}>
-        <DrawerHeader/>
-        <List>
-        {chats.map(chat => {
+      <DrawerHeader/>
+      <Grid container component={Paper} className={classes.chatSection}>
+        <Grid item xs={12}>
+          <List className={classes.messageArea}>
+      {
+        chats.map(chat => {
           return (
-            <ListItem key={chat.timestamp}>
-              <ListItemText style={{textAlign: chat.role === 'client' ? 'right': 'left'}}>
-                <Box>
-                  <Typography variant="h6">{chat.content}</Typography>
-                  <Typography varian="h6">{timeConverter(chat.timestamp)}</Typography>
-                </Box>
-              </ListItemText>
-            </ListItem>
+            <Box key={chat.timestamp} style={{width: "100%", display: 'flex', justifyContent: chat.role === 'client' ? 'flex-end': 'flex-start'}}>
+              <Box style={{ borderRadius: "10px", marginLeft: "20px", marginRight: '5px', marginTop: '5px', marginBottom: '5px', padding: "10px", display: "inline-block", backgroundColor: chat.role === 'client' ? '#f8f1f1' : '#afebe4' }}>
+                <Grid item xs={12}>
+                  <ListItemText align={chat.role === 'client' ? 'right' : 'left'} primary={chat.content}></ListItemText>
+                </Grid>
+                <Grid item xs={12}>
+                    <ListItemText align={chat.role === 'client' ? 'right' : 'left'} secondary={timeConverter(chat.timestamp)}></ListItemText>
+                </Grid>
+              </Box>
+            </Box>
           )
-        })}
+        })
+      }
         </List>
-        <Grid container style={{position: 'fixed', bottom: 10}}>
-          <Grid item xs={12}>
-            <form className={classes.root} onSubmit={handleSubmit}>
-              <FormControl style={{width: "90%"}}>
-                <TextField size="small" variant="outlined" value={content} onChange={handleChange}></TextField>
-              </FormControl>
-              {readError ? <p>{writeError}</p> : null}
-              <Button style={{width: "10%"}} size="large" type="submit">Send</Button>
-              <Button style={{width: "10%"}} size="large" type="button" onClick={vidCall}>Video Call</Button>
-            </form>
-          </Grid>
+        <Divider />
+        <form onSubmit={handleSubmit}>
+        <Grid container style={{padding: '20px'}}>
+            <Grid item xs={11}>
+                <TextField id="outlined-basic-email" label="Type Something" fullWidth value={content} onChange={handleChange} />
+            </Grid>
+            <Grid xs={1} align="right">
+              <Fab color="primary" type="submit" aria-label="add" style={{margin: '5px'}}><SendIcon /></Fab>
+              <Fab color="secondary" aria-label="add" style={{margin: '5px'}} onClick={vidCall}><VideoCallIcon /></Fab>
+            </Grid>
         </Grid>
-    </main>
-    </div>
+        </form>
+      </Grid>
+    </Grid>
+  </div>
   )
 }
