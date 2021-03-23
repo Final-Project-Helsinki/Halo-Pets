@@ -24,7 +24,9 @@ export function getRoom(payload) {
         },
         body: JSON.stringify({ doctor_id: payload })
       })
+      console.log(localStorage.getItem('access_token'), '<<< access token di chat action');
       const data = await response.json()
+      console.log(data, '<<< data dii chat action');
       dispatch(setRoom(data))
       return data
     } catch (error) {
