@@ -34,13 +34,16 @@ export default function TesMidtrans(){
   useEffect(() => {
     console.log('masuk use effect')
     setLoading(true)
-    console.log(location.state)
+    console.log(location.state, '<<< state di midtrans')
     axios({
       method: 'GET',
-      url: `http://localhost:3001/midtrans/${user.name}/${price}`
+      url: `http://localhost:3001/midtrans/${user.name}/${price}`,
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      }
     })
     .then(({data}) => {
-      console.log(data)
+      console.log(data, '<<< data midtrans return')
       setSnapToken(data)
       setLoading(false)
     })
