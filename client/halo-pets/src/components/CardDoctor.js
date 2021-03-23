@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import Card from '@material-ui/core/Card';
 import { useHistory } from "react-router-dom"
 import CardActions from '@material-ui/core/CardActions';
@@ -55,40 +55,6 @@ export default function SimpleCard(props) {
       history.push({ pathname: '/midtrans', state: x.id })
     } catch (error) {
       console.log(error);
-    }
-  }
-
-  async function vidcall(ID) {
-    let find = false
-    try {
-      const x = await dispatch(getRoom(ID))
-      for (let i of RoomVideo) {
-        if (+x.id === +i.name) {
-          find = true
-          break
-        }
-      }
-      if (find === true) {
-        const url = `https://halopets.daily.co/${x.id}`;
-        const win = window.open(url, "_blank");
-        win.focus();
-      } else {
-        const url = 'https://api.daily.co/v1/rooms';
-        const options = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer becea18a103ea46caf68daad57ed840de8cfadbedc137db19d824b42719b3b63'
-          },
-          body: JSON.stringify({ name: `${x.id}` })
-        };
-        const response = await fetch(url, options)
-        const data = await response.json()
-        const win = window.open(data.url, "_blank");
-        win.focus();
-      }
-    } catch (error) {
-      console.log(error)
     }
   }
 
