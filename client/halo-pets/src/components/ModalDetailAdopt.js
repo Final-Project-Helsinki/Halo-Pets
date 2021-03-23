@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import clsx from 'clsx';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   CardMedia,
   Dialog,
-  DialogContent,
-  DialogTitle,
   Typography,
   Fab,
   Grid,
@@ -17,7 +13,11 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-map
 import CallIcon from '@material-ui/icons/Call';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import EmailIcon from '@material-ui/icons/Email';
-import DrawerHeader from '../components/DrawerHeader';
+import { withStyles } from '@material-ui/core/styles';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import MuiDialogContent from '@material-ui/core/DialogContent';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     // marginLeft: 'auto',
     // marginRight: 'auto',
     marginTop: theme.spacing(-3),
-    height: 0,
+    height: '50vh',
     paddingBottom: '48%',
     borderRadius: theme.spacing(2),
     backgroundColor: 'white',
@@ -102,6 +102,39 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
 }));
+
+const stylesDialog = (theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+});
+
+const DialogTitle = withStyles(stylesDialog)((props) => {
+  const { children, classes, onClose, ...other } = props;
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  );
+});
+
+const DialogContent = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiDialogContent);
 
 export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) {
   const classes = useStyles();
@@ -178,10 +211,11 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
     >
-      <DialogTitle>
+      <DialogTitle id="customized-dialog-title" onClose={handleCloseModalDetail}>Detail Pet</DialogTitle>
+      {/* <DialogTitle>
         <span className={classes.close} onClick={handleCloseModalDetail}>&times;</span>
-      </DialogTitle>
-      <DialogContent>
+      </DialogTitle> */}
+      <DialogContent dividers>
         <Grid container>
           <Grid item xs={12}>
             <Grid container justify="center">
@@ -196,7 +230,7 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
               <Typography component="h5" variant="h5">
                 {pet.name}
               </Typography>
-              <Fab size="small" color="secondary" aria-label="add" className={classes.margin} variant="extended">
+              <Fab size="small" aria-label="add" className={classes.margin} variant="extended" style={{ backgroundColor: '#f8f1f1' }}>
                 {pet.species.toUpperCase()}
               </Fab>
             </Grid>
@@ -255,29 +289,37 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
           <Grid item xs={12}>
             <Grid container spacing={2}
               direction="row"
-              justify="center"
+              justify="flex-start"
               alignItems="center"
             >
               <Grid item>
-                <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => phoneClicked(pet.User.phoneNumber)}>
-                  <CallIcon />
-                </Fab>
-              </Grid>
-              <Grid item>
-                <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => whatsappClicked(pet.User.phoneNumber)}>
-                  <WhatsAppIcon />
-                </Fab>
-              </Grid>
-              <Grid item>
-                {pet.User.phoneNumber}
-              </Grid>
-              <Grid item>
-                <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => emailClicked(pet.User.email)}>
+                <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => emailClicked(pet.User.email)} style={{ backgroundColor: '#16c79a' }}>
                   <EmailIcon />
                 </Fab>
               </Grid>
               <Grid item>
                 {pet.User.email}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} style={{ marginBottom: 32 }}>
+            <Grid container spacing={2}
+              direction="row"
+              justify="flex-start"
+              alignItems="center"
+            >
+              <Grid item>
+                <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => phoneClicked(pet.User.phoneNumber)} style={{ backgroundColor: '#19456b' }}>
+                  <CallIcon />
+                </Fab>
+              </Grid>
+              <Grid item>
+                <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => whatsappClicked(pet.User.phoneNumber)} style={{ backgroundColor: '#11698e' }}>
+                  <WhatsAppIcon />
+                </Fab>
+              </Grid>
+              <Grid item>
+                {pet.User.phoneNumber}
               </Grid>
             </Grid>
           </Grid>

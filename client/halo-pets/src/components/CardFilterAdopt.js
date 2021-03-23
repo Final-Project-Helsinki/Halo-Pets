@@ -1,9 +1,9 @@
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
-import imgPaw from '../assets/paw.png'
+import imgPaw from '../assets/paws.png'
 import imgCat from '../assets/sandbox.png'
 import imgDog from '../assets/dog.png'
-import imgMyPet from '../assets/MyPet.png'
+import imgMyPet from '../assets/adoption.png'
 
 const useStyles = makeStyles((theme) => ({
   rootCard: {
@@ -32,7 +32,7 @@ export default function CardFilterAdopt({ handleFilterAdopt, handleFilterMyPet }
   return (
     <Card className={classes.rootCard}>
       <CardContent>
-        <Typography variant="h5">Filter Pet</Typography>
+        <Typography variant="h5" style={{ textAlign: 'center' }}><b>Filter Pet</b></Typography>
         <Grid
           container
           direction="row"
@@ -48,7 +48,7 @@ export default function CardFilterAdopt({ handleFilterAdopt, handleFilterMyPet }
                 alignItems="center"
               >
                 <img src={imgPaw} className={classes.image} />
-                <Button variant="contained" color="secondary" style={{ marginTop: 16 }} onClick={() => handleFilterAdopt('')}>All</Button>
+                <Button variant="contained" color="primary" style={{ marginTop: 16 }} onClick={() => handleFilterAdopt('')}>All</Button>
               </Grid>
             </CardContent>
           </Card>
@@ -87,7 +87,7 @@ export default function CardFilterAdopt({ handleFilterAdopt, handleFilterMyPet }
                 alignItems="center"
               >
                 <img src={imgCat} className={classes.image} />
-                <Button variant="contained" color="secondary" style={{ marginTop: 16 }} onClick={() => handleFilterAdopt('cat')}>Cat</Button>
+                <Button variant="contained" color="primary" style={{ marginTop: 16 }} onClick={() => handleFilterAdopt('cat')}>Cat</Button>
               </Grid>
             </CardContent>
           </Card>

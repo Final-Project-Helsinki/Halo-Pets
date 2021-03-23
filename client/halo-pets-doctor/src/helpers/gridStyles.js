@@ -1,4 +1,6 @@
 import { makeStyles } from '@material-ui/core'
+import { green } from '@material-ui/core/colors';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1
@@ -11,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center'
   },
   content: {
-    height: '33.3vh'
+    height: '33.4vh'
   },
   display: {
     display: 'flex'
@@ -47,6 +49,18 @@ const useStyles = makeStyles((theme) => ({
   snackbar: {
     position: 'absolute',
     bottom: theme.spacing(2),
+  },
+  buttonProgress: {
+    color: 'white',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
   },
 }));
 

@@ -4,29 +4,20 @@ import {
   GridList,
   GridListTile,
   ListSubheader,
-  Snackbar,
-  Typography,
 } from '@material-ui/core'
 
 import AppBar from '../components/AppBar'
 import DrawerHeader from '../components/DrawerHeader'
 import useStyles from '../helpers/style'
 import { useDispatch, useSelector } from 'react-redux'
-import { createFavorite, deleteFavorite, fetchFavorites } from '../store/actions/favoriteAction';
+import { deleteFavorite, fetchFavorites } from '../store/actions/favoriteAction';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import CardBarTile from '../components/CardBarTile';
 import useStylesAdoption from '../helpers/styleAdoption';
-import Swal from 'sweetalert2';
-import { deleteAdoption, fetchAdoptions, fetchDetail, updateAdoption } from '../store/actions/adoptionAction';
+import { fetchDetail } from '../store/actions/adoptionAction';
 import ModalDetailAdopt from '../components/ModalDetailAdopt';
-import ModalFormAdopt from '../components/ModalFormAdopt';
-import MuiAlert from '@material-ui/lab/Alert';
-import convertDate from '../helpers/convertDate';
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import Footer from '../components/Footer';
 
 export default function FavoritesPage() {
   const classes = useStyles()
@@ -78,6 +69,7 @@ export default function FavoritesPage() {
   }
 
   return (
+    <>
     <div className={classes.root}>
       <AppBar handleMainOpen={handleMainOpen}/>
       <main
@@ -118,5 +110,7 @@ export default function FavoritesPage() {
       }
       </main>
     </div>
+    <Footer />
+    </>
   )
 }

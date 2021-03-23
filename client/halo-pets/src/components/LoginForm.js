@@ -4,14 +4,16 @@ import {
   Button,
   Grid,
   TextField,
-  Snackbar
+  Snackbar,
+  CircularProgress
 } from '@material-ui/core'
 import { signin } from '../helpers/auth'
 import { useHistory } from 'react-router';
 import { login } from '../store/actions/userAction';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useStyles from '../helpers/style'
 import MuiAlert from '@material-ui/lab/Alert';
+import clsx from 'clsx';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -72,18 +74,45 @@ export default function LoginForm() {
     setOpenSnackbar(false);
   };
 
-  // useEffect(() => {
-  //   dispatch(register(formRegister))
-  // }, [dispatch, formRegister])
+  const { loading } = useSelector(state => ({
+    loading: state.userReducer.loading
+  }))
+
+  const [success, setSuccess] = React.useState(false);
+  const timer = React.useRef();
+
+  const buttonClassname = clsx({
+    [classes.buttonSuccess]: success,
+  });
+
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    if (!loading) {
+      setSuccess(false);
+      // setLoading(true);
+      // timer.current = window.setTimeout(() => {
+      //   setSuccess(true);
+      //   setLoading(false);
+      // }, 5000);
+    } else {
+      setSuccess(true);
+    }
+  };
 
   return (
     <Grid container direction="column" alignItems="center">
-      <Grid item xs={2}>
-        <FormControl fullWidth={true} size="medium" margin="dense">
+      <Grid container item xs={3}>
+        <FormControl fullWidth={true} size="medium" margin="dense" style={{ marginTop: 24 }}>
           <TextField variant="outlined" label="Email" color="primary" aria-describedby="my-helper-text" id="email" name="email" onChange={handleChange} value={loginForm.email} type="email"/>
         </FormControl>
       </Grid>
-      <Grid item xs={2}>
+      <Grid container item xs={3}>
         <FormControl fullWidth={true} size="large" margin="dense">
           <TextField variant="outlined" label="Password" color="primary" aria-describedby="my-helper-text" id="password" name="password" onChange={handleChange} value={loginForm.password} type="password"/>
         </FormControl>
@@ -99,9 +128,15 @@ export default function LoginForm() {
         ) : <p></p>
       }
       <Grid item xs={1}>
-        <FormControl fullWidth={true}>
+        {/* <FormControl fullWidth={true}>
             <Button variant="contained" className={classes.button}  onClick={handleSubmit}>Login</Button>
-        </FormControl>
+        </FormControl> */}
+        <div className={classes.wrapper}>
+          <FormControl fullWidth={true}>
+            <Button variant="contained" className={[buttonClassname, classes.button]} onClick={(e) => { handleButtonClick(e); handleSubmit(e);}} disabled={loading}>Login</Button>
+          </FormControl>
+          {loading && <CircularProgress size={24} thickness={4.6} className={classes.buttonProgress} />}
+        </div>
       </Grid>
     </Grid>
   )
