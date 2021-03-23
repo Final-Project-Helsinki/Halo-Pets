@@ -1,23 +1,21 @@
 import React, { useState } from 'react'
 import {
   FormControl,
-  Input,
-  InputLabel,
-  Container,
-  Paper,
   Button,
   Grid,
   Typography,
   TextField,
   Avatar,
-  Box,
-  Snackbar
+  Snackbar,
+  CircularProgress
 } from '@material-ui/core'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { getDoctor } from '../store/actions/doctorAction'
 import gridUseStyles from '../helpers/gridStyles'
 import MuiAlert from '@material-ui/lab/Alert';
+import clsx from 'clsx';
+import { useSelector } from 'react-redux';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -48,8 +46,8 @@ export default function LoginPage() {
         setError('Invalid email/password')
         setOpenSnackbar(true)
       } else {
-        localStorage.setItem('email', formValue.email)
-        history.push({ pathname: '/chatlist', state: data.access_token })
+        // localStorage.setItem('email', formValue.email)
+        history.push({ pathname: '/chatroom', state: data.access_token })
       }
     } catch (error) {
       console.log(error)
@@ -62,6 +60,37 @@ export default function LoginPage() {
     }
 
     setOpenSnackbar(false);
+  };
+
+  const { loading } = useSelector(state => ({
+    loading: state.doctorReducer.loading
+  }))
+
+  const [success, setSuccess] = React.useState(false);
+  const timer = React.useRef();
+
+  const buttonClassname = clsx({
+    [classes.buttonSuccess]: success,
+  });
+
+  React.useEffect(() => {
+    return () => {
+      clearTimeout(timer.current);
+    };
+  }, []);
+
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    if (!loading) {
+      setSuccess(false);
+      // setLoading(true);
+      // timer.current = window.setTimeout(() => {
+      //   setSuccess(true);
+      //   setLoading(false);
+      // }, 5000);
+    } else {
+      setSuccess(true);
+    }
   };
 
   return (
@@ -86,20 +115,26 @@ export default function LoginPage() {
         <Grid container className={[classes.container, classes.content]}>
           <Grid item xs={12} className={[classes.center, classes.control]}>
             <Grid container direction="column" alignItems="center">
-              <Grid item xs={2}>
+              <Grid container item xs={3}>
                 <FormControl fullWidth={true} size="medium" margin="dense">
                   <TextField variant="outlined" label="Email" color="primary" aria-describedby="my-helper-text" id="email" name="email" onChange={handleChange} value={formValue.email} type="email"/>
                 </FormControl>
               </Grid>
-              <Grid item xs={2}>
+              <Grid container item xs={3}>
                 <FormControl fullWidth={true} size="large" margin="dense">
                   <TextField variant="outlined" label="Password" color="primary" aria-describedby="my-helper-text" id="password" name="password" onChange={handleChange} value={formValue.password} type="password"/>
                 </FormControl>
               </Grid>
               <Grid item xs={1}>
-                <FormControl fullWidth={true} style={{ marginTop: 8 }}>
-                    <Button variant="contained" className={classes.button} onClick={handleSubmit}>Login</Button>
-                </FormControl>
+                {/* <FormControl fullWidth={true} style={{ marginTop: 8 }}>
+                  <Button variant="contained" className={classes.button} onClick={handleSubmit}>Login</Button>
+                </FormControl> */}
+                <div className={classes.wrapper}>
+                  <FormControl fullWidth={true}>
+                    <Button variant="contained" className={[buttonClassname, classes.button]} onClick={(e) => { handleButtonClick(e); handleSubmit(e);}} style={{ marginRight: 8 }} disabled={loading}>Login</Button>
+                  </FormControl>
+                  {loading && <CircularProgress size={24} thickness={4.6} className={classes.buttonProgress} />}
+                </div>
               </Grid>
             </Grid>
           </Grid>

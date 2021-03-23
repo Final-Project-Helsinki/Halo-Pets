@@ -2,16 +2,10 @@ import React,  { useEffect, useState } from 'react'
 import clsx from 'clsx';
 import {
   Button,
-  Card,
-  CardContent,
-  Fab,
-  Grid,
   GridList,
   GridListTile,
   ListSubheader,
   Snackbar,
-  Typography,
-  Zoom,
 } from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import AppBar from '../components/AppBar'
@@ -27,8 +21,7 @@ import {
   createAdoption,
   fetchDetail,
   updateAdoption,
-  deleteAdoption,
-  fetchAdoptionsBySpecies
+  deleteAdoption
 } from '../store/actions/adoptionAction';
 import ModalFormAdopt from '../components/ModalFormAdopt';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -36,6 +29,8 @@ import Swal from 'sweetalert2';
 import ModalDetailAdopt from '../components/ModalDetailAdopt';
 import CardFilterAdopt from '../components/CardFilterAdopt';
 import { createFavorite, deleteFavorite, fetchFavorites } from '../store/actions/favoriteAction';
+import gridUseStyles from '../helpers/gridStyles'
+import Footer from '../components/Footer';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -323,6 +318,7 @@ export default function AdoptionPage() {
   }
 
   return (
+    <>
     <div className={classes.root}>
       <AppBar handleMainOpen={handleMainOpen}/>
       <main
@@ -350,22 +346,6 @@ export default function AdoptionPage() {
           </ListSubheader>
         </GridListTile>
         {
-          // filteredUserId ? (
-          //   filteredAdoptionsByUserId.map(pet => (
-          //     <GridListTile className={styles.gridListTile} key={pet.id}>
-          //       <img src={pet.image_url} alt={pet.name} />
-          //       <CardBarTile
-          //         favorites={favorites}
-          //         pet={pet}
-          //         handleEditAdopt={handleEditAdopt}
-          //         handleDeleteAdopt={handleDeleteAdopt}
-          //         handleDetailAdopt={handleDetailAdopt}
-          //         handleAddFavorite={handleAddFavorite}
-          //         handleRemoveFavorite={handleRemoveFavorite}
-          //       />
-          //     </GridListTile>
-          //   ))
-          // ) : (
           filteredAdoptionsByUserId.map(pet => (
             <GridListTile className={styles.gridListTile} key={pet.id}>
               <img src={pet.image_url} alt={pet.name} />
@@ -409,5 +389,7 @@ export default function AdoptionPage() {
       }
       </main>
     </div>
+    <Footer />
+    </>
   )
 }

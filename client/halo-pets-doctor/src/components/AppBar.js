@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core'
 import {useHistory} from 'react-router-dom'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 export default function Navbar() {
@@ -67,11 +68,11 @@ export default function Navbar() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: '#16c79a' }}>
         <Toolbar className={classes.root} style={{justifyContent: 'space-between'}}>
           <div>
             <Typography variant="h6" noWrap>
-              Doctor
+              Hi Pets Doctor
             </Typography>
           </div>
           <div>
@@ -83,7 +84,9 @@ export default function Navbar() {
             style={{textTransform: 'none', fontSize: 16, color: 'white' }}
           >
             {localStorage.getItem('email')}
-            <ExpandMoreIcon />
+            {
+              !open ? (<ExpandMoreIcon />) : (<ExpandLessIcon />)
+            }
           </Button>
           <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
             {({ TransitionProps, placement }) => (
@@ -91,7 +94,7 @@ export default function Navbar() {
                 {...TransitionProps}
                 style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
               >
-                <Paper>
+                <Paper style={{ paddingLeft: 24, paddingRight: 24 }}>
                   <ClickAwayListener onClickAway={handleClose}>
                     <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                       <MenuItem onClick={handleLogout}><ExitToAppIcon style={{ marginRight: 8 }} /> Logout</MenuItem>
