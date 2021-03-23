@@ -107,12 +107,12 @@ export default function LoginForm() {
 
   return (
     <Grid container direction="column" alignItems="center">
-      <Grid container item xs={4}>
+      <Grid container item xs={6}>
         <FormControl fullWidth={true} size="medium" margin="dense" style={{ marginTop: 24 }}>
           <TextField variant="outlined" label="Email" color="primary" aria-describedby="my-helper-text" id="email" name="email" onChange={handleChange} value={loginForm.email} type="email"/>
         </FormControl>
       </Grid>
-      <Grid container item xs={4}>
+      <Grid container item xs={6}>
         <FormControl fullWidth={true} size="large" margin="dense">
           <TextField variant="outlined" label="Password" color="primary" aria-describedby="my-helper-text" id="password" name="password" onChange={handleChange} value={loginForm.password} type="password"/>
         </FormControl>
@@ -120,7 +120,7 @@ export default function LoginForm() {
       <br/>
       {
         error ? (
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
             <Alert onClose={handleCloseSnackbar} severity="error">
               {error}
             </Alert>

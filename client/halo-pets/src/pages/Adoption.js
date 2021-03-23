@@ -1,11 +1,15 @@
 import React,  { useEffect, useState } from 'react'
 import clsx from 'clsx';
 import {
+  Grid,
   Button,
   GridList,
   GridListTile,
   ListSubheader,
   Snackbar,
+  Container,
+  Card,
+  CardContent,
 } from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import AppBar from '../components/AppBar'
@@ -29,8 +33,17 @@ import Swal from 'sweetalert2';
 import ModalDetailAdopt from '../components/ModalDetailAdopt';
 import CardFilterAdopt from '../components/CardFilterAdopt';
 import { createFavorite, deleteFavorite, fetchFavorites } from '../store/actions/favoriteAction';
+import Header from '../components/Header';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import gridUseStyles from '../helpers/gridStyles'
-import Footer from '../components/Footer';
+// import Footer from '../components/Footer';
+
+const sections = [
+  { title: 'Home', url: '/home' },
+  { title: 'Adoption', url: '/adoption' },
+  { title: 'My Pet Favorites', url: '/favorites' },
+  { title: 'Health Care', url: '/healthcare' },
+];
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -44,12 +57,13 @@ function convertDate(d) {
 
 export default function AdoptionPage() {
   const dispatch = useDispatch()
-  const classes = useStyles()
+  // const classes = useStyles()
+  const gridClasses = gridUseStyles()
   const styles = useStylesAdoption();
-  const [open, setOpen] = useState(false);
-  const handleMainOpen = (isOpen) => {
-    setOpen(isOpen)
-  }
+  // const [open, setOpen] = useState(false);
+  // const handleMainOpen = (isOpen) => {
+  //   setOpen(isOpen)
+  // }
   const [openModalForm, setOpenModalForm] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModalDetail, setOpenModalDetail] = useState(false);
@@ -118,12 +132,14 @@ export default function AdoptionPage() {
     }
   }
 
-  const handleFilterAdopt = (species) => {
+  const handleFilterAdopt = (species, e) => {
+    e.preventDefault()
     setSpecies(species);
     setFilteredUserId('')
   }
 
-  const handleFilterMyPet = (user_id) => {
+  const handleFilterMyPet = (user_id, e) => {
+    e.preventDefault()
     setFilteredUserId(user_id);
     setSpecies('');
   }
@@ -318,78 +334,157 @@ export default function AdoptionPage() {
   }
 
   return (
-    <>
-    <div className={classes.root}>
-      <AppBar handleMainOpen={handleMainOpen}/>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open
-        })}
-      >
-      <DrawerHeader/>
-      <CardFilterAdopt
-        handleFilterAdopt={handleFilterAdopt}
-        handleFilterMyPet={handleFilterMyPet}
-      />
-      <GridList cellHeight={400} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem' }}>
-        <GridListTile key="Subheader-adoption" cols={4} style={{ height: 'auto' }}>
-          <ListSubheader component="div">
-            <Button
-              variant="contained"
-              color="secondary"
-              className={styles.button}
-              startIcon={<AddCircleOutlineIcon />}
-              onClick={handleModalAdd}
-            >
-              Add Pet
-            </Button>
-          </ListSubheader>
-        </GridListTile>
-        {
-          filteredAdoptionsByUserId.map(pet => (
-            <GridListTile className={styles.gridListTile} key={pet.id}>
-              <img src={pet.image_url} alt={pet.name} />
-              <CardBarTile
-                favorites={favorites}
-                pet={pet}
-                handleEditAdopt={handleEditAdopt}
-                handleDeleteAdopt={handleDeleteAdopt}
-                handleDetailAdopt={handleDetailAdopt}
-                handleAddFavorite={handleAddFavorite}
-                handleRemoveFavorite={handleRemoveFavorite}
-              />
-            </GridListTile>
-          ))
-          // )
-        }
-      </GridList>
-      <ModalFormAdopt
-        title={formIndex ? 'Edit Pet' : 'Add New Pet'}
-        open={openModalForm}
-        formAdopt={formAdopt}
-        handleCloseModalForm={handleCloseModalForm}
-        handleChangeForm={handleChangeForm}
-        handleSubmitForm={handleSubmitForm}
-        fileName={fileName}
-      />
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-        <Alert onClose={handleCloseSnackbar} severity="error">
-          {errorForm}
-        </Alert>
-      </Snackbar>
-      {
-        Object.keys(petDetail).length === 0 ? <div></div> :
-        (
-          <ModalDetailAdopt
-            open={openModalDetail}
-            pet={petDetail}
-            handleCloseModalDetail={handleCloseModalDetail}
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="lg">
+        <Header title="Adoption" sections={sections} />
+        <main>
+          <CardFilterAdopt
+            handleFilterAdopt={handleFilterAdopt}
+            handleFilterMyPet={handleFilterMyPet}
           />
-        )
-      }
-      </main>
-    </div>
-    <Footer />
-    </>
-  )
+          <Card className={gridClasses.rootCard} style={{ marginTop: 32 }}>
+            <CardContent>
+              <Grid container className={gridClasses.root} spacing={4} justify="space-around">
+                <GridList cellHeight={400} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem', paddingLeft: 2 }}>
+                  <GridListTile key="Subheader-adoption" cols={4} style={{ height: 'auto' }}>
+                    {/* <ListSubheader component="div"> */}
+                      <Button
+                        variant="contained"
+                        // color="secondary"
+                        className={styles.button}
+                        startIcon={<AddCircleOutlineIcon />}
+                        onClick={handleModalAdd}
+                        style={{ backgroundColor: '#113461', color: 'white' }}
+                      >
+                        Add Pet
+                      </Button>
+                    {/* </ListSubheader> */}
+                  </GridListTile>
+                  {
+                    filteredAdoptionsByUserId.map(pet => (
+                      <GridListTile className={styles.gridListTile} key={pet.id}>
+                        <img src={pet.image_url} alt={pet.name} />
+                        <CardBarTile
+                          favorites={favorites}
+                          pet={pet}
+                          handleEditAdopt={handleEditAdopt}
+                          handleDeleteAdopt={handleDeleteAdopt}
+                          handleDetailAdopt={handleDetailAdopt}
+                          handleAddFavorite={handleAddFavorite}
+                          handleRemoveFavorite={handleRemoveFavorite}
+                        />
+                      </GridListTile>
+                    ))
+                    // )
+                  }
+                </GridList>
+              </Grid>
+            </CardContent>
+          </Card>
+          <ModalFormAdopt
+            title={formIndex ? 'Edit Pet' : 'Add New Pet'}
+            open={openModalForm}
+            formAdopt={formAdopt}
+            handleCloseModalForm={handleCloseModalForm}
+            handleChangeForm={handleChangeForm}
+            handleSubmitForm={handleSubmitForm}
+            fileName={fileName}
+          />
+          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+            <Alert onClose={handleCloseSnackbar} severity="error">
+              {errorForm}
+            </Alert>
+          </Snackbar>
+          {
+            Object.keys(petDetail).length === 0 ? <div></div> :
+            (
+              <ModalDetailAdopt
+                open={openModalDetail}
+                pet={petDetail}
+                handleCloseModalDetail={handleCloseModalDetail}
+              />
+            )
+          }
+        </main>
+      </Container>
+      {/* <Footer title="Footer" description="Something here to give the footer a purpose!" /> */}
+    </React.Fragment>
+  );
+
+  // return (
+  //   <>
+  //   <div className={classes.root}>
+  //     <AppBar handleMainOpen={handleMainOpen}/>
+  //     <main
+  //       className={clsx(classes.content, {
+  //         [classes.contentShift]: open
+  //       })}
+  //     >
+  //     <DrawerHeader/>
+  //     <CardFilterAdopt
+  //       handleFilterAdopt={handleFilterAdopt}
+  //       handleFilterMyPet={handleFilterMyPet}
+  //     />
+  //     <GridList cellHeight={400} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem' }}>
+  //       <GridListTile key="Subheader-adoption" cols={4} style={{ height: 'auto' }}>
+  //         <ListSubheader component="div">
+  //           <Button
+  //             variant="contained"
+  //             color="secondary"
+  //             className={styles.button}
+  //             startIcon={<AddCircleOutlineIcon />}
+  //             onClick={handleModalAdd}
+  //           >
+  //             Add Pet
+  //           </Button>
+  //         </ListSubheader>
+  //       </GridListTile>
+  //       {
+  //         filteredAdoptionsByUserId.map(pet => (
+  //           <GridListTile className={styles.gridListTile} key={pet.id}>
+  //             <img src={pet.image_url} alt={pet.name} />
+  //             <CardBarTile
+  //               favorites={favorites}
+  //               pet={pet}
+  //               handleEditAdopt={handleEditAdopt}
+  //               handleDeleteAdopt={handleDeleteAdopt}
+  //               handleDetailAdopt={handleDetailAdopt}
+  //               handleAddFavorite={handleAddFavorite}
+  //               handleRemoveFavorite={handleRemoveFavorite}
+  //             />
+  //           </GridListTile>
+  //         ))
+  //         // )
+  //       }
+  //     </GridList>
+  //     <ModalFormAdopt
+  //       title={formIndex ? 'Edit Pet' : 'Add New Pet'}
+  //       open={openModalForm}
+  //       formAdopt={formAdopt}
+  //       handleCloseModalForm={handleCloseModalForm}
+  //       handleChangeForm={handleChangeForm}
+  //       handleSubmitForm={handleSubmitForm}
+  //       fileName={fileName}
+  //     />
+  //     <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+  //       <Alert onClose={handleCloseSnackbar} severity="error">
+  //         {errorForm}
+  //       </Alert>
+  //     </Snackbar>
+  //     {
+  //       Object.keys(petDetail).length === 0 ? <div></div> :
+  //       (
+  //         <ModalDetailAdopt
+  //           open={openModalDetail}
+  //           pet={petDetail}
+  //           handleCloseModalDetail={handleCloseModalDetail}
+  //         />
+  //       )
+  //     }
+  //     </main>
+  //   </div>
+  //   <Footer />
+  //   </>
+  // )
 }

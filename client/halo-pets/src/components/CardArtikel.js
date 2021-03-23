@@ -8,8 +8,8 @@ import {
 import { CardActionArea, Card, CardContent, Hidden, CardMedia } from '@material-ui/core';
 
 
-export default function CardArtikel(data) {
-  const {content, date, image, link, title} = data.articles
+export default function CardArtikel({articles, index}) {
+  const {content, date, image, link, title} = articles
 
 
   const artikelNews = (payload) =>{
@@ -19,20 +19,62 @@ export default function CardArtikel(data) {
     // win.focus()
   }
 
-
-
   return (
-
-
     <Grid item xs={12} md={6} style={{ marginTop: 25 }}>
       <CardActionArea>
-        <Card style={{ display: 'flex', height: 300 }}>
-
-          <div style={{ flex: 1 }}>
-            <CardContent>
-              <Typography component="h2" variant="h5">
-                {title}
+        <Card style={{ display: 'flex', height: 225 }}>
+          {
+            index % 2 !== 0 ? (
+              <>
+              <div style={{ flex: 1 }}>
+                <CardContent>
+                  <Typography style={{ fontSize: '1.25em', color: '#384259' }}>
+                    {title}
                   </Typography>
+                  <Typography variant="subtitle1" color="textSecondary" style={{ fontSize: '1em' }}>
+                    {date}
+                  </Typography>
+                  <Typography variant="subtitle1" paragraph style={{ fontSize: '1em', marginTop: '1rem' }}>
+                    {content.slice(0, (content.length - 1))} ...
+                    <Link component="button" onClick={() => artikelNews(link)} style={{ textTransform: 'none', paddingLeft: 4 }}>
+                      Continue reading
+                    </Link>
+                  </Typography>
+                </CardContent>
+              </div>
+              <Hidden xsDown>
+                <CardMedia style={{ width: 250 }} image={image} />
+              </Hidden>
+              </>
+            ) : (
+              <>
+              <Hidden xsDown>
+                <CardMedia style={{ width: 250 }} image={image} />
+              </Hidden>
+              <div style={{ flex: 1 }}>
+                <CardContent>
+                  <Typography style={{ fontSize: '1.25em', color: '#384259' }}>
+                    {title}
+                  </Typography>
+                  <Typography variant="subtitle1" color="textSecondary" style={{ fontSize: '1em' }}>
+                    {date}
+                  </Typography>
+                  <Typography variant="subtitle1" paragraph style={{ fontSize: '1em', marginTop: '1rem' }}>
+                    {content.slice(0, (content.length - 1))} ...
+                    <Link component="button" onClick={() => artikelNews(link)} style={{ textTransform: 'none', paddingLeft: 4 }}>
+                      Continue reading
+                    </Link>
+                  </Typography>
+                </CardContent>
+              </div>
+              </>
+            )
+          }
+          {/* <div style={{ flex: 1 }}>
+            <CardContent>
+              <Typography style={{ fontSize: '1.4em' }}>
+                {title}
+              </Typography>
               <Typography variant="subtitle1" color="textSecondary">
                 {date}
                   </Typography>
@@ -46,7 +88,7 @@ export default function CardArtikel(data) {
           </div>
           <Hidden xsDown>
             <CardMedia style={{ width: 250 }} image={image} />
-          </Hidden>
+          </Hidden> */}
         </Card>
       </CardActionArea>
     </Grid>

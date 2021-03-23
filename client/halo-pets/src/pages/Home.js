@@ -4,7 +4,6 @@ import {
   Typography,
   Grid,
   Avatar,
-  Link,
   Button
 } from '@material-ui/core'
 

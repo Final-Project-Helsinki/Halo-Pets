@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import Fab from '@material-ui/core/Fab';
+import {
+  Paper,
+  Grid,
+  Box,
+  Divider,
+  TextField,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Avatar,
+  Fab,
+  Container
+} from '@material-ui/core';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import SendIcon from '@material-ui/icons/Send';
 import AppBar from '../components/AppBar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,13 +26,14 @@ import EmptyChat from '../components/EmptyChat';
 import EmptyRoom from '../components/EmptyRoom';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
+import Header from '../components/Header';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
   chatSection: {
-    marginTop: '10vh',
+    // marginTop: '10vh',
     width: '100%',
     height: '95vh'
   },
@@ -41,6 +46,9 @@ const useStyles = makeStyles({
   messageArea: {
     height: '70vh',
     overflowY: 'auto'
+  },
+  root: {
+    flexGrow: 1
   },
 });
 
@@ -65,15 +73,12 @@ export default function ChatRoom() {
   const dispatch = useDispatch()
   const [room, setRoom] = useState([])
   const [valueSearch, setValueSearch] = useState('');
-  const history = useHistory()
-  const location = useLocation()
   const { loading, error } = useSelector(state => ({
     loading: state.doctorReducer.loading,
     error: state.doctorReducer.error
   }))
 
   useEffect(async () => {
-    console.log(location.state)
     try {
       const data = await dispatch(getRoom())
       if (valueSearch) {
@@ -96,7 +101,7 @@ export default function ChatRoom() {
     setreadError(null)
     async function fetchMessages() {
       try {
-        const roomId = db.ref("chats")
+        const roomId = await db.ref("chats")
         roomId.child(`${idRoom}`).on("value", snapshot => {
           let chatsFirebase = [];
           snapshot.forEach((snap) => {
@@ -150,6 +155,93 @@ export default function ChatRoom() {
   if (error || room === undefined) {
     return <Error />
   }
+
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="lg">
+        <Header />
+        <main>
+          {/* <Grid container className={classes.root} spacing={4} > */}
+            <Grid container component={Paper} className={classes.chatSection}>
+              <Grid item xs={3} className={classes.borderRight500}>
+                <List>
+                  <ListItem button>
+                    <ListItemIcon>
+                    <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
+                    </ListItemIcon>
+                    <ListItemText primary={`Dr. ${localStorage.getItem('name')}`}></ListItemText>
+                  </ListItem>
+                </List>
+                <Divider />
+                <Grid item xs={12} style={{padding: '10px'}}>
+                  <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth onChange={handleChangeSearch} />
+                </Grid>
+                <Divider />
+                <List>
+                  {
+                    room.length === 0 ? (
+                      <EmptyRoom />
+                    ) :
+                    room.map(el => {
+                      return (
+                        <ListItem button key={`${el.id}`} onClick={() => toChat(el.id)} style={{ backgroundColor: el.id === idRoom ? '#dadada' : 'white' }}>
+                          <ListItemIcon>
+                            <Avatar style={{ backgroundColor: '#11698e' }}>{el.User.name.slice(0,1)}</Avatar>
+                          </ListItemIcon>
+                          <ListItemText primary={el.User.name}>{el.User.name}</ListItemText>
+                        </ListItem>
+                      )
+                    })
+                  }
+                </List>
+              </Grid>
+              <Grid item xs={9}>
+                {
+                  !idRoom ? <EmptyChat /> :
+                  (
+                    <>
+                      <List className={classes.messageArea}>
+                      {
+                        chats.map(chat => {
+                          return (
+                            <ListItem key={chat.timestamp}>
+                              <Grid container>
+                                <Grid item xs={12} style={{display: 'flex', justifyContent: chat.role === 'client' ? 'flex-start': 'flex-end'}}>
+                                  <Box style={{border: "0.5px solid white", borderRadius: "10px", margin: "5px", padding: "10px", display: "inline-block", backgroundColor: chat.role === 'client' ? '#afebe4' : '#f8f1f1'}}>
+                                    <ListItemText align={chat.role === 'client' ? 'left': 'right'} primary={`${chat.content}`} primaryTypographyProps={{ style: { whiteSpace: "normal" } }}></ListItemText>
+                                    <ListItemText align={chat.role === 'client' ? 'left': 'right'} secondary={timeConverter(chat.timestamp)}></ListItemText>
+                                  </Box>
+                                </Grid>
+                              </Grid>
+                            </ListItem>
+                          )
+                        })
+                      }
+                    </List>
+                    <Divider />
+                    <Grid container style={{padding: '20px'}}>
+                      <Grid item xs={10}>
+                        <TextField id="outlined-basic-email" label="Type Something" fullWidth onChange={handleChange} value={content} multiline rows={1} rowsMax={4} />
+                      </Grid>
+                      <Grid xs={1} align="right">
+                        <Fab aria-label="add" onClick={handleSubmit} style={{ backgroundColor: '#16c79a' }}><SendIcon style={{ color: 'white' }} /></Fab>
+                      </Grid>
+                      <Grid xs={1} align="right">
+                        <Fab color="secondary" aria-label="add" onClick={toVidCall} style={{ backgroundColor: '#19456b' }}><VideoCallIcon /></Fab>
+                      </Grid>
+                    </Grid>
+                  </>
+                  )
+                }
+              </Grid>
+            </Grid>
+          {/* </Grid> */}
+        </main>
+      </Container>
+      {/* <Footer title="Footer" description="Something here to give the footer a purpose!" /> */}
+    </React.Fragment>
+  );
 
   return (
     <div>

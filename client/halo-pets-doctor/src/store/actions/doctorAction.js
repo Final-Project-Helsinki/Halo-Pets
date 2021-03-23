@@ -22,12 +22,17 @@ export function getDoctor(payload) {
         body: JSON.stringify(payload)
       })
       const data = await response.json()
-      localStorage.setItem('access_token', data.access_token)
-      localStorage.setItem('name', data.name)
-      localStorage.setItem('email', data.email)
-      dispatch(setLoading(false))
-      dispatch(setDoctor(data))
-      return data
+      if (!response.ok) {
+        dispatch(setLoading(false))
+        return data
+      } else {
+        localStorage.setItem('access_token', data.access_token)
+        localStorage.setItem('name', data.name)
+        localStorage.setItem('email', data.email)
+        dispatch(setLoading(false))
+        dispatch(setDoctor(data))
+        return data
+      }
     } catch (error) {
       dispatch(setError(error))
     }

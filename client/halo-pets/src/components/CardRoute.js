@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles'
 import { Button, Card, CardContent, Grid, Typography } from "@material-ui/core";
 import imgPaw from '../assets/paw.png'
-import imgMyPet from '../assets/MyPet.png'
+import imgMyPet from '../assets/adoption.png'
 import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({

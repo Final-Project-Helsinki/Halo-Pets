@@ -13,7 +13,6 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  Fab,
   CircularProgress
 } from '@material-ui/core';
 import CameraAltIcon from '@material-ui/icons/CameraAlt';
@@ -74,17 +73,17 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
     loadingCreate: state.adoptionReducer.loadingCreate
   }))
   const [success, setSuccess] = React.useState(false);
-  const timer = React.useRef();
+  // const timer = React.useRef();
 
   const buttonClassname = clsx({
     [classes.buttonSuccess]: success,
   });
 
-  React.useEffect(() => {
-    return () => {
-      clearTimeout(timer.current);
-    };
-  }, []);
+  // React.useEffect(() => {
+  //   return () => {
+  //     clearTimeout(timer.current);
+  //   };
+  // }, []);
 
   const handleButtonClick = (e) => {
     e.preventDefault();

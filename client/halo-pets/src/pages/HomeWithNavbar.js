@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Container from '@material-ui/core/Container';
+import { Button, Grid, Container, CircularProgress } from '@material-ui/core';
 import Header from '../components/Header';
 import MainFeaturedPost from '../components/MainFeatured';
-import CardRoute from '../components/CardRoute';
 import CardArtikel from '../components/CardArtikel';
 import gridUseStyles from '../helpers/gridStyles'
 import { db } from '../services/firebase'
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -37,7 +36,16 @@ export default function Blog() {
 
   const gridClasses = gridUseStyles()
   const [articles, setArticles] = useState([])
-  // const history = useHistory()
+  const history = useHistory()
+  const [clickedMoreNews, setClickedMoreNews] = useState(false)
+  const [news, setNews] = useState([])
+  const [loadingNews, setLoadingNews] = useState(false);
+
+  const moreNews = (e) => {
+    e.preventDefault()
+    // history.push('/morenews')
+    setClickedMoreNews(true)
+  }
 
   useEffect(() => {
     navigator.geolocation.watchPosition(function (position) {
@@ -61,8 +69,39 @@ export default function Blog() {
         console.log(error.message)
       }
     }
-    fetchArticles()
-  }, []);
+
+    async function fetchNews() {
+      try {
+        setLoadingNews(true)
+        const response = await fetch('https://newsapi.org/v2/everything?q=animal&apiKey=6661efc5b1a74643ad46fee6f447edf7')
+        const data = await response.json()
+        console.log(data.articles)
+        setNews(data.articles)
+        setLoadingNews(false)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (clickedMoreNews) {
+      fetchNews()
+    } else {
+      fetchArticles()
+    }
+  }, [clickedMoreNews]);
+
+  function shortenContent(content) {
+    let shorten = ''
+    if(content){
+      for (let i = 0; i < 70; i++) {
+        shorten += content[i]
+      }
+      shorten += '...'
+    }
+    return shorten
+  }
+
+  console.log(news, 'NNNews');
 
   return (
     <React.Fragment>
@@ -79,8 +118,8 @@ export default function Blog() {
           <Grid container className={gridClasses.root} spacing={4} >
 
             {
-              articles.map((article) => (
-                <CardArtikel key={article.title} articles={article} />
+              articles.map((article, index) => (
+                <CardArtikel key={article.title} articles={article} index={index} />
               ))
             }
 
@@ -94,6 +133,29 @@ export default function Blog() {
               social={sidebar.social}
             /> */}
           </Grid>
+          {
+            !clickedMoreNews ? (
+              <Grid style={{ display: 'flex', justifyContent: 'center', marginTop: 32, marginBottom: 32 }}>
+                <Button onClick={moreNews} style={{ backgroundColor: '#54bba3', color: 'white' }}>
+                  More News
+                </Button>
+              </Grid>
+            ) : (
+              <Grid container className={gridClasses.root} spacing={4} >
+                {
+                  loadingNews ? (
+                    <Grid container direction="row" justify="center">
+                      <CircularProgress color="secondary" style={{ height: 50, width: 50, marginTop: '4rem', marginBottom: '4rem' }} />
+                    </Grid>
+                  ) :
+                  news.map((article, index) => (
+                    <CardArtikel key={article.title} articles={{ content: shortenContent(article.content), date: article.publishedAt, image: article.urlToImage, link: article.url, title: article.title }}  index={index} />
+                  ))
+                }
+              </Grid>
+            )
+          }
+          
         </main>
       </Container>
       {/* <Footer title="Footer" description="Something here to give the footer a purpose!" /> */}
