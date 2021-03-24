@@ -29,10 +29,10 @@ const sections = [
 ];
 
 const mainFeaturedPost = {
-  title: 'Title of a longer featured blog post',
+  title: `Worried you'll never get the perfect shot of your pet ?`,
   description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
-  image: 'https://cdn.discordapp.com/attachments/822083494762119168/823913593552371712/slide4.png',
+    "The whole life of your pet all in one place",
+  image: 'https://cdn.discordapp.com/attachments/822272277197750292/824185896072380416/slide4.png',
   imgText: 'main image description',
   linkText: 'Continue reading…',
 };
@@ -40,7 +40,7 @@ const mainFeaturedPost = {
 function formatDDMMMYY(s) {
   var months = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
   var b = s.split(/\D/);
-  return b[2] + ' ' + months[b[1]-1] + ' ' + b[0];
+  return b[2] + ' ' + months[b[1] - 1] + ' ' + b[0];
 }
 
 function convertDate(d) {
@@ -147,7 +147,7 @@ export default function Blog() {
               <FeaturedPost key={post.title} post={post} />
             ))} */}
           {/* </Grid> */}
-          <Grid container item xs={12} direction='row'  justify='center'>
+          <Grid container item xs={12} direction='row' justify='center'>
             <Button
               variant="contained"
 
@@ -178,9 +178,9 @@ export default function Blog() {
                   <CircularProgress style={{ height: 50, width: 50, marginTop: '4rem', marginBottom: '4rem', color: '#3c8c7c' }} />
                 </Grid>
               ) :
-              articles.map((article, index) => (
-                <CardArtikel key={article.title} articles={article} index={index} />
-              ))
+                articles.map((article, index) => (
+                  <CardArtikel key={article.title} articles={article} index={index} />
+                ))
             }
 
           </Grid>
@@ -208,9 +208,9 @@ export default function Blog() {
                       <CircularProgress style={{ height: 50, width: 50, marginTop: '4rem', marginBottom: '4rem', color: '#3c8c7c' }} />
                     </Grid>
                   ) :
-                  news.map((article, index) => (
-                    <CardArtikel key={article.title} articles={{ content: shortenContent(article.content), date: formatDDMMMYY(convertDate(article.publishedAt)), image: article.urlToImage, link: article.url, title: article.title }}  index={index} />
-                  ))
+                    news.map((article, index) => (
+                      <CardArtikel key={article.title} articles={{ content: shortenContent(article.content), date: formatDDMMMYY(convertDate(article.publishedAt)), image: article.urlToImage, link: article.url, title: article.title }} index={index} />
+                    ))
                 }
               </Grid>
             )
