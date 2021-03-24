@@ -56,8 +56,6 @@ function convertDate(d) {
     .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
 }
 
-
-
 export default function AdoptionPage() {
   const dispatch = useDispatch()
   const gridClasses = gridUseStyles()
@@ -81,6 +79,17 @@ export default function AdoptionPage() {
   const [petDetail, setPetDetail] = useState({});
   const [species, setSpecies] = useState('');
   const [filteredUserId, setFilteredUserId] = useState('');
+  const [latitude, setLatitude] = useState(1.2)
+  const [longitude, setLongitude] = useState(1.2)
+
+  useEffect(() => {
+    dispatch(fetchAdoptions())
+    dispatch(fetchFavorites())
+    navigator.geolocation.watchPosition(function (position) {
+      setLatitude(position.coords.latitude)
+      setLongitude(position.coords.longitude)
+    })
+  }, [dispatch, species])
 
   const { adoptions, loading, loadingDetail, error } = useSelector(state => ({
     adoptions: state.adoptionReducer.adoptions,
@@ -113,16 +122,10 @@ export default function AdoptionPage() {
         gender: adoptionDetail.gender,
         dob: convertDate(adoptionDetail.dob),
         description: adoptionDetail.description,
-        image_url: [adoptionDetail.image_url]
+        image_url: [adoptionDetail.image_url],
+        latitude,
+        longitude
       }));
-
-      await navigator.geolocation.watchPosition(function (position) {
-        setFormAdopt((prev) => ({
-          ...prev,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        }));
-      })
 
       await setFileName(adoptionDetail.image_url.split('/').pop().slice(13))
 
@@ -144,11 +147,6 @@ export default function AdoptionPage() {
     setSpecies('');
   }
 
-  useEffect(() => {
-    dispatch(fetchAdoptions())
-    dispatch(fetchFavorites())
-  }, [dispatch, species])
-
   const handleModalAdd = async () => {
     await setFormAdopt((prev) => ({
       ...prev,
@@ -160,15 +158,12 @@ export default function AdoptionPage() {
       image_url: []
     }));
 
-    await navigator.geolocation.watchPosition(function (position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-      setFormAdopt((prev) => ({
-        ...prev,
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      }));
-    });
+    await setFormAdopt((prev) => ({
+      ...prev,
+      latitude: latitude,
+      longitude: longitude
+    }))
+
     await setFileName('');
     await setFormIndex('');
     handleOpenModalForm();
@@ -197,8 +192,8 @@ export default function AdoptionPage() {
     formData.set('dob', formAdopt.dob)
     formData.set('description', formAdopt.description)
     formData.append('image_url', formAdopt.image_url)
-    formData.set('latitude', formAdopt.latitude)
-    formData.set('longitude', formAdopt.longitude)
+    formData.set('latitude', latitude)
+    formData.set('longitude', longitude)
 
     const payload = formData
 

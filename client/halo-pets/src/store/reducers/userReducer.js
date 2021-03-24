@@ -8,7 +8,7 @@ function reducer(state = initialState, action) {
   const { type, payload } = action
   switch(type) {
     case 'USERS/SET_LOADING':
-      return { ...state, loading: true }
+      return { ...state, loading: payload }
     case 'USERS/SET_ERROR':
       return { ...state, error: payload, loading: false }
     case 'USERS/SUCCESS_LOGIN':
