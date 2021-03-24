@@ -272,7 +272,7 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
         </Grid>
         <Grid item xs={12}>
           <Grid container wrap="nowrap" spacing={2}>
-            <Grid item style={{ marginRight: '2.5rem'}}>
+            <Grid item style={{ marginRight: '2.6rem'}}>
               <Typography variant="subtitle1" color="textSecondary">Owner </Typography>
             </Grid>
             <Grid item>

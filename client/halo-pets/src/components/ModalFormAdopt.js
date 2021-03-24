@@ -65,6 +65,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function convertDate(d) {
+  d = new Date(d);
+  return [d.getFullYear(), d.getMonth() + 1, d.getDate()]
+    .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
+}
+
 export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModalForm, handleChangeForm, handleSubmitForm, fileName }) {
   const classes = useStyles();
 
@@ -156,11 +162,13 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
                     id="date"
                     // label="Date of Birth"
                     type="date"
-                    defaultValue={formAdopt.dob}
+                    defaultValue={convertDate(new Date())}
                     className={classes.textField}
                     InputLabelProps={{
                       shrink: true,
                     }}
+                    name="dob"
+                    onChange={handleChangeForm}
                     required
                   />
                 </Grid>
