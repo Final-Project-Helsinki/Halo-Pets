@@ -153,7 +153,7 @@ export default function AdoptionPage() {
       name: '',
       species: '',
       gender: '',
-      dob: '',
+      dob: convertDate(new Date()),
       description: '',
       image_url: []
     }));
