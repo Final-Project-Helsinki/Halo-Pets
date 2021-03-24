@@ -94,7 +94,7 @@ export default function Blog() {
     async function fetchNews() {
       try {
         setLoadingNews(true)
-        const response = await fetch('https://newsapi.org/v2/everything?q=animal&apiKey=6661efc5b1a74643ad46fee6f447edf7')
+        const response = await fetch('https://newsapi.org/v2/everything?q=pets&apiKey=6661efc5b1a74643ad46fee6f447edf7')
         const data = await response.json()
         console.log(data.articles)
         setNews(data.articles)
