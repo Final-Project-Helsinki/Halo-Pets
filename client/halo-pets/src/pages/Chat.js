@@ -6,20 +6,18 @@ import { db } from "../services/firebase"
 import {
   makeStyles,
   Paper,
-  ListItemIcon,
-  Avatar,
   Divider,
   List,
-  ListItem,
   Grid,
   ListItemText,
-  Typography,
   Box,
   TextField,
   Fab,
-  TextareaAutosize
+  Container
+
 } from '@material-ui/core'
 import AppBar from '../components/AppBar'
+import Header from '../components/Header'
 // import useStyles from '../helpers/style'
 import DrawerHeader from '../components/DrawerHeader'
 import { getRoom } from '../store/actions/chatAction'
@@ -42,7 +40,7 @@ const useStyles = makeStyles({
   },
   chatSection: {
     width: '100%',
-    height: '91vh'
+    height: '95vh'
   },
   headBG: {
       backgroundColor: '#e0e0e0'
@@ -51,8 +49,11 @@ const useStyles = makeStyles({
       borderRight: '1px solid #e0e0e0'
   },
   messageArea: {
-    height: '78vh',
+    height: '60vh',
     overflowY: 'auto'
+  },
+  root: {
+    flexGrow: 1
   }
 });
 
@@ -158,10 +159,16 @@ export default function Chat() {
       }
   }
 
+  const sections = [
+    { title: 'Home', url: '/home' },
+    { title: 'Adoption', url: '/adoption' },
+    { title: 'My Pet Favorites', url: '/favorites' },
+    { title: 'Health Care', url: '/healthcare' },
+  ];
+
   return (
-    <div>
-      <AppBar/>
-      <DrawerHeader/>
+      <Container maxWidth="lg">
+      <Header sections={sections}/>
       <Grid container component={Paper} className={classes.chatSection}>
         <Grid item xs={12}>
           <List className={classes.messageArea}>
@@ -183,19 +190,21 @@ export default function Chat() {
       }
         </List>
         <Divider />
-        <form onSubmit={handleSubmit}>
-        <Grid container style={{padding: '20px'}}>
-            <Grid item xs={11}>
+        <Grid container style={{paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px'}}>
+            <Grid item xs={10}>
                 <TextField id="outlined-basic-email" label="Type Something" fullWidth value={content} onChange={handleChange} />
             </Grid>
             <Grid xs={1} align="right">
-              <Fab color="primary" type="submit" aria-label="add" style={{margin: '5px'}}><SendIcon /></Fab>
-              <Fab color="secondary" aria-label="add" style={{margin: '5px'}} onClick={vidCall}><VideoCallIcon /></Fab>
+              <Fab aria-label="add" onClick={handleSubmit} style={{ backgroundColor: '#16c79a' }}><SendIcon style={{ color: 'white' }} /></Fab>
+            </Grid>
+            <Grid xs={1} align="right">
+              <Fab color="secondary" aria-label="add" onClick={vidCall} style={{ backgroundColor: '#19456b' }}><VideoCallIcon /></Fab>
+
+              {/* <Fab color="secondary" aria-label="add" style={{margin: '3px'}} onClick={vidCall}><VideoCallIcon /></Fab> */}
             </Grid>
         </Grid>
-        </form>
       </Grid>
     </Grid>
-  </div>
+    </Container>
   )
 }

@@ -59,15 +59,19 @@ export default function HealthCarePage() {
       <Container maxWidth="lg">
       <Header title="Health Care" sections={sections}/>
       <DrawerHeader/>
-        <Grid xs={12}  style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', wrap: 'wrap'}}>
+        <div style={{flexGrow: 1}}>
+          <Grid container justify="space-between" wrap="wrap">
             {
               dataDoctor.map(el => {
                 return (
-                  <CardDoctor key={el.id} doctor={el}/>
+                  <Grid xs={12} md={6} lg={3}>
+                    <CardDoctor key={el.id} doctor={el}/>
+                  </Grid>
                 )
               })
             }
-        </Grid>
+          </Grid>
+        </div>
       </Container>
     // </div>
   )

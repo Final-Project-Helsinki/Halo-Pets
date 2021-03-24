@@ -17,7 +17,10 @@ import {
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 300
+    maxWidth: '100%',
+    width: 330,
+    marginBottom: '20px',
+    padding: '15px'
   },
   media: {
     height: 140,
@@ -27,6 +30,12 @@ const useStyles = makeStyles({
     width: 120
   }
 });
+
+const specialist =[
+  'Veterinary Parasitology',
+  'Veterinary Intensive Care',
+  'Veterinary Intensive Care'
+]
 
 export default function SimpleCard(props) {
   const classes = useStyles();
@@ -60,34 +69,39 @@ export default function SimpleCard(props) {
     }
   }
 
+  const avatars = [
+    'https://cdn1.vectorstock.com/i/1000x1000/14/80/doctor-web-icon-therapist-avatar-vector-18531480.jpg',
+    'https://st4.depositphotos.com/19795498/22606/v/1600/depositphotos_226060300-stock-illustration-medical-icon-man-doctor-with.jpg',
+    'https://cdn2.vectorstock.com/i/1000x1000/65/26/doctor-avatar-character-icon-vector-12866526.jpg'
+  ]
+
   return (
     <Card className={classes.root} raised={true}>
       <CardActionArea style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
         <CardMedia
           className={classes.media}
-          title={'dr. '+ props.doctor.name}
         >
         <Avatar
-          src=''
+          src={avatars[props.doctor.id - 1]}
           className={classes.large}
         />
         </CardMedia>
-        <CardContent>
-          <Typography gutterBottom variant="h4" component="h2">
-            dr. {props.doctor.name}
+        <CardContent style={{textAlign: 'center'}}>
+          <Typography variant="h4" component="h2">
+            drh. {props.doctor.name}
           </Typography>
           <Typography variant="body1" color="textSecondary" component="p">
-            {props.doctor.email}
+            specialist in <br/>{specialist[props.doctor.id - 1]}
           </Typography>
           
         </CardContent>
       </CardActionArea>
       <CardActions style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-        <Button size="large" color="primary" onClick={() => chat(props.doctor.id)}>
-          Konsultasi
+        <Button size="small" color="primary" onClick={() => chat(props.doctor.id)} style={{ backgroundColor: '#54bba3', color: 'white' }}>
+          Consult
         </Button>
         <Typography variant="subtitle1" color="textSecondary" component="p">
-            Tarif: 20.000
+            Fee: Rp. 20.000
           </Typography>
       </CardActions>
     </Card>
