@@ -10,6 +10,7 @@ import {
   Container,
   Card,
   CardContent,
+  CircularProgress,
 } from '@material-ui/core'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import AppBar from '../components/AppBar'
@@ -324,10 +325,9 @@ export default function AdoptionPage() {
     }
   })
 
-  console.log(filteredUserId, filteredAdoptionsByUserId, '<<< filtered')
-  if (loading) {
-    return <Loading />
-  }
+  // if (loading) {
+  //   return <Loading />
+  // }
 
   if (error) {
     return <Error />
@@ -362,21 +362,28 @@ export default function AdoptionPage() {
                     {/* </ListSubheader> */}
                   </GridListTile>
                   {
-                    filteredAdoptionsByUserId.map(pet => (
-                      <GridListTile className={styles.gridListTile} key={pet.id}>
-                        <img src={pet.image_url} alt={pet.name} />
-                        <CardBarTile
-                          favorites={favorites}
-                          pet={pet}
-                          handleEditAdopt={handleEditAdopt}
-                          handleDeleteAdopt={handleDeleteAdopt}
-                          handleDetailAdopt={handleDetailAdopt}
-                          handleAddFavorite={handleAddFavorite}
-                          handleRemoveFavorite={handleRemoveFavorite}
-                        />
-                      </GridListTile>
-                    ))
-                    // )
+                    loading ? (
+                      <Grid container direction="row" justify="center">
+                        <CircularProgress color="secondary" style={{ height: 50, width: 50, marginTop: '4rem', marginBottom: '4rem' }} />
+                      </Grid>
+                    ) :
+                    (
+
+                      filteredAdoptionsByUserId.map(pet => (
+                        <GridListTile className={styles.gridListTile} key={pet.id}>
+                          <img src={pet.image_url} alt={pet.name} />
+                          <CardBarTile
+                            favorites={favorites}
+                            pet={pet}
+                            handleEditAdopt={handleEditAdopt}
+                            handleDeleteAdopt={handleDeleteAdopt}
+                            handleDetailAdopt={handleDetailAdopt}
+                            handleAddFavorite={handleAddFavorite}
+                            handleRemoveFavorite={handleRemoveFavorite}
+                          />
+                        </GridListTile>
+                      ))
+                    )
                   }
                 </GridList>
               </Grid>
@@ -408,7 +415,6 @@ export default function AdoptionPage() {
           }
         </main>
       </Container>
-      {/* <Footer title="Footer" description="Something here to give the footer a purpose!" /> */}
     </React.Fragment>
   );
 

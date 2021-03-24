@@ -31,6 +31,18 @@ const mainFeaturedPost = {
   linkText: 'Continue reading…',
 };
 
+function formatDDMMMYY(s) {
+  var months = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
+  var b = s.split(/\D/);
+  return b[2] + ' ' + months[b[1]-1] + ' ' + b[0];
+}
+
+function convertDate(d) {
+  d = new Date(d);
+  return [d.getFullYear(), d.getMonth() + 1, d.getDate()]
+    .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
+}
+
 export default function Blog() {
   const classes = useStyles();
 
@@ -149,7 +161,7 @@ export default function Blog() {
                     </Grid>
                   ) :
                   news.map((article, index) => (
-                    <CardArtikel key={article.title} articles={{ content: shortenContent(article.content), date: article.publishedAt, image: article.urlToImage, link: article.url, title: article.title }}  index={index} />
+                    <CardArtikel key={article.title} articles={{ content: shortenContent(article.content), date: formatDDMMMYY(convertDate(article.publishedAt)), image: article.urlToImage, link: article.url, title: article.title }}  index={index} />
                   ))
                 }
               </Grid>
