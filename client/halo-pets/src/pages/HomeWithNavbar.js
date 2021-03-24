@@ -8,6 +8,10 @@ import CardArtikel from '../components/CardArtikel';
 import gridUseStyles from '../helpers/gridStyles'
 import { db } from '../services/firebase'
 import { useHistory } from 'react-router';
+import useStylesAdoption from '../helpers/styleAdoption'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import PetsIcon from '@material-ui/icons/Pets'
+import HealingRoundedIcon from '@material-ui/icons/HealingRounded';
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -52,6 +56,16 @@ export default function Blog() {
   const [clickedMoreNews, setClickedMoreNews] = useState(false)
   const [news, setNews] = useState([])
   const [loadingNews, setLoadingNews] = useState(false);
+  const styles = useStylesAdoption();
+
+
+
+  const page = (payload) => {
+    // e.preventDefault()
+    history.push(`/${payload}`)
+    console.log('masuk');
+  }
+
 
   const moreNews = (e) => {
     e.preventDefault()
@@ -104,7 +118,7 @@ export default function Blog() {
 
   function shortenContent(content) {
     let shorten = ''
-    if(content){
+    if (content) {
       for (let i = 0; i < 70; i++) {
         shorten += content[i]
       }
@@ -123,10 +137,33 @@ export default function Blog() {
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           {/* <Grid container spacing={4}> */}
-            {/* {featuredPosts.map((post) => (
+          {/* {featuredPosts.map((post) => (
               <FeaturedPost key={post.title} post={post} />
             ))} */}
           {/* </Grid> */}
+          <Grid container item xs={12} direction='row'  justify='center'>
+            <Button
+              variant="contained"
+
+              // color="secondary"
+              className={styles.button}
+              startIcon={<HealingRoundedIcon />}
+              onClick={(e) => page('healthcare')}
+              style={{ backgroundColor: '#1b4453', color: 'white', marginRight: '2rem' }}
+            >
+              Healthcare
+                      </Button>
+            <Button
+              variant="contained"
+              // color="secondary"
+              className={styles.button}
+              startIcon={<PetsIcon />}
+              onClick={(e) => page('adoption')}
+              style={{ backgroundColor: '#1b4453', color: 'white', marginLeft: '2rem' }}
+            >
+              Adoption
+            </Button>
+          </Grid>
           <Grid container className={gridClasses.root} spacing={4} >
 
             {
@@ -167,7 +204,7 @@ export default function Blog() {
               </Grid>
             )
           }
-          
+
         </main>
       </Container>
       {/* <Footer title="Footer" description="Something here to give the footer a purpose!" /> */}

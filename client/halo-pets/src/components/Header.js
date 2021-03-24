@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header(props) {
+  console.log(props, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
   const classes = useStyles();
   const history = useHistory();
   function handleLogout(event) {
@@ -72,7 +73,7 @@ export default function Header(props) {
           className={classes.toolbarTitle}
           style={{ color: 'white' }}
         >
-          {title}
+    {history.location.pathname.includes('/home')? (props.sections[0].title) : (title)}
         </Typography>
         {
           history.location.pathname.includes('/chat') ? (
