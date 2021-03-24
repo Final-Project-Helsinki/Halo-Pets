@@ -53,20 +53,15 @@ export default function FormDialog() {
       await dispatch(register(formRegister))
       history.push('/home')
     } catch (error) {
-      // console.log(error);
       setError(error.message)
       setOpenSnackbar(true);
     }
   }
-  // const alertError = async (err) => {
-  //   alert(err)
-  // }
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpenSnackbar(false);
   };
 
@@ -82,68 +77,53 @@ export default function FormDialog() {
             <DialogContentText>
               Please fill in the form below
             </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            name="name"
-            label="Name"
-            type="text"
-            fullWidth
-            value={formRegister.name}
-            onChange={(e) =>handleChange(e)}
-            required
-          />
-      {/* <FormControl>
-        <InputLabel htmlFor="my-input">Name</InputLabel>
-        <Input aria-describedby="my-helper-text" name="name" onChange={handleChange} value={formRegister.name} type="text"/>
-      </FormControl> */}
-          <TextField
-            autoFocus
-            margin="dense"
-            id="email"
-            name="email"
-            label="Email"
-            type="email"
-            fullWidth
-            value={formRegister.email}
-            onChange={(e) => handleChange(e)}
-            required
-          />
-      {/* <br />
-      <FormControl>
-        <InputLabel htmlFor="my-input">Email address</InputLabel>
-        <Input aria-describedby="my-helper-text" name="email" onChange={handleChange} value={formRegister.email} type="email"/>
-      </FormControl>
-      <br /> */}
-          <TextField
-            autoFocus
-            margin="dense"
-            id="password"
-            name="password"
-            label="Password"
-            type="password"
-            fullWidth
-            value={formRegister.password}
-            onChange={(e) => handleChange(e)}
-            required
-          />
-      {/* <FormControl>
-        <InputLabel htmlFor="my-input">Password</InputLabel>
-        <Input aria-describedby="my-helper-text" name="password" onChange={handleChange} value={formRegister.password} type="password"/>
-      </FormControl>
-      <br/> */}
-          <TextField
-            autoFocus
-            margin="dense"
-            id="phoneNumber"
-            name="phoneNumber"
-            label="Phone Number"
-            fullWidth
-            value={formRegister.phoneNumber}
-            onChange={(e) => handleChange(e)}
-            required
-          />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              name="name"
+              label="Name"
+              type="text"
+              fullWidth
+              value={formRegister.name}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="email"
+              name="email"
+              label="Email"
+              type="email"
+              fullWidth
+              value={formRegister.email}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="password"
+              name="password"
+              label="Password"
+              type="password"
+              fullWidth
+              value={formRegister.password}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="phoneNumber"
+              name="phoneNumber"
+              label="Phone Number"
+              fullWidth
+              value={formRegister.phoneNumber}
+              onChange={(e) => handleChange(e)}
+              required
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
@@ -153,23 +133,16 @@ export default function FormDialog() {
               Register
             </Button>
           </DialogActions>
-      {/* <FormControl>
-        <InputLabel htmlFor="my-input">Phone Number</InputLabel>
-        <Input aria-describedby="my-helper-text" name="phoneNumber" onChange={handleChange} value={formRegister.phoneNumber} type="text"/>
-      </FormControl> */}
-      {
-        error ? (
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-            <Alert onClose={handleCloseSnackbar} severity="error">
-              {error}
-            </Alert>
-          </Snackbar>
-        ) : <p></p>
-      }
-      {/* <FormControl>
-        <Button variant="contained" type="button" color="secondary" onClick={handleSubmit}>Register</Button>
-      </FormControl> */}
-    </form>
+          {
+            error ? (
+              <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar} severity="error">
+                  {error}
+                </Alert>
+              </Snackbar>
+            ) : <p></p>
+          }
+        </form>
       </Dialog>
     </div>
   );

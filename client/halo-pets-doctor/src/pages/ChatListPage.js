@@ -50,7 +50,7 @@ const useStylesChatList = makeStyles((theme) => ({
 
 export default function Chat() {
   const classes = useStyles()
-  const styles = useStylesChatList() 
+  const styles = useStylesChatList()
   const dispatch = useDispatch()
   const [room, setRoom] = useState([])
   const history = useHistory()
@@ -71,12 +71,6 @@ export default function Chat() {
     history.push({ pathname: '/chat', state: id })
   }
 
-  // function toVidCall(id) {
-  //   const url = `https://halopets.daily.co/${id}`;
-  //   const win = window.open(url, "_blank");
-  //   win.focus();
-  // }
-
   return (
     <>
       <AppBar />
@@ -88,7 +82,7 @@ export default function Chat() {
             room.length === 0 ? (
               <div className={classes.positionCenter}>
                 <Grid container direction="row" justify="center">
-                  <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_DuFU3e.json" background="transparent" speed="1"  style={{ width: 300, height: 300 }} loop autoplay></lottie-player>
+                  <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_DuFU3e.json" background="transparent" speed="1" style={{ width: 300, height: 300 }} loop autoplay></lottie-player>
                 </Grid>
                 <Grid container direction="row" justify="center">
                   <Typography>Sorry, you don't have a message.</Typography>
@@ -101,7 +95,7 @@ export default function Chat() {
                     <ListItem className={classes.root} key={el.id}>
                       <ListItem alignItems="flex-start">
                         <ListItemAvatar>
-                          <Avatar>{el.User.name.slice(0,1)}</Avatar>
+                          <Avatar>{el.User.name.slice(0, 1)}</Avatar>
                         </ListItemAvatar>
                         <ListItemText style={{ paddingTop: 8 }}
                           primary={el.User.name}

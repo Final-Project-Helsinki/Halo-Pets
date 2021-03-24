@@ -13,7 +13,7 @@ import {
   Popper,
   Grow
 } from '@material-ui/core'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -32,7 +32,6 @@ export default function Navbar() {
     history.push('/')
   }
 
-  // const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -55,7 +54,6 @@ export default function Navbar() {
     }
   }
 
-  // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open);
   React.useEffect(() => {
     if (prevOpen.current === true && open === false) {
@@ -69,44 +67,41 @@ export default function Navbar() {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: '#16c79a' }}>
-        <Toolbar className={classes.root} style={{justifyContent: 'space-between'}}>
+        <Toolbar className={classes.root} style={{ justifyContent: 'space-between' }}>
           <div>
             <Typography variant="h6" noWrap>
               Hi Pets Doctor
             </Typography>
           </div>
           <div>
-          <Button
-            ref={anchorRef}
-            aria-controls={open ? 'menu-list-grow' : undefined}
-            aria-haspopup="true"
-            onClick={handleToggle}
-            style={{textTransform: 'none', fontSize: 16, color: 'white' }}
-          >
-            {localStorage.getItem('email')}
-            {
-              !open ? (<ExpandMoreIcon />) : (<ExpandLessIcon />)
-            }
-          </Button>
-          <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-            {({ TransitionProps, placement }) => (
-              <Grow
-                {...TransitionProps}
-                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-              >
-                <Paper style={{ paddingLeft: 24, paddingRight: 24 }}>
-                  <ClickAwayListener onClickAway={handleClose}>
-                    <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                      <MenuItem onClick={handleLogout}><ExitToAppIcon style={{ marginRight: 8 }} /> Logout</MenuItem>
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
-            {/* <Button onClick={handleLogout} size="large">
-              Logout
-            </Button> */}
+            <Button
+              ref={anchorRef}
+              aria-controls={open ? 'menu-list-grow' : undefined}
+              aria-haspopup="true"
+              onClick={handleToggle}
+              style={{ textTransform: 'none', fontSize: 16, color: 'white' }}
+            >
+              {localStorage.getItem('email')}
+              {
+                !open ? (<ExpandMoreIcon />) : (<ExpandLessIcon />)
+              }
+            </Button>
+            <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+              {({ TransitionProps, placement }) => (
+                <Grow
+                  {...TransitionProps}
+                  style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                >
+                  <Paper style={{ paddingLeft: 24, paddingRight: 24 }}>
+                    <ClickAwayListener onClickAway={handleClose}>
+                      <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                        <MenuItem onClick={handleLogout}><ExitToAppIcon style={{ marginRight: 8 }} /> Logout</MenuItem>
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
           </div>
         </Toolbar>
       </AppBar>

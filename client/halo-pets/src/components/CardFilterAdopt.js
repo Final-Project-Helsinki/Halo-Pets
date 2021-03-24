@@ -12,13 +12,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    // overflowY: 'scroll',
-    // boxShadow: '0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.25)',
   },
   cardPetSpecies: {
     maxWidth: 250,
     maxHeight: 300,
-    // boxShadow: '0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.25)',
     margin: '1rem'
   },  
   image: {

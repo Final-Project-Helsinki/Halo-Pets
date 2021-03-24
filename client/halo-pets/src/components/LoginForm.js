@@ -6,7 +6,7 @@ import {
   TextField,
   Snackbar,
   CircularProgress,
-  Card, 
+  Card,
   Typography,
   CardContent
 } from '@material-ui/core'
@@ -65,13 +65,9 @@ export default function LoginForm() {
       history.push('/home')
     } catch (error) {
       setError(error.message)
-      // alertError(error.message)
       setOpenSnackbar(true)
     }
   }
-  // const alertError = async (err) => {
-  //   alert(err)
-  // }
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
@@ -102,31 +98,26 @@ export default function LoginForm() {
     e.preventDefault();
     if (!loading) {
       setSuccess(false);
-      // setLoading(true);
-      // timer.current = window.setTimeout(() => {
-      //   setSuccess(true);
-      //   setLoading(false);
-      // }, 5000);
     } else {
       setSuccess(true);
     }
   };
 
   return (
-    <Card style={{marginLeft: 50}}>
+    <Card style={{ marginLeft: 50 }}>
       <CardContent>
         <Grid container direction="column" alignItems="center">
           <Grid>
-            <img src={logo} alt="logo" style={{height: 100, marginLeft: 0, marginTop: 15}}></img>
+            <img src={logo} alt="logo" style={{ height: 100, marginLeft: 0, marginTop: 15 }}></img>
           </Grid>
           <Grid container item xs={6}>
             <FormControl fullWidth={true} size="medium" margin="dense" style={{ marginTop: 24 }}>
-              <TextField variant="outlined" label="Email" color="primary" aria-describedby="my-helper-text" id="email" name="email" onChange={handleChange} value={loginForm.email} type="email"/>
+              <TextField variant="outlined" label="Email" color="primary" aria-describedby="my-helper-text" id="email" name="email" onChange={handleChange} value={loginForm.email} type="email" />
             </FormControl>
           </Grid>
           <Grid container item xs={6}>
             <FormControl fullWidth={true} size="large" margin="dense">
-              <TextField variant="outlined" label="Password" color="primary" aria-describedby="my-helper-text" id="password" name="password" onChange={handleChange} value={loginForm.password} type="password"/>
+              <TextField variant="outlined" label="Password" color="primary" aria-describedby="my-helper-text" id="password" name="password" onChange={handleChange} value={loginForm.password} type="password" />
             </FormControl>
           </Grid>
           {
@@ -139,22 +130,18 @@ export default function LoginForm() {
             ) : <p></p>
           }
           <Grid item xs={3}>
-            {/* <FormControl fullWidth={true}>
-                <Button variant="contained" className={classes.button}  onClick={handleSubmit}>Login</Button>
-            </FormControl> */}
             <div className={classes.wrapper}>
               <FormControl fullWidth={true}>
-                <Button variant="contained" className={[buttonClassname, classes.button]} onClick={(e) => { handleButtonClick(e); handleSubmit(e);}} disabled={loading}>Login</Button>
+                <Button variant="contained" className={[buttonClassname, classes.button]} onClick={(e) => { handleButtonClick(e); handleSubmit(e); }} disabled={loading}>Login</Button>
               </FormControl>
               {loading && <CircularProgress size={24} thickness={4.6} className={classes.buttonProgress} />}
             </div>
           </Grid>
-          <Grid item xs={12} className={[gridClasses.center, gridClasses.control]} style={{ display: 'flex', justifyContent: 'center'}}>
+          <Grid item xs={12} className={[gridClasses.center, gridClasses.control]} style={{ display: 'flex', justifyContent: 'center' }}>
             <Typography variant="h6" className={gridClasses.text3}>Didn't have an account? <RegisterModal /> </Typography>
           </Grid>
         </Grid>
       </CardContent>
     </Card>
   )
-
 }

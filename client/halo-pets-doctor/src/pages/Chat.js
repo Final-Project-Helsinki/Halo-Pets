@@ -13,7 +13,6 @@ import {
   Grid
 } from '@material-ui/core'
 import { useLocation } from 'react-router-dom'
-// import { auth } from "../services/firebase";
 import { db } from "../services/firebase"
 
 function timeConverter(UNIX_timestamp){
@@ -23,7 +22,6 @@ function timeConverter(UNIX_timestamp){
   var day = ("0" + date.getDate()).substr(-2);
   var hour = ("0" + date.getHours()).substr(-2);
   var minutes = ("0" + date.getMinutes()).substr(-2);
-  // var seconds = ("0" + date.getSeconds()).substr(-2);
 
   return year + "-" + month + "-" + day + " " + hour + ":" + minutes;
 }

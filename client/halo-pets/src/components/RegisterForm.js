@@ -34,14 +34,9 @@ export default function RegisterForm() {
       await dispatch(register(formRegister))
       history.push('/home')
     } catch (error) {
-      // console.log(error);
       setError(error.message)
     }
   }
-
-  // useEffect(() => {
-  //   dispatch(register(formRegister))
-  // }, [dispatch, formRegister])
 
   return (
     <Box container direction="column">

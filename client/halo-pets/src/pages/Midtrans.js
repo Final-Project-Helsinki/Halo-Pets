@@ -32,7 +32,6 @@ export default function TesMidtrans(){
   const user = useSelector(state => state.userReducer.userLogin)
   const price = 20000
   const location = useLocation()
-  // const name = useParams().name
 
   const history = useHistory()
   const [open, setOpen] = useState(false)

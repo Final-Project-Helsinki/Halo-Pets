@@ -1,4 +1,4 @@
-import React,  { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx';
 import {
   Grid,
@@ -52,21 +52,16 @@ function Alert(props) {
 
 function convertDate(d) {
   d = new Date(d);
-  return [d.getFullYear(), d.getMonth()+1, d.getDate()]
-      .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
+  return [d.getFullYear(), d.getMonth() + 1, d.getDate()]
+    .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
 }
 
 
 
 export default function AdoptionPage() {
   const dispatch = useDispatch()
-  // const classes = useStyles()
   const gridClasses = gridUseStyles()
   const styles = useStylesAdoption();
-  // const [open, setOpen] = useState(false);
-  // const handleMainOpen = (isOpen) => {
-  //   setOpen(isOpen)
-  // }
   const [openModalForm, setOpenModalForm] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModalDetail, setOpenModalDetail] = useState(false);
@@ -107,12 +102,12 @@ export default function AdoptionPage() {
   }
 
   const handleEditAdopt = async (adoptId) => {
-    // setAdoptId(adoptId);
     try {
       setFormIndex(adoptId);
       const adoptionDetail = await dispatch(fetchDetail(adoptId))
       console.log(adoptionDetail, '<<<<<<<< buat di form edit');
-      await setFormAdopt((prev) => ({ ...prev,
+      await setFormAdopt((prev) => ({
+        ...prev,
         name: adoptionDetail.name,
         species: adoptionDetail.species,
         gender: adoptionDetail.gender,
@@ -122,12 +117,13 @@ export default function AdoptionPage() {
       }));
 
       await navigator.geolocation.watchPosition(function (position) {
-        setFormAdopt((prev) => ({ ...prev,
+        setFormAdopt((prev) => ({
+          ...prev,
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         }));
       })
-      
+
       await setFileName(adoptionDetail.image_url.split('/').pop().slice(13))
 
       handleOpenModalForm();
@@ -154,7 +150,8 @@ export default function AdoptionPage() {
   }, [dispatch, species])
 
   const handleModalAdd = async () => {
-    await setFormAdopt((prev) => ({ ...prev,
+    await setFormAdopt((prev) => ({
+      ...prev,
       name: '',
       species: '',
       gender: '',
@@ -166,7 +163,8 @@ export default function AdoptionPage() {
     await navigator.geolocation.watchPosition(function (position) {
       console.log("Latitude is :", position.coords.latitude);
       console.log("Longitude is :", position.coords.longitude);
-      setFormAdopt((prev) => ({ ...prev,
+      setFormAdopt((prev) => ({
+        ...prev,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }));
@@ -178,7 +176,6 @@ export default function AdoptionPage() {
 
   const handleChangeForm = (event) => {
     let { name, value, files } = event.target;
-    // console.log(event.target.files[0]);
     if (files) {
       setFormAdopt((prev) => ({ ...prev, image_url: files[0] }));
       setFileName(files[0].name)
@@ -351,20 +348,19 @@ export default function AdoptionPage() {
               <Grid container className={gridClasses.root} spacing={4} justify="flex-start">
                 <GridList cellHeight={300} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem', paddingLeft: 2 }}>
                   <GridListTile key="Subheader-adoption" cols={4} style={{ height: 'auto' }}>
-                      <Button
-                        variant="contained"
-                        // color="secondary"
-                        className={styles.button}
-                        startIcon={<AddCircleOutlineIcon />}
-                        onClick={handleModalAdd}
-                        style={{ backgroundColor: '#113461', color: 'white' }}
-                      >
-                        Add Pet
+                    <Button
+                      variant="contained"
+                      className={styles.button}
+                      startIcon={<AddCircleOutlineIcon />}
+                      onClick={handleModalAdd}
+                      style={{ backgroundColor: '#113461', color: 'white' }}
+                    >
+                      Add Pet
                       </Button>
                   </GridListTile>
                   {
                     filteredAdoptionsByUserId.map(pet => (
-                      <GridListTile className={styles.gridListTile} key={pet.id} style={{minWidth: 300, maxHeight: 300}}>
+                      <GridListTile className={styles.gridListTile} key={pet.id} style={{ minWidth: 300, maxHeight: 300 }}>
                         <img src={pet.image_url} alt={pet.name} />
                         <CardBarTile
                           favorites={favorites}
@@ -403,92 +399,16 @@ export default function AdoptionPage() {
                 handleCloseModalDetail={handleCloseModalDetail}
               />
             ) :
-            (
-              <ModalDetailAdopt
-                open={openModalDetail}
-                pet={petDetail}
-                handleCloseModalDetail={handleCloseModalDetail}
-              />
-            )
+              (
+                <ModalDetailAdopt
+                  open={openModalDetail}
+                  pet={petDetail}
+                  handleCloseModalDetail={handleCloseModalDetail}
+                />
+              )
           }
         </main>
       </Container>
     </React.Fragment>
   );
-
-  // return (
-  //   <>
-  //   <div className={classes.root}>
-  //     <AppBar handleMainOpen={handleMainOpen}/>
-  //     <main
-  //       className={clsx(classes.content, {
-  //         [classes.contentShift]: open
-  //       })}
-  //     >
-  //     <DrawerHeader/>
-  //     <CardFilterAdopt
-  //       handleFilterAdopt={handleFilterAdopt}
-  //       handleFilterMyPet={handleFilterMyPet}
-  //     />
-  //     <GridList cellHeight={400} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem' }}>
-  //       <GridListTile key="Subheader-adoption" cols={4} style={{ height: 'auto' }}>
-  //         <ListSubheader component="div">
-  //           <Button
-  //             variant="contained"
-  //             color="secondary"
-  //             className={styles.button}
-  //             startIcon={<AddCircleOutlineIcon />}
-  //             onClick={handleModalAdd}
-  //           >
-  //             Add Pet
-  //           </Button>
-  //         </ListSubheader>
-  //       </GridListTile>
-  //       {
-  //         filteredAdoptionsByUserId.map(pet => (
-  //           <GridListTile className={styles.gridListTile} key={pet.id}>
-  //             <img src={pet.image_url} alt={pet.name} />
-  //             <CardBarTile
-  //               favorites={favorites}
-  //               pet={pet}
-  //               handleEditAdopt={handleEditAdopt}
-  //               handleDeleteAdopt={handleDeleteAdopt}
-  //               handleDetailAdopt={handleDetailAdopt}
-  //               handleAddFavorite={handleAddFavorite}
-  //               handleRemoveFavorite={handleRemoveFavorite}
-  //             />
-  //           </GridListTile>
-  //         ))
-  //         // )
-  //       }
-  //     </GridList>
-  //     <ModalFormAdopt
-  //       title={formIndex ? 'Edit Pet' : 'Add New Pet'}
-  //       open={openModalForm}
-  //       formAdopt={formAdopt}
-  //       handleCloseModalForm={handleCloseModalForm}
-  //       handleChangeForm={handleChangeForm}
-  //       handleSubmitForm={handleSubmitForm}
-  //       fileName={fileName}
-  //     />
-  //     <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-  //       <Alert onClose={handleCloseSnackbar} severity="error">
-  //         {errorForm}
-  //       </Alert>
-  //     </Snackbar>
-  //     {
-  //       Object.keys(petDetail).length === 0 ? <div></div> :
-  //       (
-  //         <ModalDetailAdopt
-  //           open={openModalDetail}
-  //           pet={petDetail}
-  //           handleCloseModalDetail={handleCloseModalDetail}
-  //         />
-  //       )
-  //     }
-  //     </main>
-  //   </div>
-  //   <Footer />
-  //   </>
-  // )
 }

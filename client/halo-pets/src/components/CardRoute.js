@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    // overflowY: 'scroll',
     boxShadow: '0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.25)',
   },
   cardRoute: {
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: 300,
     boxShadow: '0px 15px 16.83px 0.17px rgba(0, 0, 0, 0.25)',
     margin: '1rem'
-  },  
+  },
   image: {
     width: '50%',
     height: '50%'
@@ -31,41 +30,39 @@ export default function CardRoute() {
   const classes = useStyles();
   return (
     <>
-      {/* <CardContent> */}
-        <Grid
-          container
-          direction="row"
-          justify="space-around"
-          alignItems="center"
-        >
-          <Card className={classes.cardRoute}>
-            <CardContent>
-              <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-              >
-                <img src={imgPaw} className={classes.image} />
-                <Button variant="contained" color="secondary" style={{ marginTop: 16 }} onClick={() => history.push('/healthcare')}>Health Care</Button>
-              </Grid>
-            </CardContent>
-          </Card>
-          <Card className={classes.cardRoute}>
-            <CardContent>
-              <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-              >
-                <img src={imgMyPet} className={classes.image} />
-                <Button variant="contained" color="primary" style={{ marginTop: 16 }} onClick={() => history.push('/adoption')}>Adopt a Pet</Button>
-              </Grid>
-            </CardContent>
-          </Card>
-        </Grid>
-      {/* </CardContent> */}
+      <Grid
+        container
+        direction="row"
+        justify="space-around"
+        alignItems="center"
+      >
+        <Card className={classes.cardRoute}>
+          <CardContent>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <img src={imgPaw} className={classes.image} />
+              <Button variant="contained" color="secondary" style={{ marginTop: 16 }} onClick={() => history.push('/healthcare')}>Health Care</Button>
+            </Grid>
+          </CardContent>
+        </Card>
+        <Card className={classes.cardRoute}>
+          <CardContent>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <img src={imgMyPet} className={classes.image} />
+              <Button variant="contained" color="primary" style={{ marginTop: 16 }} onClick={() => history.push('/adoption')}>Adopt a Pet</Button>
+            </Grid>
+          </CardContent>
+        </Card>
+      </Grid>
     </>
   )
 }

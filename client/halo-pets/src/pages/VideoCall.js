@@ -4,7 +4,6 @@ import { useParams } from "react-router";
 import { db } from '../services/firebase'
 import { auth } from "../services/firebase";
 
-
 export default function VideoCall() {
   const params = useParams()
   const [user, setUser] = useState(auth().currentUser)

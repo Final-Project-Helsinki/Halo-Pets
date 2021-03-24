@@ -14,9 +14,7 @@ export default function CardArtikel({articles, index}) {
 
   const artikelNews = (payload) =>{
     console.log(payload)
-    // console.log(articles, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx');
     const win = window.open(payload, "_blank");
-    // win.focus()
   }
 
   return (
@@ -70,25 +68,6 @@ export default function CardArtikel({articles, index}) {
               </>
             )
           }
-          {/* <div style={{ flex: 1 }}>
-            <CardContent>
-              <Typography style={{ fontSize: '1.4em' }}>
-                {title}
-              </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
-                {date}
-                  </Typography>
-              <Typography variant="subtitle1" paragraph>
-                {content}
-                  </Typography>
-              <Button variant="subtitle1" onClick={() => artikelNews(link)} style={{ textTransform: 'none' }}>
-                Continue reading...
-                  </Button>
-            </CardContent>
-          </div>
-          <Hidden xsDown>
-            <CardMedia style={{ width: 250 }} image={image} />
-          </Hidden> */}
         </Card>
       </CardActionArea>
     </Grid>

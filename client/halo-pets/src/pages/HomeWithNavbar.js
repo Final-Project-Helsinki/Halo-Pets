@@ -14,7 +14,6 @@ import PetsIcon from '@material-ui/icons/Pets'
 import HealingRoundedIcon from '@material-ui/icons/HealingRounded';
 import Loading from '../components/Loading';
 
-
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
     marginTop: theme.spacing(3),
@@ -60,7 +59,6 @@ export default function Blog() {
   const [loadingNews, setLoadingNews] = useState(false);
   const styles = useStylesAdoption();
   const page = (payload) => {
-    // e.preventDefault()
     history.push(`/${payload}`)
     console.log('masuk');
   }
@@ -69,17 +67,13 @@ export default function Blog() {
 
   const moreNews = (e) => {
     e.preventDefault()
-    // history.push('/morenews')
     setClickedMoreNews(true)
   }
 
   useEffect(() => {
     navigator.geolocation.watchPosition(function (position) {
-
       console.log("Latitude is :", position.coords.latitude);
       console.log("Longitude is :", position.coords.longitude);
-      // setLatitude(position.coords.latitude)
-      // setLongitude(position.coords.longitude)
     });
     async function fetchArticles() {
       try {
@@ -93,7 +87,6 @@ export default function Blog() {
           setArticles(c => articlesFirebase)
         });
       } catch (error) {
-        // setreadError(error.message)
         console.log(error.message)
       }
     }
@@ -129,12 +122,6 @@ export default function Blog() {
     return shorten
   }
 
-  console.log(news, 'NNNews');
-
-  // if (loadingArticles) {
-  //   return <Loading />
-  // }
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -142,16 +129,9 @@ export default function Blog() {
         <Header title="Home" sections={sections} />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
-          {/* <Grid container spacing={4}> */}
-          {/* {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
-            ))} */}
-          {/* </Grid> */}
           <Grid container item xs={12} direction='row' justify='center'>
             <Button
               variant="contained"
-
-              // color="secondary"
               className={styles.button}
               startIcon={<HealingRoundedIcon />}
               onClick={(e) => page('healthcare')}
@@ -161,7 +141,6 @@ export default function Blog() {
                       </Button>
             <Button
               variant="contained"
-              // color="secondary"
               className={styles.button}
               startIcon={<PetsIcon />}
               onClick={(e) => page('adoption')}
@@ -171,7 +150,6 @@ export default function Blog() {
             </Button>
           </Grid>
           <Grid container className={gridClasses.root} spacing={4} >
-
             {
               loadingArticles ? (
                 <Grid container direction="row" justify="center">
@@ -182,16 +160,9 @@ export default function Blog() {
                   <CardArtikel key={article.title} articles={article} index={index} />
                 ))
             }
-
           </Grid>
           <Grid container spacing={5} className={classes.mainGrid}>
-            {/* <Main title="From the firehose" posts={posts} />
-            <Sidebar
-              title={sidebar.title}
-              description={sidebar.description}
-              archives={sidebar.archives}
-              social={sidebar.social}
-            /> */}
+
           </Grid>
           {
             !clickedMoreNews ? (
@@ -218,7 +189,6 @@ export default function Blog() {
 
         </main>
       </Container>
-      {/* <Footer title="Footer" description="Something here to give the footer a purpose!" /> */}
     </React.Fragment>
   );
 }

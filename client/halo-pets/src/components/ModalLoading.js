@@ -29,13 +29,12 @@ const useStyles = makeStyles((theme) => ({
   },
   rootCard: {
     margin: 'auto',
-    borderRadius: theme.spacing(2), // 16px
+    borderRadius: theme.spacing(2),
     transition: '0.3s',
     boxShadow: '0px 14px 80px rgba(34, 35, 58, 0.2)',
     position: 'relative',
     width: 1000,
     height: 600,
-    // overflow: 'initial',
     background: '#ffffff',
     display: 'flex',
     flexDirection: 'column',
@@ -46,13 +45,10 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'row',
       paddingTop: theme.spacing(2),
     },
-    // overflowY: 'scroll'
   },
   media: {
     width: '100%',
     zIndex: 0,
-    // marginLeft: 'auto',
-    // marginRight: 'auto',
     marginTop: theme.spacing(-3),
     height: '50vh',
     paddingBottom: '48%',
@@ -93,7 +89,6 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'none',
       cursor: 'pointer'
     },
-    // marginRight: '1rem'
   },
   content: {
     flex: '1 0 auto',

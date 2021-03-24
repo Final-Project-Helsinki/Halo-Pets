@@ -40,7 +40,7 @@ export default function MoreNews() {
 
   function shortenContent(content) {
     let shorten = ''
-    if(content){
+    if (content) {
       for (let i = 0; i < 70; i++) {
         shorten += content[i]
       }
@@ -53,7 +53,6 @@ export default function MoreNews() {
     <>
       <div className={classes.root}>
         <AppBar handleMainOpen={handleMainOpen} />
-        {/* <Grid item xs={12} container style={{ flexDirection: 'column' }}> */}
         <main
           className={clsx(classes.content, {
             [classes.contentShift]: open
