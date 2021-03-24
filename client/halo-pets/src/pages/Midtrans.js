@@ -82,7 +82,7 @@ export default function TesMidtrans(){
   return (
       <Container maxWidth="lg">
       <Header title="Payment" sections={sections}/>
-        <Card style={{top: '30%', left: '30%', position: 'fixed', width: '40%', padding: 10}}>
+        <Card style={{top: '30%', left: '30%', position: 'fixed', width: '40%', padding: 10}} raised={true}>
           <CardContent>
             <Typography variant="h5">Purchase Summary</Typography>
             <hr/>
@@ -93,7 +93,7 @@ export default function TesMidtrans(){
           </CardContent>
           <CardActions>
           <FormControl>
-            <Button variant="contained" color="primary" onClick={handleOnClick} >Proceed to Payment</Button>
+            <Button variant="contained" color="primary" onClick={handleOnClick} style={{ backgroundColor: '#54bba3', color: 'white' }}>Proceed to Payment</Button>
           </FormControl>
           </CardActions>       
           <div id="snapjs">
