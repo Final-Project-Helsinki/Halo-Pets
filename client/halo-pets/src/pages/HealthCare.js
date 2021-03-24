@@ -34,7 +34,6 @@ export default function HealthCarePage() {
   const [open, setOpen] = useState(false)
   const history = useHistory()
 
-
   useEffect(() => {
     dispatch(getDoctor())
   }, [dispatch])
@@ -53,24 +52,22 @@ export default function HealthCarePage() {
   }
 
   return (
-    // <div>
-      <Container maxWidth="lg">
-      <Header title="Health Care" sections={sections}/>
-      <DrawerHeader/>
-        <div style={{flexGrow: 1}}>
-          <Grid container justify="space-around" wrap="wrap">
-            {
-              dataDoctor.map(el => {
-                return (
-                  <Grid xs={12} md={6} lg={3}>
-                    <CardDoctor key={el.id} doctor={el}/>
-                  </Grid>
-                )
-              })
-            }
-          </Grid>
-        </div>
-      </Container>
-    // </div>
+    <Container maxWidth="lg">
+      <Header title="Health Care" sections={sections} />
+      <DrawerHeader />
+      <div style={{ flexGrow: 1 }}>
+        <Grid container justify="space-around" wrap="wrap">
+          {
+            dataDoctor.map(el => {
+              return (
+                <Grid xs={12} md={6} lg={3}>
+                  <CardDoctor key={el.id} doctor={el} />
+                </Grid>
+              )
+            })
+          }
+        </Grid>
+      </div>
+    </Container>
   )
 }

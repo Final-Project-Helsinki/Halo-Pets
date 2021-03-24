@@ -7,7 +7,6 @@ const useStylesAdoption = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   gridListTile: {
-    // cursor: 'pointer',
     "&:hover": { transform: "scale3d(1.05, 1.05, 1)" },
     transition: theme.transitions.create("transform 0.15s ease-in-out")
   },
@@ -17,11 +16,6 @@ const useStylesAdoption = makeStyles((theme) => ({
   mySwal: {
     zIndex: 99999999
   }
-  // fab: {
-  //   position: 'absolute',
-  //   bottom: theme.spacing(2),
-  //   right: theme.spacing(2),
-  // },
 }))
 
 export default useStylesAdoption

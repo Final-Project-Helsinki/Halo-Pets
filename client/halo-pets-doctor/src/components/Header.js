@@ -49,11 +49,6 @@ export default function Header() {
   const classes = useStyles();
   const history = useHistory();
   function handleLogout(event) {
-    // if (anchorRef.current && anchorRef.current.contains(event.target)) {
-    //   return;
-    // }
-
-    // setOpen(false);
     localStorage.clear()
     history.push('/')
   }
@@ -83,12 +78,10 @@ export default function Header() {
   return (
     <React.Fragment>
       <Toolbar className={classes.toolbar} style={{ backgroundColor: '#54bba3' }}>
-        {/* <Button size="small"></Button> */}
         <img src={logo} style={{ width: '5%', height: '5%' }} />
         <Typography
           component="h2"
           variant="h5"
-          // color="inherit"
           align="center"
           noWrap
           className={classes.toolbarTitle}

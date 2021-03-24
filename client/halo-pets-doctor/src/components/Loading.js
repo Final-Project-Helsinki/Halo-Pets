@@ -40,14 +40,4 @@ export default function Loading() {
       </Container>
     </React.Fragment>
   )
-  // return (
-  //   <div className={classes.positionCenter}>
-  //     <Grid container direction="row" justify="center">
-  //       <CircularProgress color="secondary" style={{ height: 90, width: 90 }} />
-  //     </Grid>
-  //     <Grid container direction="row" justify="center">
-  //       <Typography style={{ marginTop: 20 }}>Loading... Please wait...</Typography>
-  //     </Grid>
-  //   </div>
-  // )
 }

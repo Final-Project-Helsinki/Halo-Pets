@@ -16,9 +16,7 @@ import {
 } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import SendIcon from '@material-ui/icons/Send';
-import AppBar from '../components/AppBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router';
 import { getRoom } from "../store/actions/chatAction";
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import { db } from "../services/firebase"
@@ -33,7 +31,6 @@ const useStyles = makeStyles({
     minWidth: 650,
   },
   chatSection: {
-    // marginTop: '10vh',
     width: '100%',
     height: '95vh'
   },
@@ -52,7 +49,7 @@ const useStyles = makeStyles({
   },
 });
 
-function timeConverter(UNIX_timestamp){
+function timeConverter(UNIX_timestamp) {
   var date = new Date(UNIX_timestamp);
   var year = date.getFullYear();
   var month = ("0" + (date.getMonth() + 1)).substr(-2);
@@ -162,167 +159,81 @@ export default function ChatRoom() {
       <Container maxWidth="lg">
         <Header />
         <main>
-          {/* <Grid container className={classes.root} spacing={4} > */}
-            <Grid container component={Paper} className={classes.chatSection}>
-              <Grid item xs={3} className={classes.borderRight500}>
-                <List>
-                  <ListItem button>
-                    <ListItemIcon>
-                    <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
-                    </ListItemIcon>
-                    <ListItemText primary={`Dr. ${localStorage.getItem('name')}`}></ListItemText>
-                  </ListItem>
-                </List>
-                <Divider />
-                <Grid item xs={12} style={{padding: '10px'}}>
-                  <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth onChange={handleChangeSearch} />
-                </Grid>
-                <Divider />
-                <List>
-                  {
-                    room.length === 0 ? (
-                      <EmptyRoom />
-                    ) :
+          <Grid container component={Paper} className={classes.chatSection}>
+            <Grid item xs={3} className={classes.borderRight500}>
+              <List>
+                <ListItem button>
+                  <ListItemIcon>
+                    <Avatar alt="Remy Sharp" src="https://cdn1.vectorstock.com/i/1000x1000/14/80/doctor-web-icon-therapist-avatar-vector-18531480.jpg" />
+                  </ListItemIcon>
+                  <ListItemText primary={`Dr. ${localStorage.getItem('name')}`}></ListItemText>
+                </ListItem>
+              </List>
+              <Divider />
+              <Grid item xs={12} style={{ padding: '10px' }}>
+                <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth onChange={handleChangeSearch} />
+              </Grid>
+              <Divider />
+              <List>
+                {
+                  room.length === 0 ? (
+                    <EmptyRoom />
+                  ) :
                     room.map(el => {
                       return (
                         <ListItem button key={`${el.id}`} onClick={() => toChat(el.id)} style={{ backgroundColor: el.id === idRoom ? '#dadada' : 'white' }}>
                           <ListItemIcon>
-                            <Avatar style={{ backgroundColor: '#11698e' }}>{el.User.name.slice(0,1)}</Avatar>
+                            <Avatar style={{ backgroundColor: '#11698e' }}>{el.User.name.slice(0, 1)}</Avatar>
                           </ListItemIcon>
                           <ListItemText primary={el.User.name}>{el.User.name}</ListItemText>
                         </ListItem>
                       )
                     })
-                  }
-                </List>
-              </Grid>
-              <Grid item xs={9}>
-                {
-                  !idRoom ? <EmptyChat /> :
+                }
+              </List>
+            </Grid>
+            <Grid item xs={9}>
+              {
+                !idRoom ? <EmptyChat /> :
                   (
                     <>
                       <List className={classes.messageArea}>
-                      {
-                        chats.map(chat => {
-                          return (
-                            <ListItem key={chat.timestamp}>
-                              <Grid container>
-                                <Grid item xs={12} style={{display: 'flex', justifyContent: chat.role === 'client' ? 'flex-start': 'flex-end'}}>
-                                  <Box style={{border: "0.5px solid white", borderRadius: "10px", margin: "5px", padding: "10px", display: "inline-block", backgroundColor: chat.role === 'client' ? '#afebe4' : '#f8f1f1'}}>
-                                    <ListItemText align={chat.role === 'client' ? 'left': 'right'} primary={`${chat.content}`} primaryTypographyProps={{ style: { whiteSpace: "normal" } }}></ListItemText>
-                                    <ListItemText align={chat.role === 'client' ? 'left': 'right'} secondary={timeConverter(chat.timestamp)}></ListItemText>
-                                  </Box>
+                        {
+                          chats.map(chat => {
+                            return (
+                              <ListItem key={chat.timestamp}>
+                                <Grid container>
+                                  <Grid item xs={12} style={{ display: 'flex', justifyContent: chat.role === 'client' ? 'flex-start' : 'flex-end' }}>
+                                    <Box style={{ border: "0.5px solid white", borderRadius: "10px", margin: "5px", padding: "10px", display: "inline-block", backgroundColor: chat.role === 'client' ? '#afebe4' : '#f8f1f1' }}>
+                                      <ListItemText align={chat.role === 'client' ? 'left' : 'right'} primary={`${chat.content}`} primaryTypographyProps={{ style: { whiteSpace: "normal" } }}></ListItemText>
+                                      <ListItemText align={chat.role === 'client' ? 'left' : 'right'} secondary={timeConverter(chat.timestamp)}></ListItemText>
+                                    </Box>
+                                  </Grid>
                                 </Grid>
-                              </Grid>
-                            </ListItem>
-                          )
-                        })
-                      }
-                    </List>
-                    <Divider />
-                    <Grid container style={{padding: '20px'}}>
-                      <Grid item xs={10}>
-                        <TextField id="outlined-basic-email" label="Type Something" fullWidth onChange={handleChange} value={content} multiline rows={1} rowsMax={4} />
+                              </ListItem>
+                            )
+                          })
+                        }
+                      </List>
+                      <Divider />
+                      <Grid container style={{ padding: '20px' }}>
+                        <Grid item xs={10}>
+                          <TextField id="outlined-basic-email" label="Type Something" fullWidth onChange={handleChange} value={content} multiline rows={1} rowsMax={4} />
+                        </Grid>
+                        <Grid xs={1} align="right">
+                          <Fab aria-label="add" onClick={handleSubmit} style={{ backgroundColor: '#16c79a' }}><SendIcon style={{ color: 'white' }} /></Fab>
+                        </Grid>
+                        <Grid xs={1} align="right">
+                          <Fab color="secondary" aria-label="add" onClick={toVidCall} style={{ backgroundColor: '#19456b' }}><VideoCallIcon /></Fab>
+                        </Grid>
                       </Grid>
-                      <Grid xs={1} align="right">
-                        <Fab aria-label="add" onClick={handleSubmit} style={{ backgroundColor: '#16c79a' }}><SendIcon style={{ color: 'white' }} /></Fab>
-                      </Grid>
-                      <Grid xs={1} align="right">
-                        <Fab color="secondary" aria-label="add" onClick={toVidCall} style={{ backgroundColor: '#19456b' }}><VideoCallIcon /></Fab>
-                      </Grid>
-                    </Grid>
-                  </>
+                    </>
                   )
-                }
-              </Grid>
+              }
             </Grid>
-          {/* </Grid> */}
+          </Grid>
         </main>
       </Container>
-      {/* <Footer title="Footer" description="Something here to give the footer a purpose!" /> */}
     </React.Fragment>
   );
-
-  // return (
-  //   <div>
-  //     <Grid container>
-  //       <Grid item xs={12}>
-  //         <AppBar />
-  //       </Grid>
-  //     </Grid>
-  //     <Grid container component={Paper} className={classes.chatSection}>
-  //       <Grid item xs={3} className={classes.borderRight500}>
-  //         <List>
-  //           <ListItem button>
-  //             <ListItemIcon>
-  //             <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
-  //             </ListItemIcon>
-  //             <ListItemText primary={`Dr. ${localStorage.getItem('name')}`}></ListItemText>
-  //           </ListItem>
-  //         </List>
-  //         <Divider />
-  //         <Grid item xs={12} style={{padding: '10px'}}>
-  //           <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth onChange={handleChangeSearch} />
-  //         </Grid>
-  //         <Divider />
-  //         <List>
-  //           {
-  //             room.length === 0 ? (
-  //               <EmptyRoom />
-  //             ) :
-  //             room.map(el => {
-  //               return (
-  //                 <ListItem button key={`${el.id}`} onClick={() => toChat(el.id)} style={{ backgroundColor: el.id === idRoom ? '#dadada' : 'white' }}>
-  //                   <ListItemIcon>
-  //                     <Avatar style={{ backgroundColor: '#11698e' }}>{el.User.name.slice(0,1)}</Avatar>
-  //                   </ListItemIcon>
-  //                   <ListItemText primary={el.User.name}>{el.User.name}</ListItemText>
-  //                 </ListItem>
-  //               )
-  //             })
-  //           }
-  //         </List>
-  //       </Grid>
-  //       <Grid item xs={9}>
-  //         {
-  //           !idRoom ? <EmptyChat /> :
-  //           (
-  //             <>
-  //               <List className={classes.messageArea}>
-  //               {
-  //                 chats.map(chat => {
-  //                   return (
-  //                     <ListItem key={chat.timestamp}>
-  //                       <Grid container>
-  //                         <Grid item xs={12} style={{display: 'flex', justifyContent: chat.role === 'client' ? 'flex-start': 'flex-end'}}>
-  //                           <Box style={{border: "0.5px solid white", borderRadius: "10px", margin: "5px", padding: "10px", display: "inline-block", backgroundColor: chat.role === 'client' ? '#afebe4' : '#f8f1f1'}}>
-  //                             <ListItemText align={chat.role === 'client' ? 'left': 'right'} primary={`${chat.content}`} primaryTypographyProps={{ style: { whiteSpace: "normal" } }}></ListItemText>
-  //                             <ListItemText align={chat.role === 'client' ? 'left': 'right'} secondary={timeConverter(chat.timestamp)}></ListItemText>
-  //                           </Box>
-  //                         </Grid>
-  //                       </Grid>
-  //                     </ListItem>
-  //                   )
-  //                 })
-  //               }
-  //             </List>
-  //             <Divider />
-  //             <Grid container style={{padding: '20px'}}>
-  //               <Grid item xs={10}>
-  //                 <TextField id="outlined-basic-email" label="Type Something" fullWidth onChange={handleChange} value={content} multiline rows={1} rowsMax={4} />
-  //               </Grid>
-  //               <Grid xs={1} align="right">
-  //                 <Fab aria-label="add" onClick={handleSubmit} style={{ backgroundColor: '#16c79a' }}><SendIcon style={{ color: 'white' }} /></Fab>
-  //               </Grid>
-  //               <Grid xs={1} align="right">
-  //                 <Fab color="secondary" aria-label="add" onClick={toVidCall} style={{ backgroundColor: '#19456b' }}><VideoCallIcon /></Fab>
-  //               </Grid>
-  //             </Grid>
-  //           </>
-  //           )
-  //         }
-  //       </Grid>
-  //     </Grid>
-  //   </div>
-  // );
 }

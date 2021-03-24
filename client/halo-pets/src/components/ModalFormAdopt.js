@@ -68,32 +68,19 @@ const useStyles = makeStyles((theme) => ({
 export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModalForm, handleChangeForm, handleSubmitForm, fileName }) {
   const classes = useStyles();
 
-  // const [loading, setLoading] = React.useState(false);
   const { loadingCreate } = useSelector(state => ({
     loadingCreate: state.adoptionReducer.loadingCreate
   }))
   const [success, setSuccess] = React.useState(false);
-  // const timer = React.useRef();
 
   const buttonClassname = clsx({
     [classes.buttonSuccess]: success,
   });
 
-  // React.useEffect(() => {
-  //   return () => {
-  //     clearTimeout(timer.current);
-  //   };
-  // }, []);
-
   const handleButtonClick = (e) => {
     e.preventDefault();
     if (!loadingCreate) {
       setSuccess(false);
-      // setLoading(true);
-      // timer.current = window.setTimeout(() => {
-      //   setSuccess(true);
-      //   setLoading(false);
-      // }, 5000);
     } else {
       setSuccess(true);
     }

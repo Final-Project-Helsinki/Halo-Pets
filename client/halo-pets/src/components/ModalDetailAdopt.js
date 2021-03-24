@@ -28,13 +28,12 @@ const useStyles = makeStyles((theme) => ({
   },
   rootCard: {
     margin: 'auto',
-    borderRadius: theme.spacing(2), // 16px
+    borderRadius: theme.spacing(2),
     transition: '0.3s',
     boxShadow: '0px 14px 80px rgba(34, 35, 58, 0.2)',
     position: 'relative',
     width: 1000,
     height: 600,
-    // overflow: 'initial',
     background: '#ffffff',
     display: 'flex',
     flexDirection: 'column',
@@ -45,13 +44,10 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'row',
       paddingTop: theme.spacing(2),
     },
-    // overflowY: 'scroll'
   },
   media: {
     width: '100%',
     zIndex: 0,
-    // marginLeft: 'auto',
-    // marginRight: 'auto',
     marginTop: theme.spacing(-3),
     height: '50vh',
     paddingBottom: '48%',
@@ -92,7 +88,6 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'none',
       cursor: 'pointer'
     },
-    // marginRight: '1rem'
   },
   content: {
     flex: '1 0 auto',
@@ -186,7 +181,6 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
           phoneto += phone[i]
         }
       }
-      // const phoneto = `tel:+623456789`
       window.location.href = phoneto;
     } catch (error) {
       console.log(error)
@@ -238,10 +232,6 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
                 {pet.species.toUpperCase()}
               </Fab>
             </Grid>
-            {/* <Grid container justify='center' alignItems='center'>
-              <Typography variant="subtitle1" color="textSecondary">OWNER </Typography>
-              <Typography style={{ marginLeft: '1rem' }}>{pet.User.name}</Typography>
-            </Grid> */}
           </Grid>
           <Grid item xs={12}>
             <Grid container wrap="nowrap" spacing={2}>

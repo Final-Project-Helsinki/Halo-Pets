@@ -28,11 +28,8 @@ export default function HomePage() {
   }
   useEffect(() => {
     navigator.geolocation.watchPosition(function (position) {
-
       console.log("Latitude is :", position.coords.latitude);
       console.log("Longitude is :", position.coords.longitude);
-      // setLatitude(position.coords.latitude)
-      // setLongitude(position.coords.longitude)
     });
     async function fetchArticles() {
       try {
@@ -44,7 +41,6 @@ export default function HomePage() {
           setArticles(c => articlesFirebase)
         });
       } catch (error) {
-        // setreadError(error.message)
         console.log(error.message)
       }
     }
