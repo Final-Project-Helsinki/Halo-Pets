@@ -15,6 +15,7 @@ import {
   Container
 
 } from '@material-ui/core'
+import Loading from "../components/Loading"
 
 const sections = [
   { title: 'Home', url: '/home' },
@@ -27,6 +28,7 @@ const sections = [
 
 export default function HealthCarePage() {
   const dataDoctor = useSelector(state => state.doctorReducer.doctors)
+  const loading = useSelector(state => state.doctorReducer.loading)
   const roomId = useSelector(state => state.chatReducer.chatRoom)
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
@@ -46,12 +48,8 @@ export default function HealthCarePage() {
     }
   }
 
-  function test() {
-    console.log(roomId)
-  }
-
-  function handleMainOpen(isOpen) {
-    setOpen(isOpen)
+  if (loading) {
+    return <Loading />
   }
 
   return (
@@ -60,7 +58,7 @@ export default function HealthCarePage() {
       <Header title="Health Care" sections={sections}/>
       <DrawerHeader/>
         <div style={{flexGrow: 1}}>
-          <Grid container justify="space-between" wrap="wrap">
+          <Grid container justify="space-around" wrap="wrap">
             {
               dataDoctor.map(el => {
                 return (

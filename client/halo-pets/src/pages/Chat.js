@@ -40,7 +40,7 @@ const useStyles = makeStyles({
   },
   chatSection: {
     width: '100%',
-    height: '95vh'
+    height: '85vh'
   },
   headBG: {
       backgroundColor: '#e0e0e0'
@@ -176,7 +176,7 @@ export default function Chat() {
         chats.map(chat => {
           return (
             <Box key={chat.timestamp} style={{width: "100%", display: 'flex', justifyContent: chat.role === 'client' ? 'flex-end': 'flex-start'}}>
-              <Box style={{ borderRadius: "10px", marginLeft: "20px", marginRight: '5px', marginTop: '5px', marginBottom: '5px', padding: "10px", display: "inline-block", backgroundColor: chat.role === 'client' ? '#f8f1f1' : '#afebe4' }}>
+              <Box style={{ borderRadius: "10px", marginLeft: "20px", marginRight: '1rem', marginTop: '5px', marginBottom: '5px', padding: "10px", display: "inline-block", backgroundColor: chat.role === 'client' ? '#f8f1f1' : '#afebe4' }}>
                 <Grid item xs={12}>
                   <ListItemText align={chat.role === 'client' ? 'right' : 'left'} primary={chat.content}></ListItemText>
                 </Grid>
@@ -192,7 +192,7 @@ export default function Chat() {
         <Divider />
         <Grid container style={{paddingTop: '20px', paddingLeft: '20px', paddingRight: '20px'}}>
             <Grid item xs={10}>
-                <TextField id="outlined-basic-email" label="Type Something" fullWidth value={content} onChange={handleChange} />
+                <TextField id="outlined-basic-email" label="Type Something" fullWidth value={content} onChange={handleChange} multiline rows={1} rowsMax={4} />
             </Grid>
             <Grid xs={1} align="right">
               <Fab aria-label="add" onClick={handleSubmit} style={{ backgroundColor: '#16c79a' }}><SendIcon style={{ color: 'white' }} /></Fab>

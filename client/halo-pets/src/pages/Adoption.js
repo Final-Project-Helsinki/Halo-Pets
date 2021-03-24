@@ -37,7 +37,7 @@ import { createFavorite, deleteFavorite, fetchFavorites } from '../store/actions
 import Header from '../components/Header';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import gridUseStyles from '../helpers/gridStyles'
-// import Footer from '../components/Footer';
+import ModalLoading from '../components/ModalLoading';
 
 const sections = [
   { title: 'Home', url: '/home' },
@@ -55,6 +55,8 @@ function convertDate(d) {
   return [d.getFullYear(), d.getMonth()+1, d.getDate()]
       .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
 }
+
+
 
 export default function AdoptionPage() {
   const dispatch = useDispatch()
@@ -85,9 +87,10 @@ export default function AdoptionPage() {
   const [species, setSpecies] = useState('');
   const [filteredUserId, setFilteredUserId] = useState('');
 
-  const { adoptions, loading, error } = useSelector(state => ({
+  const { adoptions, loading, loadingDetail, error } = useSelector(state => ({
     adoptions: state.adoptionReducer.adoptions,
     loading: state.adoptionReducer.loading,
+    loadingDetail: state.adoptionReducer.loadingDetail,
     error: state.adoptionReducer.error
   }))
 
@@ -283,10 +286,10 @@ export default function AdoptionPage() {
   }
 
   const handleDetailAdopt = async (adoptId) => {
+    setOpenModalDetail(true)
     try {
       const adoptionDetail = await dispatch(fetchDetail(adoptId))
       await setPetDetail(adoptionDetail)
-      setOpenModalDetail(true)
     } catch (err) {
       console.log(err);
     }
@@ -325,9 +328,9 @@ export default function AdoptionPage() {
     }
   })
 
-  // if (loading) {
-  //   return <Loading />
-  // }
+  if (loading) {
+    return <Loading />
+  }
 
   if (error) {
     return <Error />
@@ -345,10 +348,9 @@ export default function AdoptionPage() {
           />
           <Card className={gridClasses.rootCard} style={{ marginTop: 32 }}>
             <CardContent>
-              <Grid container className={gridClasses.root} spacing={4} justify="space-around">
-                <GridList cellHeight={400} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem', paddingLeft: 2 }}>
+              <Grid container className={gridClasses.root} spacing={4} justify="flex-start">
+                <GridList cellHeight={300} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem', paddingLeft: 2 }}>
                   <GridListTile key="Subheader-adoption" cols={4} style={{ height: 'auto' }}>
-                    {/* <ListSubheader component="div"> */}
                       <Button
                         variant="contained"
                         // color="secondary"
@@ -359,31 +361,22 @@ export default function AdoptionPage() {
                       >
                         Add Pet
                       </Button>
-                    {/* </ListSubheader> */}
                   </GridListTile>
                   {
-                    loading ? (
-                      <Grid container direction="row" justify="center">
-                        <CircularProgress color="secondary" style={{ height: 50, width: 50, marginTop: '4rem', marginBottom: '4rem' }} />
-                      </Grid>
-                    ) :
-                    (
-
-                      filteredAdoptionsByUserId.map(pet => (
-                        <GridListTile className={styles.gridListTile} key={pet.id}>
-                          <img src={pet.image_url} alt={pet.name} />
-                          <CardBarTile
-                            favorites={favorites}
-                            pet={pet}
-                            handleEditAdopt={handleEditAdopt}
-                            handleDeleteAdopt={handleDeleteAdopt}
-                            handleDetailAdopt={handleDetailAdopt}
-                            handleAddFavorite={handleAddFavorite}
-                            handleRemoveFavorite={handleRemoveFavorite}
-                          />
-                        </GridListTile>
-                      ))
-                    )
+                    filteredAdoptionsByUserId.map(pet => (
+                      <GridListTile className={styles.gridListTile} key={pet.id} style={{minWidth: 300, maxHeight: 300}}>
+                        <img src={pet.image_url} alt={pet.name} />
+                        <CardBarTile
+                          favorites={favorites}
+                          pet={pet}
+                          handleEditAdopt={handleEditAdopt}
+                          handleDeleteAdopt={handleDeleteAdopt}
+                          handleDetailAdopt={handleDetailAdopt}
+                          handleAddFavorite={handleAddFavorite}
+                          handleRemoveFavorite={handleRemoveFavorite}
+                        />
+                      </GridListTile>
+                    ))
                   }
                 </GridList>
               </Grid>
@@ -404,7 +397,12 @@ export default function AdoptionPage() {
             </Alert>
           </Snackbar>
           {
-            Object.keys(petDetail).length === 0 ? <div></div> :
+            Object.keys(petDetail).length === 0 || loadingDetail ? (
+              <ModalLoading
+                open={openModalDetail}
+                handleCloseModalDetail={handleCloseModalDetail}
+              />
+            ) :
             (
               <ModalDetailAdopt
                 open={openModalDetail}

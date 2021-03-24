@@ -12,6 +12,8 @@ import useStylesAdoption from '../helpers/styleAdoption'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import PetsIcon from '@material-ui/icons/Pets'
 import HealingRoundedIcon from '@material-ui/icons/HealingRounded';
+import Loading from '../components/Loading';
+
 
 const useStyles = makeStyles((theme) => ({
   mainGrid: {
@@ -57,14 +59,12 @@ export default function Blog() {
   const [news, setNews] = useState([])
   const [loadingNews, setLoadingNews] = useState(false);
   const styles = useStylesAdoption();
-
-
-
   const page = (payload) => {
     // e.preventDefault()
     history.push(`/${payload}`)
     console.log('masuk');
   }
+  const [loadingArticles, setLoadingArticles] = useState(false);
 
 
   const moreNews = (e) => {
@@ -83,11 +83,13 @@ export default function Blog() {
     });
     async function fetchArticles() {
       try {
+        setLoadingArticles(true)
         db.ref("articles").on("value", snapshot => {
           let articlesFirebase = [];
           snapshot.forEach((snap) => {
             articlesFirebase.push(snap.val());
           });
+          setLoadingArticles(false)
           setArticles(c => articlesFirebase)
         });
       } catch (error) {
@@ -129,11 +131,15 @@ export default function Blog() {
 
   console.log(news, 'NNNews');
 
+  // if (loadingArticles) {
+  //   return <Loading />
+  // }
+
   return (
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Hi Pets" sections={sections} />
+        <Header title="Home" sections={sections} />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           {/* <Grid container spacing={4}> */}
@@ -167,6 +173,11 @@ export default function Blog() {
           <Grid container className={gridClasses.root} spacing={4} >
 
             {
+              loadingArticles ? (
+                <Grid container direction="row" justify="center">
+                  <CircularProgress style={{ height: 50, width: 50, marginTop: '4rem', marginBottom: '4rem', color: '#3c8c7c' }} />
+                </Grid>
+              ) :
               articles.map((article, index) => (
                 <CardArtikel key={article.title} articles={article} index={index} />
               ))
@@ -194,7 +205,7 @@ export default function Blog() {
                 {
                   loadingNews ? (
                     <Grid container direction="row" justify="center">
-                      <CircularProgress color="secondary" style={{ height: 50, width: 50, marginTop: '4rem', marginBottom: '4rem' }} />
+                      <CircularProgress style={{ height: 50, width: 50, marginTop: '4rem', marginBottom: '4rem', color: '#3c8c7c' }} />
                     </Grid>
                   ) :
                   news.map((article, index) => (

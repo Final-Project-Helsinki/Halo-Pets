@@ -83,24 +83,29 @@ export default function Header(props) {
           Logout
         </Button>
       </Toolbar>
-      <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
-        {sections.map((section) => (
-          <NavLink
-            color="inherit"
-            noWrap
-            key={section.title}
-            variant="body2"
-            to={section.url}
-            className={classes.toolbarLink}
-            style={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }}
-            activeStyle={{
-              borderBottom: '4px solid #54bba3',
-            }}
-          >
-            {section.title}
-          </NavLink>
-        ))}
-      </Toolbar>
+      {
+        history.location.pathname.includes('/chat') ? ( <div></div> ) :
+        (
+          <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
+            {sections.map((section) => (
+              <NavLink
+                color="inherit"
+                noWrap
+                key={section.title}
+                variant="body2"
+                to={section.url}
+                className={classes.toolbarLink}
+                style={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }}
+                activeStyle={{
+                  borderBottom: '4px solid #54bba3',
+                }}
+              >
+                {section.title}
+              </NavLink>
+            ))}
+          </Toolbar>
+        )
+      }
     </React.Fragment>
   );
 }
