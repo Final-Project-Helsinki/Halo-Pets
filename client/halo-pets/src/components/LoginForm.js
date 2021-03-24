@@ -5,7 +5,10 @@ import {
   Grid,
   TextField,
   Snackbar,
-  CircularProgress
+  CircularProgress,
+  Card, 
+  Typography,
+  CardContent
 } from '@material-ui/core'
 import { signin } from '../helpers/auth'
 import { useHistory } from 'react-router';
@@ -14,6 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import useStyles from '../helpers/style'
 import MuiAlert from '@material-ui/lab/Alert';
 import clsx from 'clsx';
+import logo from '../assets/logo.png'
+import RegisterModal from '../components/RegisterModal'
+import gridUseStyles from '../helpers/gridStyles'
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -21,6 +27,7 @@ function Alert(props) {
 
 export default function LoginForm() {
   const classes = useStyles()
+  const gridClasses = gridUseStyles()
   const dispatch = useDispatch()
   const [error, setError] = useState('');
   const history = useHistory()
@@ -106,39 +113,48 @@ export default function LoginForm() {
   };
 
   return (
-    <Grid container direction="column" alignItems="center">
-      <Grid container item xs={6}>
-        <FormControl fullWidth={true} size="medium" margin="dense" style={{ marginTop: 24 }}>
-          <TextField variant="outlined" label="Email" color="primary" aria-describedby="my-helper-text" id="email" name="email" onChange={handleChange} value={loginForm.email} type="email"/>
-        </FormControl>
-      </Grid>
-      <Grid container item xs={6}>
-        <FormControl fullWidth={true} size="large" margin="dense">
-          <TextField variant="outlined" label="Password" color="primary" aria-describedby="my-helper-text" id="password" name="password" onChange={handleChange} value={loginForm.password} type="password"/>
-        </FormControl>
-      </Grid>
-      <br/>
-      {
-        error ? (
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
-            <Alert onClose={handleCloseSnackbar} severity="error">
-              {error}
-            </Alert>
-          </Snackbar>
-        ) : <p></p>
-      }
-      <Grid item xs={3}>
-        {/* <FormControl fullWidth={true}>
-            <Button variant="contained" className={classes.button}  onClick={handleSubmit}>Login</Button>
-        </FormControl> */}
-        <div className={classes.wrapper}>
-          <FormControl fullWidth={true}>
-            <Button variant="contained" className={[buttonClassname, classes.button]} onClick={(e) => { handleButtonClick(e); handleSubmit(e);}} disabled={loading}>Login</Button>
-          </FormControl>
-          {loading && <CircularProgress size={24} thickness={4.6} className={classes.buttonProgress} />}
-        </div>
-      </Grid>
-    </Grid>
+    <Card style={{marginLeft: 50}}>
+      <CardContent>
+        <Grid container direction="column" alignItems="center">
+          <Grid>
+            <img src={logo} alt="logo" style={{height: 100, marginLeft: 0, marginTop: 15}}></img>
+          </Grid>
+          <Grid container item xs={6}>
+            <FormControl fullWidth={true} size="medium" margin="dense" style={{ marginTop: 24 }}>
+              <TextField variant="outlined" label="Email" color="primary" aria-describedby="my-helper-text" id="email" name="email" onChange={handleChange} value={loginForm.email} type="email"/>
+            </FormControl>
+          </Grid>
+          <Grid container item xs={6}>
+            <FormControl fullWidth={true} size="large" margin="dense">
+              <TextField variant="outlined" label="Password" color="primary" aria-describedby="my-helper-text" id="password" name="password" onChange={handleChange} value={loginForm.password} type="password"/>
+            </FormControl>
+          </Grid>
+          {
+            error ? (
+              <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}>
+                <Alert onClose={handleCloseSnackbar} severity="error">
+                  {error}
+                </Alert>
+              </Snackbar>
+            ) : <p></p>
+          }
+          <Grid item xs={3}>
+            {/* <FormControl fullWidth={true}>
+                <Button variant="contained" className={classes.button}  onClick={handleSubmit}>Login</Button>
+            </FormControl> */}
+            <div className={classes.wrapper}>
+              <FormControl fullWidth={true}>
+                <Button variant="contained" className={[buttonClassname, classes.button]} onClick={(e) => { handleButtonClick(e); handleSubmit(e);}} disabled={loading}>Login</Button>
+              </FormControl>
+              {loading && <CircularProgress size={24} thickness={4.6} className={classes.buttonProgress} />}
+            </div>
+          </Grid>
+          <Grid item xs={12} className={[gridClasses.center, gridClasses.control]} style={{ display: 'flex', justifyContent: 'center'}}>
+            <Typography variant="h6" className={gridClasses.text3}>Didn't have an account? <RegisterModal /> </Typography>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
   )
 
 }
