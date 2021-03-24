@@ -77,16 +77,16 @@ export default function FavoritesPage() {
       <Container maxWidth="lg">
         <Header title="My Pet Favorites" sections={sections} />
         <main>
-          <Card className={gridClasses.rootCard}>
+          <Card className={gridClasses.rootCard} style={{minHeight: '60vh'}}>
             <CardContent>
-              <Grid container className={gridClasses.root} spacing={4} justify="space-around">
-                <GridList cellHeight={400} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem', paddingLeft: 2 }}>
+              <Grid container className={gridClasses.root} spacing={4} justify="center">
+                <GridList cellHeight={300} cols={4}  spacing={20} style={{ marginTop: '2rem', paddingLeft: 2 }} className={styles.gridList}>
                   <GridListTile key="Subheader-adoption" cols={4} style={{ height: 'auto' }}>
                     <Typography variant="h5" style={{ textAlign: 'center', color: '#113461' }}><b>My Pet Favorites</b></Typography>
                   </GridListTile>
-                  {
+                  { 
                     favorites.map(fav => (
-                      <GridListTile className={styles.gridListTile} key={fav.id}>
+                      <GridListTile className={styles.gridListTile} key={fav.id} style={{minWidth: 300, maxHeight: 300}} cols={1}>
                         <img src={fav.Adoption.image_url} alt={fav.Adoption.name} />
                         <CardBarTile
                           favorites={favorites}

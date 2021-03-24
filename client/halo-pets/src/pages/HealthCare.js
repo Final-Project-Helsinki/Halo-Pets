@@ -60,7 +60,7 @@ export default function HealthCarePage() {
       <Header title="Health Care" sections={sections}/>
       <DrawerHeader/>
         <div style={{flexGrow: 1}}>
-          <Grid container justify="space-between" wrap="wrap">
+          <Grid container justify="space-around" wrap="wrap">
             {
               dataDoctor.map(el => {
                 return (

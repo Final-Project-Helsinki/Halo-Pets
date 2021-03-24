@@ -56,6 +56,8 @@ function convertDate(d) {
       .map(el => el < 10 ? `0${el}` : `${el}`).join('-');
 }
 
+
+
 export default function AdoptionPage() {
   const dispatch = useDispatch()
   // const classes = useStyles()
@@ -345,10 +347,9 @@ export default function AdoptionPage() {
           />
           <Card className={gridClasses.rootCard} style={{ marginTop: 32 }}>
             <CardContent>
-              <Grid container className={gridClasses.root} spacing={4} justify="space-around">
-                <GridList cellHeight={400} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem', paddingLeft: 2 }}>
+              <Grid container className={gridClasses.root} spacing={4} justify="flex-start">
+                <GridList cellHeight={300} cols={4} className={styles.gridList} spacing={20} style={{ marginTop: '2rem', paddingLeft: 2 }}>
                   <GridListTile key="Subheader-adoption" cols={4} style={{ height: 'auto' }}>
-                    {/* <ListSubheader component="div"> */}
                       <Button
                         variant="contained"
                         // color="secondary"
@@ -359,7 +360,6 @@ export default function AdoptionPage() {
                       >
                         Add Pet
                       </Button>
-                    {/* </ListSubheader> */}
                   </GridListTile>
                   {
                     loading ? (
@@ -370,7 +370,7 @@ export default function AdoptionPage() {
                     (
 
                       filteredAdoptionsByUserId.map(pet => (
-                        <GridListTile className={styles.gridListTile} key={pet.id}>
+                        <GridListTile className={styles.gridListTile} key={pet.id} style={{minWidth: 300, maxHeight: 300}}>
                           <img src={pet.image_url} alt={pet.name} />
                           <CardBarTile
                             favorites={favorites}
