@@ -8,7 +8,7 @@ function reducer(state = initialState, action) {
   const { type, payload } = action
   switch (type) {
     case 'DOCTOR/SET_LOADING':
-      return { ...state, loading: true }
+      return { ...state, loading: payload }
     case 'DOCTOR/SET_ERROR':
       return { ...state, error: payload, loading: false }
     case 'DOCTOR/SET_DOCTOR':

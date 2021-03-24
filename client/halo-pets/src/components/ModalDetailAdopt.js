@@ -6,8 +6,7 @@ import {
   Typography,
   Fab,
   Grid,
-  Avatar,
-  CircularProgress
+  Avatar
 } from '@material-ui/core';
 import { compose, withProps } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
@@ -19,7 +18,6 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -153,9 +151,7 @@ function convertDate(d) {
 export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) {
   const classes = useStyles();
 
-  const { loadingDetail } = useSelector(state => ({
-    loadingDetail: state.adoptionReducer.loadingDetail
-  }))
+  console.log(pet, '<<<< pet detail');
 
   const MyMapComponent = compose(
     withProps({
@@ -224,114 +220,104 @@ export default function ModalDetailAdopt({ open, pet, handleCloseModalDetail }) 
     >
       <DialogTitle id="customized-dialog-title" onClose={handleCloseModalDetail}>Detail Pet</DialogTitle>
       <DialogContent dividers>
-        {
-          loadingDetail ? (
-            <Grid container direction="row" justify="center">
-              <CircularProgress color="secondary" style={{ height: 50, width: 50, marginTop: '4rem', marginBottom: '4rem' }} />
+        <Grid container>
+          <Grid item xs={12}>
+            <Grid container justify="center">
+              <CardMedia
+                className={classes.media}
+                image={pet.image_url}
+              />
             </Grid>
-          ) : (
-            <>
-            <Grid container>
-              <Grid item xs={12}>
-                <Grid container justify="center">
-                  <CardMedia
-                    className={classes.media}
-                    image={pet.image_url}
-                  />
-                </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container justify='center' alignItems='center'>
+              <Typography component="h5" variant="h5">
+                {pet.name}
+              </Typography>
+              <Fab size="small" aria-label="add" className={classes.margin} variant="extended" style={{ backgroundColor: '#f8f1f1' }}>
+                {pet.species.toUpperCase()}
+              </Fab>
+            </Grid>
+            {/* <Grid container justify='center' alignItems='center'>
+              <Typography variant="subtitle1" color="textSecondary">OWNER </Typography>
+              <Typography style={{ marginLeft: '1rem' }}>{pet.User.name}</Typography>
+            </Grid> */}
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container wrap="nowrap" spacing={2}>
+              <Grid item>
+                <Typography variant="subtitle1" color="textSecondary">Date of Birth </Typography>
               </Grid>
-              <Grid item xs={12}>
-                <Grid container justify='center' alignItems='center'>
-                  <Typography component="h5" variant="h5">
-                    {pet.name}
-                  </Typography>
-                  <Fab size="small" aria-label="add" className={classes.margin} variant="extended" style={{ backgroundColor: '#f8f1f1' }}>
-                    {pet.species.toUpperCase()}
-                  </Fab>
-                </Grid>
-                {/* <Grid container justify='center' alignItems='center'>
-                  <Typography variant="subtitle1" color="textSecondary">OWNER </Typography>
-                  <Typography style={{ marginLeft: '1rem' }}>{pet.User.name}</Typography>
-                </Grid> */}
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container wrap="nowrap" spacing={2}>
-                  <Grid item>
-                    <Typography variant="subtitle1" color="textSecondary">Date of Birth </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography paragraph>
-                      {formatDDMMMYY(convertDate(pet.dob))}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container wrap="nowrap" spacing={2}>
-                  <Grid item style={{ marginRight: '2.5rem'}}>
-                    <Typography variant="subtitle1" color="textSecondary">Gender </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography paragraph>
-                      {pet.gender}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Grid container wrap="wrap" spacing={2}>
-                  <Grid item style={{ marginRight: '0.5rem'}}>
-                    <Typography variant="subtitle1" color="textSecondary">Description </Typography>
-                  </Grid>
-                  <Grid item xs>
-                    <Typography paragraph>
-                      {pet.description}
-                    </Typography>
-                  </Grid>
-                </Grid>
+              <Grid item>
+                <Typography paragraph>
+                  {formatDDMMMYY(convertDate(pet.dob))}
+                </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Grid container wrap="nowrap" spacing={2}>
-                <Grid item style={{ marginRight: '2.5rem'}}>
-                  <Typography variant="subtitle1" color="textSecondary">Owner </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography paragraph>
-                    {pet.User.name}
-                  </Typography>
-                </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container wrap="nowrap" spacing={2}>
+              <Grid item style={{ marginRight: '2.5rem'}}>
+                <Typography variant="subtitle1" color="textSecondary">Gender </Typography>
+              </Grid>
+              <Grid item>
+                <Typography paragraph>
+                  {pet.gender}
+                </Typography>
               </Grid>
             </Grid>
-            <Grid item xs={12} style={{ marginBottom: '2rem' }}>
-              <Grid container wrap="nowrap" spacing={2}>
-                <Grid item xs={6} align="center">
-                  <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => emailClicked(pet.User.email)} style={{ backgroundColor: '#16c79a' }}>
-                    <EmailIcon />
-                  </Fab>
-                </Grid>
-                <Grid item xs={6} align="center">
-                  <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => phoneClicked(pet.User.phoneNumber)} style={{ backgroundColor: '#19456b' }}>
-                    <CallIcon />
-                  </Fab>
-                  <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => whatsappClicked(pet.User.phoneNumber)} style={{ backgroundColor: '#11698e' }}>
-                    <WhatsAppIcon />
-                  </Fab>
-                </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container wrap="wrap" spacing={2}>
+              <Grid item style={{ marginRight: '0.5rem'}}>
+                <Typography variant="subtitle1" color="textSecondary">Description </Typography>
               </Grid>
-              <Grid container wrap="nowrap" spacing={2}>
-                <Grid item xs={6} align="center">
-                  {pet.User.email}
-                </Grid>
-                <Grid item xs={6} align="center">
-                  {pet.User.phoneNumber}
-                </Grid>
+              <Grid item xs>
+                <Typography paragraph>
+                  {pet.description}
+                </Typography>
               </Grid>
             </Grid>
-            <MyMapComponent isMarkerShown={true} />
-            </>
-          )
-        }
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container wrap="nowrap" spacing={2}>
+            <Grid item style={{ marginRight: '2.5rem'}}>
+              <Typography variant="subtitle1" color="textSecondary">Owner </Typography>
+            </Grid>
+            <Grid item>
+              <Typography paragraph>
+                {pet.User.name}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} style={{ marginBottom: '2rem' }}>
+          <Grid container wrap="nowrap" spacing={2}>
+            <Grid item xs={6} align="center">
+              <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => emailClicked(pet.User.email)} style={{ backgroundColor: '#16c79a' }}>
+                <EmailIcon />
+              </Fab>
+            </Grid>
+            <Grid item xs={6} align="center">
+              <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => phoneClicked(pet.User.phoneNumber)} style={{ backgroundColor: '#19456b' }}>
+                <CallIcon />
+              </Fab>
+              <Fab size="large" color="secondary" aria-label="add" className={classes.margin} onClick={() => whatsappClicked(pet.User.phoneNumber)} style={{ backgroundColor: '#11698e' }}>
+                <WhatsAppIcon />
+              </Fab>
+            </Grid>
+          </Grid>
+          <Grid container wrap="nowrap" spacing={2}>
+            <Grid item xs={6} align="center">
+              {pet.User.email}
+            </Grid>
+            <Grid item xs={6} align="center">
+              {pet.User.phoneNumber}
+            </Grid>
+          </Grid>
+        </Grid>
+        <MyMapComponent isMarkerShown={true} />
       </DialogContent >
     </Dialog>
   )
