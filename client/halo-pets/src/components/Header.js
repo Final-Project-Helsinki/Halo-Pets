@@ -47,6 +47,7 @@ export default function Header(props) {
   }
 
   const endChat = (e) => {
+    localStorage.removeItem('roomId');
     e.preventDefault();
     history.push('/home')
   }

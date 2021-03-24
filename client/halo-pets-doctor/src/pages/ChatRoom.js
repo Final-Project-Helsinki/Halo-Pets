@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Paper,
@@ -70,6 +70,7 @@ export default function ChatRoom() {
   const dispatch = useDispatch()
   const [room, setRoom] = useState([])
   const [valueSearch, setValueSearch] = useState('');
+  const dummy = useRef()
   const { loading, error } = useSelector(state => ({
     loading: state.doctorReducer.loading,
     error: state.doctorReducer.error
@@ -125,6 +126,7 @@ export default function ChatRoom() {
         role: 'doctor'
       });
       setContent('')
+      dummy.current.scrollIntoView({ behavior: 'smooth' })
     } catch (error) {
       setwriteError(error.message)
     }
@@ -214,6 +216,8 @@ export default function ChatRoom() {
                             )
                           })
                         }
+                        <div ref={dummy}>
+                        </div>
                       </List>
                       <Divider />
                       <Grid container style={{ padding: '20px' }}>
