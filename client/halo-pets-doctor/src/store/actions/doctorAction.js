@@ -26,6 +26,13 @@ export function getDoctor(payload) {
         dispatch(setLoading(false))
         return data
       } else {
+        if (data.name.toLowerCase() === 'wiyono') {
+          localStorage.setItem('id', 1)
+        } else if (data.name.toLowerCase() === 'budi') {
+          localStorage.setItem('id', 2)
+        } else if (data.name.toLowerCase() === 'cantika') {
+          localStorage.setItem('id', 3)
+        }
         localStorage.setItem('access_token', data.access_token)
         localStorage.setItem('name', data.name)
         localStorage.setItem('email', data.email)
