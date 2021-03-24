@@ -93,7 +93,7 @@ export default function TesMidtrans(){
           </CardContent>
           <CardActions>
           <FormControl>
-            <Button variant="contained" color="primary" onClick={handleOnClick} style={{ backgroundColor: '#54bba3', color: 'white' }}>Proceed to Payment</Button>
+            <Button variant="contained" onClick={handleOnClick} style={{ backgroundColor: '#54bba3', color: 'white' }}>Proceed to Payment</Button>
           </FormControl>
           </CardActions>       
           <div id="snapjs">
