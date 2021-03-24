@@ -87,13 +87,12 @@ export default function SimpleCard(props) {
         />
         </CardMedia>
         <CardContent style={{textAlign: 'center'}}>
-          <Typography variant="h4" component="h2">
+          <Typography variant="h4" component="h2" style={{color: '#385a96', fontSize: 25}}>
             drh. {props.doctor.name}
           </Typography>
           <Typography variant="body1" color="textSecondary" component="p">
             specialist in <br/>{specialist[props.doctor.id - 1]}
           </Typography>
-          
         </CardContent>
       </CardActionArea>
       <CardActions style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
