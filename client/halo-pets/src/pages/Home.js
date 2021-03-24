@@ -16,6 +16,7 @@ import { db } from '../services/firebase'
 import CardArtikel from '../components/CardArtikel'
 import { useHistory } from 'react-router';
 
+
 export default function HomePage() {
   const gridClasses = gridUseStyles()
   const classes = useStyles()
@@ -76,7 +77,6 @@ export default function HomePage() {
             <Grid item xs={12} className={gridClasses.display}>
               <CardRoute />
             </Grid>
-
             {
               articles.map((article) => (
                 <CardArtikel key={article.title} articles={article} />
