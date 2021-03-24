@@ -77,34 +77,37 @@ export default function Header(props) {
         </Typography>
         {
           history.location.pathname.includes('/chat') ? (
-          <Button variant="outlined" size="small" type="submit" onClick={endChat} className={classes.buttonEndChat}>End Chat</Button>): <div></div>
+          <Button variant="outlined" size="small" type="submit" onClick={endChat} className={classes.buttonEndChat}>End Chat</Button>) : <div></div>
         }
-        <Button variant="outlined" size="small" onClick={handleLogout} style={{ backgroundColor: '#b54933', color: 'white' }}>
-          Logout
-        </Button>
+        {
+          history.location.pathname === '/chat' ? <div></div> :
+            <Button variant="outlined" size="small" onClick={handleLogout} style={{ backgroundColor: '#b54933', color: 'white' }}>
+              Logout
+            </Button>
+        }
       </Toolbar>
       {
-        history.location.pathname.includes('/chat') ? ( <div></div> ) :
-        (
-          <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
-            {sections.map((section) => (
-              <NavLink
-                color="inherit"
-                noWrap
-                key={section.title}
-                variant="body2"
-                to={section.url}
-                className={classes.toolbarLink}
-                style={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }}
-                activeStyle={{
-                  borderBottom: '4px solid #54bba3',
-                }}
-              >
-                {section.title}
-              </NavLink>
-            ))}
-          </Toolbar>
-        )
+        history.location.pathname.includes('/chat') ? (<div></div>) :
+          (
+            <Toolbar component="nav" variant="dense" className={classes.toolbarSecondary}>
+              {sections.map((section) => (
+                <NavLink
+                  color="inherit"
+                  noWrap
+                  key={section.title}
+                  variant="body2"
+                  to={section.url}
+                  className={classes.toolbarLink}
+                  style={{ cursor: 'pointer', textDecoration: 'none', color: 'black' }}
+                  activeStyle={{
+                    borderBottom: '4px solid #54bba3',
+                  }}
+                >
+                  {section.title}
+                </NavLink>
+              ))}
+            </Toolbar>
+          )
       }
     </React.Fragment>
   );
