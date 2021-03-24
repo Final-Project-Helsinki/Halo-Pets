@@ -153,7 +153,7 @@ export default function AdoptionPage() {
       name: '',
       species: '',
       gender: '',
-      dob: convertDate(new Date()),
+      dob: '',
       description: '',
       image_url: []
     }));
@@ -171,19 +171,19 @@ export default function AdoptionPage() {
 
   const handleChangeForm = (event) => {
     let { name, value, files } = event.target;
+    console.log(event.target.value, '<<< target');
     if (files) {
       setFormAdopt((prev) => ({ ...prev, image_url: files[0] }));
       setFileName(files[0].name)
     } else {
       setFormAdopt((prev) => ({ ...prev, [name]: value }));
     }
+    console.log(formAdopt, '<<<<<< form adopt');
   };
 
   const handleSubmitForm = async (e) => {
     e.preventDefault();
     let errMsg;
-
-    console.log(formAdopt, '<<<<<< form adopt');
 
     const formData = new FormData()
     formData.set('name', formAdopt.name)
