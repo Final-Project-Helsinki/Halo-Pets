@@ -162,7 +162,7 @@ export default function ModalFormAdopt({ title, open, formAdopt, handleCloseModa
                     id="date"
                     // label="Date of Birth"
                     type="date"
-                    defaultValue={convertDate(new Date())}
+                    defaultValue={formAdopt.dob}
                     className={classes.textField}
                     InputLabelProps={{
                       shrink: true,
