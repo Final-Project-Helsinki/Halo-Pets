@@ -25,6 +25,9 @@ import EmptyRoom from '../components/EmptyRoom';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import Header from '../components/Header';
+import wiyono from '../assets/dr-wiyono.jpg'
+import budi from '../assets/dr-budi.jpg'
+import cantika from '../assets/dr-cantika.png'
 
 const useStyles = makeStyles({
   table: {
@@ -49,6 +52,12 @@ const useStyles = makeStyles({
   },
 });
 
+const avatars = [
+  wiyono,
+  budi,
+  cantika
+]
+
 function timeConverter(UNIX_timestamp) {
   var date = new Date(UNIX_timestamp);
   var year = date.getFullYear();
@@ -71,7 +80,6 @@ export default function ChatRoom() {
   const dispatch = useDispatch()
   const [room, setRoom] = useState([])
   const [valueSearch, setValueSearch] = useState('');
-  const dummy = useRef()
   const { loading, error } = useSelector(state => ({
     loading: state.doctorReducer.loading,
     error: state.doctorReducer.error
@@ -149,6 +157,8 @@ export default function ChatRoom() {
     setValueSearch(e.target.value);
   }
 
+  console.log(avatars[localStorage.getItem('id') - 1]);
+
   if (loading) {
     return <Loading />
   }
@@ -168,7 +178,9 @@ export default function ChatRoom() {
               <List>
                 <ListItem button>
                   <ListItemIcon>
-                    <Avatar alt="Remy Sharp" src="https://cdn1.vectorstock.com/i/1000x1000/14/80/doctor-web-icon-therapist-avatar-vector-18531480.jpg" />
+                    <Avatar
+                      src={avatars[localStorage.getItem('id') - 1]}
+                    />
                   </ListItemIcon>
                   <ListItemText primary={`Dr. ${localStorage.getItem('name')}`}></ListItemText>
                 </ListItem>
