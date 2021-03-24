@@ -28,7 +28,7 @@ export default function CardArtikel({articles, index}) {
               <>
               <div style={{ flex: 1 }}>
                 <CardContent>
-                  <Typography style={{ fontSize: '1.25em', color: '#384259' }}>
+                  <Typography style={{ fontSize: '1.25em', color: '#384259', fontWeight: 'bold' }}>
                     {title}
                   </Typography>
                   <Typography variant="subtitle1" color="textSecondary" style={{ fontSize: '1em' }}>
@@ -53,7 +53,7 @@ export default function CardArtikel({articles, index}) {
               </Hidden>
               <div style={{ flex: 1 }}>
                 <CardContent>
-                  <Typography style={{ fontSize: '1.25em', color: '#384259' }}>
+                  <Typography style={{ fontSize: '1.25em', color: '#384259', fontWeight: 'bold' }}>
                     {title}
                   </Typography>
                   <Typography variant="subtitle1" color="textSecondary" style={{ fontSize: '1em' }}>

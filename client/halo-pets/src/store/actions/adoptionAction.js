@@ -12,6 +12,13 @@ function setLoadingCreate(payload) {
   }
 }
 
+function setLoadingDetail(payload) {
+  return {
+    type: 'ADOPTIONS/SET_LOADINGDETAIL',
+    payload: payload
+  }
+}
+
 function setError(payload) {
   return {
     type: 'ADOPTIONS/SET_ERROR',
@@ -128,7 +135,7 @@ export function createAdoption(payload) {
 export function fetchDetail(adoptId) {
   return async (dispatch) => {
     try {
-      dispatch(setLoading(true))
+      dispatch(setLoadingDetail(true))
       const response = await fetch(`http://localhost:3001/adoptions/${adoptId}`, {
         method: 'GET',
         headers: {
@@ -138,7 +145,7 @@ export function fetchDetail(adoptId) {
       })
       const data = await response.json()
       // console.log(data, '<<< data adoption detail di action');
-      dispatch(setLoading(false))
+      dispatch(setLoadingDetail(false))
       dispatch(setFetchAdoptionDetail(data))
       return data
     } catch (err) {
