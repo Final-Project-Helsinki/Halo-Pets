@@ -19,6 +19,7 @@ import ModalDetailAdopt from '../components/ModalDetailAdopt';
 import Header from '../components/Header';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import gridUseStyles from '../helpers/gridStyles'
+import ModalLoading from '../components/ModalLoading';
 
 const sections = [
   { title: 'Home', url: '/home' },
@@ -40,6 +41,10 @@ export default function FavoritesPage() {
     error: state.favoriteReducer.error
   }));
 
+  const { loadingDetail } = useSelector(state => ({
+    loadingDetail: state.adoptionReducer.loadingDetail,
+  }))
+
   useEffect(() => {
     dispatch(fetchFavorites())
   }, [dispatch])
@@ -49,10 +54,10 @@ export default function FavoritesPage() {
   }
 
   const handleDetailAdopt = async (adoptId) => {
+    setOpenModalDetail(true)
     try {
       const adoptionDetail = await dispatch(fetchDetail(adoptId))
       await setPetDetail(adoptionDetail)
-      setOpenModalDetail(true)
     } catch (err) {
       console.log(err);
     }
@@ -99,7 +104,12 @@ export default function FavoritesPage() {
                   }
                 </GridList>
                 {
-                  Object.keys(petDetail).length === 0 ? <div></div> :
+                  Object.keys(petDetail).length === 0 || loadingDetail ? (
+                    <ModalLoading
+                      open={openModalDetail}
+                      handleCloseModalDetail={handleCloseModalDetail}
+                    />
+                  ) :
                     (
                       <ModalDetailAdopt
                         open={openModalDetail}
