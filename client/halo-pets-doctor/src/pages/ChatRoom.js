@@ -56,6 +56,7 @@ function timeConverter(UNIX_timestamp) {
   var day = ("0" + date.getDate()).substr(-2);
   var hour = ("0" + date.getHours()).substr(-2);
   var minutes = ("0" + date.getMinutes()).substr(-2);
+  
   return year + "-" + month + "-" + day + " " + hour + ":" + minutes;
 }
 
@@ -75,6 +76,7 @@ export default function ChatRoom() {
     loading: state.doctorReducer.loading,
     error: state.doctorReducer.error
   }))
+  const dummy = useRef()
 
   useEffect(async () => {
     try {
@@ -206,7 +208,7 @@ export default function ChatRoom() {
                               <ListItem key={chat.timestamp}>
                                 <Grid container>
                                   <Grid item xs={12} style={{ display: 'flex', justifyContent: chat.role === 'client' ? 'flex-start' : 'flex-end' }}>
-                                    <Box style={{ border: "0.5px solid white", borderRadius: "10px", margin: "5px", padding: "10px", display: "inline-block", backgroundColor: chat.role === 'client' ? '#afebe4' : '#f8f1f1' }}>
+                                    <Box ref={dummy} style={{ border: "0.5px solid white", borderRadius: "10px", margin: "5px", padding: "10px", display: "inline-block", backgroundColor: chat.role === 'client' ? '#afebe4' : '#f8f1f1' }}>
                                       <ListItemText align={chat.role === 'client' ? 'left' : 'right'} primary={`${chat.content}`} primaryTypographyProps={{ style: { whiteSpace: "normal" } }}></ListItemText>
                                       <ListItemText align={chat.role === 'client' ? 'left' : 'right'} secondary={timeConverter(chat.timestamp)}></ListItemText>
                                     </Box>

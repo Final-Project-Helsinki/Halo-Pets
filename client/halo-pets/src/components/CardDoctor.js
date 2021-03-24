@@ -14,6 +14,9 @@ import {
   CardActionArea,
 
 } from '@material-ui/core';
+import wiyono from '../assets/dr-wiyono.jpg'
+import budi from '../assets/dr-budi.jpg'
+import cantika from '../assets/dr-cantika.png'
 
 const useStyles = makeStyles({
   root: {
@@ -26,8 +29,8 @@ const useStyles = makeStyles({
     height: 140,
   },
   large: {
-    height: 120,
-    width: 120
+    height: 160,
+    width: 130
   }
 });
 
@@ -70,9 +73,9 @@ export default function SimpleCard(props) {
   }
 
   const avatars = [
-    'https://cdn1.vectorstock.com/i/1000x1000/14/80/doctor-web-icon-therapist-avatar-vector-18531480.jpg',
-    'https://st4.depositphotos.com/19795498/22606/v/1600/depositphotos_226060300-stock-illustration-medical-icon-man-doctor-with.jpg',
-    'https://cdn2.vectorstock.com/i/1000x1000/65/26/doctor-avatar-character-icon-vector-12866526.jpg'
+    wiyono,
+    budi,
+    cantika
   ]
 
   return (
@@ -86,7 +89,7 @@ export default function SimpleCard(props) {
           className={classes.large}
         />
         </CardMedia>
-        <CardContent style={{textAlign: 'center'}}>
+        <CardContent style={{textAlign: 'center', marginTop: '1rem'}}>
           <Typography variant="h4" component="h2" style={{color: '#385a96', fontSize: 25}}>
             drh. {props.doctor.name}
           </Typography>
