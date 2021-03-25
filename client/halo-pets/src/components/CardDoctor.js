@@ -14,9 +14,9 @@ import {
   CardActionArea,
 
 } from '@material-ui/core';
-import wiyono from '../assets/dr-wiyono.jpg'
-import budi from '../assets/dr-budi.jpg'
-import cantika from '../assets/dr-cantika.png'
+import wiyono from '../assets/dr-wahyudi.jpg'
+import budi from '../assets/dr-budi-fix.png'
+import cantika from '../assets/dr-cantika-fix.jpg'
 
 const useStyles = makeStyles({
   root: {
